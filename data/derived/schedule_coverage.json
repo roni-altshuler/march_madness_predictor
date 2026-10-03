@@ -1,0 +1,212 @@
+{
+  "publisher": "SportsDataverse hoopR-mbb-data authors",
+  "upstream": "ESPN",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "publisher_license_url": "https://github.com/sportsdataverse/hoopR-mbb-data/blob/main/LICENSE.md",
+  "changes": "Extracted completed games before March 1; derived within-season Elo, win rate and mean margin.",
+  "retrieval_date": "2026-10-03",
+  "seasons": [
+    {
+      "season": 2006,
+      "source_rows": 5172,
+      "pre_cutoff_games": 4640,
+      "mapped_main_bracket_teams": 64,
+      "missing": [],
+      "cutoff_utc": "2006-03-01T00:00:00+00:00",
+      "source_url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_mens_college_basketball_schedules/mbb_schedule_2006.parquet",
+      "sha256": "bb4ba08a84ffd70117630df0712eaae965c6cc931eb403ee4053b02f75579f24"
+    },
+    {
+      "season": 2007,
+      "source_rows": 5480,
+      "pre_cutoff_games": 4972,
+      "mapped_main_bracket_teams": 64,
+      "missing": [],
+      "cutoff_utc": "2007-03-01T00:00:00+00:00",
+      "source_url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_mens_college_basketball_schedules/mbb_schedule_2007.parquet",
+      "sha256": "9845a4fc1a7993b13366b04d6554d1abe6bec0b022a91e040356207cbf958cd1"
+    },
+    {
+      "season": 2008,
+      "source_rows": 5448,
+      "pre_cutoff_games": 4720,
+      "mapped_main_bracket_teams": 64,
+      "missing": [],
+      "cutoff_utc": "2008-03-01T00:00:00+00:00",
+      "source_url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_mens_college_basketball_schedules/mbb_schedule_2008.parquet",
+      "sha256": "e838298379693f6a3b6e05b9fda43b89c8bee09aeb0f08c6ec72975c2ddcec32"
+    },
+    {
+      "season": 2009,
+      "source_rows": 5726,
+      "pre_cutoff_games": 5046,
+      "mapped_main_bracket_teams": 64,
+      "missing": [],
+      "cutoff_utc": "2009-03-01T00:00:00+00:00",
+      "source_url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_mens_college_basketball_schedules/mbb_schedule_2009.parquet",
+      "sha256": "25feda7c2108e17f88275179753a2fa6eeebf044dbfd3a5c3bb3009f52b6dafa"
+    },
+    {
+      "season": 2010,
+      "source_rows": 5761,
+      "pre_cutoff_games": 5176,
+      "mapped_main_bracket_teams": 64,
+      "missing": [],
+      "cutoff_utc": "2010-03-01T00:00:00+00:00",
+      "source_url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_mens_college_basketball_schedules/mbb_schedule_2010.parquet",
+      "sha256": "7a84744fd1fa1c24de66511a5d22652c75a671bb2640fae37e7521cca23ca0ca"
+    },
+    {
+      "season": 2011,
+      "source_rows": 5771,
+      "pre_cutoff_games": 5161,
+      "mapped_main_bracket_teams": 64,
+      "missing": [],
+      "cutoff_utc": "2011-03-01T00:00:00+00:00",
+      "source_url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_mens_college_basketball_schedules/mbb_schedule_2011.parquet",
+      "sha256": "9b83743a75578c67b3d96d5b24116e2ae43346467ea2a21423be782fa3bd00d7"
+    },
+    {
+      "season": 2012,
+      "source_rows": 5776,
+      "pre_cutoff_games": 5204,
+      "mapped_main_bracket_teams": 64,
+      "missing": [],
+      "cutoff_utc": "2012-03-01T00:00:00+00:00",
+      "source_url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_mens_college_basketball_schedules/mbb_schedule_2012.parquet",
+      "sha256": "6f218af2fc460d3099ac4458fdad29c8000eb9bdaa08bebd63da8fe74a655ad3"
+    },
+    {
+      "season": 2013,
+      "source_rows": 5817,
+      "pre_cutoff_games": 4979,
+      "mapped_main_bracket_teams": 64,
+      "missing": [],
+      "cutoff_utc": "2013-03-01T00:00:00+00:00",
+      "source_url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_mens_college_basketball_schedules/mbb_schedule_2013.parquet",
+      "sha256": "085f3c8afaae083e505ec618bf6caf209e6f883b144ea77cb3fab0d5f3a43e22"
+    },
+    {
+      "season": 2014,
+      "source_rows": 5948,
+      "pre_cutoff_games": 5135,
+      "mapped_main_bracket_teams": 64,
+      "missing": [],
+      "cutoff_utc": "2014-03-01T00:00:00+00:00",
+      "source_url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_mens_college_basketball_schedules/mbb_schedule_2014.parquet",
+      "sha256": "653a00dcc97da532b107cecf20256c650f33ac12ab1b6147c32031e752bc8aac"
+    },
+    {
+      "season": 2015,
+      "source_rows": 5932,
+      "pre_cutoff_games": 5221,
+      "mapped_main_bracket_teams": 64,
+      "missing": [],
+      "cutoff_utc": "2015-03-01T00:00:00+00:00",
+      "source_url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_mens_college_basketball_schedules/mbb_schedule_2015.parquet",
+      "sha256": "3c7aa3002e0417aa74d15533cd7a1dbdcf4f599297c3997116cdb30f07905cab"
+    },
+    {
+      "season": 2016,
+      "source_rows": 5893,
+      "pre_cutoff_games": 5242,
+      "mapped_main_bracket_teams": 64,
+      "missing": [],
+      "cutoff_utc": "2016-03-01T00:00:00+00:00",
+      "source_url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_mens_college_basketball_schedules/mbb_schedule_2016.parquet",
+      "sha256": "9b401f9905bd97e032b99ba5899cd65ff3b4e6b44edab1f36618908a3b0152ff"
+    },
+    {
+      "season": 2017,
+      "source_rows": 5960,
+      "pre_cutoff_games": 5352,
+      "mapped_main_bracket_teams": 64,
+      "missing": [],
+      "cutoff_utc": "2017-03-01T00:00:00+00:00",
+      "source_url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_mens_college_basketball_schedules/mbb_schedule_2017.parquet",
+      "sha256": "ce90db03f344f6a12c44155f2f70534a7df9e9f56f5c5bb38e6c292149388802"
+    },
+    {
+      "season": 2018,
+      "source_rows": 6003,
+      "pre_cutoff_games": 5416,
+      "mapped_main_bracket_teams": 64,
+      "missing": [],
+      "cutoff_utc": "2018-03-01T00:00:00+00:00",
+      "source_url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_mens_college_basketball_schedules/mbb_schedule_2018.parquet",
+      "sha256": "2ec927051e55807a7d02d5f176576cf7a29a5ee2b7471817e2ced43a38aa0aa5"
+    },
+    {
+      "season": 2019,
+      "source_rows": 6049,
+      "pre_cutoff_games": 5173,
+      "mapped_main_bracket_teams": 64,
+      "missing": [],
+      "cutoff_utc": "2019-03-01T00:00:00+00:00",
+      "source_url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_mens_college_basketball_schedules/mbb_schedule_2019.parquet",
+      "sha256": "c285df779882719857048b1478c15d21868f4fdbe7d7d75d2ecb4f4ab970fb71"
+    },
+    {
+      "season": 2021,
+      "source_rows": 4285,
+      "pre_cutoff_games": 3743,
+      "mapped_main_bracket_teams": 64,
+      "missing": [],
+      "cutoff_utc": "2021-03-01T00:00:00+00:00",
+      "source_url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_mens_college_basketball_schedules/mbb_schedule_2021.parquet",
+      "sha256": "26b26e9fd035a567ca66e65fadd8a3df9482e25e4a1c63ff40466e0d99c9cc76"
+    },
+    {
+      "season": 2022,
+      "source_rows": 5976,
+      "pre_cutoff_games": 5310,
+      "mapped_main_bracket_teams": 64,
+      "missing": [],
+      "cutoff_utc": "2022-03-01T00:00:00+00:00",
+      "source_url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_mens_college_basketball_schedules/mbb_schedule_2022.parquet",
+      "sha256": "75a702d5c8db85bfd7ad30bc046a801742b88ac3f7a900d7e05450a6a4c10276"
+    },
+    {
+      "season": 2023,
+      "source_rows": 6261,
+      "pre_cutoff_games": 5626,
+      "mapped_main_bracket_teams": 64,
+      "missing": [],
+      "cutoff_utc": "2023-03-01T00:00:00+00:00",
+      "source_url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_mens_college_basketball_schedules/mbb_schedule_2023.parquet",
+      "sha256": "1a75500bd669a2e0f01b39623a1aa28d8d4cc1b8658f8adbabfc5319c73c496c"
+    },
+    {
+      "season": 2024,
+      "source_rows": 6249,
+      "pre_cutoff_games": 5389,
+      "mapped_main_bracket_teams": 64,
+      "missing": [],
+      "cutoff_utc": "2024-03-01T00:00:00+00:00",
+      "source_url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_mens_college_basketball_schedules/mbb_schedule_2024.parquet",
+      "sha256": "27889ecf392a9a6281e7898dc39d51a2f4a4576f689533dda0d67c4d57d52602"
+    },
+    {
+      "season": 2025,
+      "source_rows": 6299,
+      "pre_cutoff_games": 5490,
+      "mapped_main_bracket_teams": 64,
+      "missing": [],
+      "cutoff_utc": "2025-03-01T00:00:00+00:00",
+      "source_url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_mens_college_basketball_schedules/mbb_schedule_2025.parquet",
+      "sha256": "e01bf54b51c8d71b00cd8144e9a022ed170af2c2e57787b1cef672340891c45b"
+    },
+    {
+      "season": 2026,
+      "source_rows": 6318,
+      "pre_cutoff_games": 5650,
+      "mapped_main_bracket_teams": 64,
+      "missing": [],
+      "cutoff_utc": "2026-03-01T00:00:00+00:00",
+      "source_url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_mens_college_basketball_schedules/mbb_schedule_2026.parquet",
+      "sha256": "480896940f9502e537513386efa1ece6ed9cac0bcd8bd30f3493aa6254912aec"
+    }
+  ],
+  "caveat": "Historical schedules are retrieved retrospectively. Source corrections may postdate games. No claim of complete NCAA regular-season coverage."
+}

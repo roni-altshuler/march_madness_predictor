@@ -1,0 +1,14 @@
+{
+  "season": 2027,
+  "status": "unknown",
+  "expected_teams": 76,
+  "expected_opening_games": 12,
+  "slots": [],
+  "scope": "Field and opening-game placements await the announced bracket.",
+  "selection_sunday": "2027-03-14",
+  "opening_round": ["2027-03-16", "2027-03-17"],
+  "final_four": ["2027-04-03", "2027-04-05"],
+  "final_four_city": "Detroit",
+  "source": "https://www.ncaa.com/news/basketball-men/article/2026-05-07/2027-march-madness-mens-ncaa-tournament-schedule-dates",
+  "verified_date": "2026-10-03"
+}

@@ -1,0 +1,36 @@
+name: Verify March Lab
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: python -m pip install -r requirements-dev.txt
+      - run: python -m pytest -q
+      - run: node --check web/app.js
+      - run: node --check web/static_api.js
+      - run: python -m madness predict --a 5 --b 12
+      - run: python -m madness simulate --year 2026 --rng 42 --output /tmp/march-simulation.json
+      - run: python -m playwright install --with-deps chromium
+      - run: python tests/browser_check.py
+        env:
+          MARCH_BROWSER_CHANNEL: chromium
+      - run: python -m madness export
+      - run: python tests/browser_check.py --static
+        env:
+          MARCH_BROWSER_CHANNEL: chromium
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-screenshots
+          path: docs/screenshots/*.png

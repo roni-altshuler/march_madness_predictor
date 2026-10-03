@@ -1,0 +1,3244 @@
+{
+  "1995": {
+    "seed": {
+      "kind": "seed",
+      "features": [
+        "seed difference / 15"
+      ],
+      "coef": [
+        2.4209861604059837
+      ],
+      "temperature": 1.0,
+      "n_train": 630,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994
+      ],
+      "ridge": 1.0,
+      "calibration_n": 0
+    },
+    "seed_curve": {
+      "kind": "seed_curve",
+      "features": [
+        "seed difference / 15",
+        "log seed ratio / log(16)"
+      ],
+      "coef": [
+        1.3353627616730936,
+        1.200415093996065
+      ],
+      "temperature": 1.0,
+      "n_train": 630,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994
+      ],
+      "ridge": 1.0,
+      "calibration_n": 0
+    }
+  },
+  "1996": {
+    "seed": {
+      "kind": "seed",
+      "features": [
+        "seed difference / 15"
+      ],
+      "coef": [
+        2.4766213196788978
+      ],
+      "temperature": 1.0,
+      "n_train": 693,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995
+      ],
+      "ridge": 1.0,
+      "calibration_n": 0
+    },
+    "seed_curve": {
+      "kind": "seed_curve",
+      "features": [
+        "seed difference / 15",
+        "log seed ratio / log(16)"
+      ],
+      "coef": [
+        1.3309577340337888,
+        1.2645731018110742
+      ],
+      "temperature": 1.0,
+      "n_train": 693,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995
+      ],
+      "ridge": 1.0,
+      "calibration_n": 0
+    }
+  },
+  "1997": {
+    "seed": {
+      "kind": "seed",
+      "features": [
+        "seed difference / 15"
+      ],
+      "coef": [
+        2.514469042022091
+      ],
+      "temperature": 1.0,
+      "n_train": 756,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996
+      ],
+      "ridge": 1.0,
+      "calibration_n": 0
+    },
+    "seed_curve": {
+      "kind": "seed_curve",
+      "features": [
+        "seed difference / 15",
+        "log seed ratio / log(16)"
+      ],
+      "coef": [
+        1.330024307029135,
+        1.3049539504392795
+      ],
+      "temperature": 1.0,
+      "n_train": 756,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996
+      ],
+      "ridge": 1.0,
+      "calibration_n": 0
+    }
+  },
+  "1998": {
+    "seed": {
+      "kind": "seed",
+      "features": [
+        "seed difference / 15"
+      ],
+      "coef": [
+        2.5259469454250185
+      ],
+      "temperature": 0.8375,
+      "n_train": 819,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997
+      ],
+      "ridge": 1.0,
+      "calibration_n": 189,
+      "calibration_through": 1997
+    },
+    "seed_curve": {
+      "kind": "seed_curve",
+      "features": [
+        "seed difference / 15",
+        "log seed ratio / log(16)"
+      ],
+      "coef": [
+        1.360383936051297,
+        1.2802522878736609
+      ],
+      "temperature": 0.85,
+      "n_train": 819,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997
+      ],
+      "ridge": 1.0,
+      "calibration_n": 189,
+      "calibration_through": 1997
+    }
+  },
+  "1999": {
+    "seed": {
+      "kind": "seed",
+      "features": [
+        "seed difference / 15"
+      ],
+      "coef": [
+        2.533337696819527
+      ],
+      "temperature": 0.8625,
+      "n_train": 882,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998
+      ],
+      "ridge": 1.0,
+      "calibration_n": 252,
+      "calibration_through": 1998
+    },
+    "seed_curve": {
+      "kind": "seed_curve",
+      "features": [
+        "seed difference / 15",
+        "log seed ratio / log(16)"
+      ],
+      "coef": [
+        1.3751098503695018,
+        1.2691695769863063
+      ],
+      "temperature": 0.875,
+      "n_train": 882,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998
+      ],
+      "ridge": 1.0,
+      "calibration_n": 252,
+      "calibration_through": 1998
+    }
+  },
+  "2000": {
+    "seed": {
+      "kind": "seed",
+      "features": [
+        "seed difference / 15"
+      ],
+      "coef": [
+        2.484942608059237
+      ],
+      "temperature": 0.95,
+      "n_train": 945,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999
+      ],
+      "ridge": 1.0,
+      "calibration_n": 315,
+      "calibration_through": 1999
+    },
+    "seed_curve": {
+      "kind": "seed_curve",
+      "features": [
+        "seed difference / 15",
+        "log seed ratio / log(16)"
+      ],
+      "coef": [
+        1.2546117051734271,
+        1.3466978935134613
+      ],
+      "temperature": 0.95,
+      "n_train": 945,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999
+      ],
+      "ridge": 1.0,
+      "calibration_n": 315,
+      "calibration_through": 1999
+    }
+  },
+  "2001": {
+    "seed": {
+      "kind": "seed",
+      "features": [
+        "seed difference / 15"
+      ],
+      "coef": [
+        2.4943333489003443
+      ],
+      "temperature": 0.95,
+      "n_train": 1008,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000
+      ],
+      "ridge": 1.0,
+      "calibration_n": 378,
+      "calibration_through": 2000
+    },
+    "seed_curve": {
+      "kind": "seed_curve",
+      "features": [
+        "seed difference / 15",
+        "log seed ratio / log(16)"
+      ],
+      "coef": [
+        1.4280474088625528,
+        1.1618709837686043
+      ],
+      "temperature": 0.975,
+      "n_train": 1008,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000
+      ],
+      "ridge": 1.0,
+      "calibration_n": 378,
+      "calibration_through": 2000
+    }
+  },
+  "2002": {
+    "seed": {
+      "kind": "seed",
+      "features": [
+        "seed difference / 15"
+      ],
+      "coef": [
+        2.4713022897297137
+      ],
+      "temperature": 0.975,
+      "n_train": 1071,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001
+      ],
+      "ridge": 1.0,
+      "calibration_n": 441,
+      "calibration_through": 2001
+    },
+    "seed_curve": {
+      "kind": "seed_curve",
+      "features": [
+        "seed difference / 15",
+        "log seed ratio / log(16)"
+      ],
+      "coef": [
+        1.3235813209449667,
+        1.2495653966101627
+      ],
+      "temperature": 1.0,
+      "n_train": 1071,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001
+      ],
+      "ridge": 1.0,
+      "calibration_n": 441,
+      "calibration_through": 2001
+    }
+  },
+  "2003": {
+    "seed": {
+      "kind": "seed",
+      "features": [
+        "seed difference / 15"
+      ],
+      "coef": [
+        2.452646523084901
+      ],
+      "temperature": 1.0,
+      "n_train": 1134,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002
+      ],
+      "ridge": 1.0,
+      "calibration_n": 504,
+      "calibration_through": 2002
+    },
+    "seed_curve": {
+      "kind": "seed_curve",
+      "features": [
+        "seed difference / 15",
+        "log seed ratio / log(16)"
+      ],
+      "coef": [
+        1.2636825783361902,
+        1.2946351965279181
+      ],
+      "temperature": 1.0125,
+      "n_train": 1134,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002
+      ],
+      "ridge": 1.0,
+      "calibration_n": 504,
+      "calibration_through": 2002
+    }
+  },
+  "2004": {
+    "seed": {
+      "kind": "seed",
+      "features": [
+        "seed difference / 15"
+      ],
+      "coef": [
+        2.4750188383161236
+      ],
+      "temperature": 0.975,
+      "n_train": 1197,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003
+      ],
+      "ridge": 1.0,
+      "calibration_n": 567,
+      "calibration_through": 2003
+    },
+    "seed_curve": {
+      "kind": "seed_curve",
+      "features": [
+        "seed difference / 15",
+        "log seed ratio / log(16)"
+      ],
+      "coef": [
+        1.324255467804211,
+        1.2496100952266327
+      ],
+      "temperature": 1.0,
+      "n_train": 1197,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003
+      ],
+      "ridge": 1.0,
+      "calibration_n": 567,
+      "calibration_through": 2003
+    }
+  },
+  "2005": {
+    "seed": {
+      "kind": "seed",
+      "features": [
+        "seed difference / 15"
+      ],
+      "coef": [
+        2.5044827201129385
+      ],
+      "temperature": 0.9625,
+      "n_train": 1260,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004
+      ],
+      "ridge": 1.0,
+      "calibration_n": 630,
+      "calibration_through": 2004
+    },
+    "seed_curve": {
+      "kind": "seed_curve",
+      "features": [
+        "seed difference / 15",
+        "log seed ratio / log(16)"
+      ],
+      "coef": [
+        1.4433808580734757,
+        1.1493302348524261
+      ],
+      "temperature": 0.975,
+      "n_train": 1260,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004
+      ],
+      "ridge": 1.0,
+      "calibration_n": 630,
+      "calibration_through": 2004
+    }
+  },
+  "2006": {
+    "seed": {
+      "kind": "seed",
+      "features": [
+        "seed difference / 15"
+      ],
+      "coef": [
+        2.508005471991834
+      ],
+      "temperature": 0.9625,
+      "n_train": 1323,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005
+      ],
+      "ridge": 1.0,
+      "calibration_n": 693,
+      "calibration_through": 2005
+    },
+    "seed_curve": {
+      "kind": "seed_curve",
+      "features": [
+        "seed difference / 15",
+        "log seed ratio / log(16)"
+      ],
+      "coef": [
+        1.458107719134452,
+        1.1350301499872202
+      ],
+      "temperature": 0.975,
+      "n_train": 1323,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005
+      ],
+      "ridge": 1.0,
+      "calibration_n": 693,
+      "calibration_through": 2005
+    }
+  },
+  "2007": {
+    "seed": {
+      "kind": "seed",
+      "features": [
+        "seed difference / 15"
+      ],
+      "coef": [
+        2.480773171278634
+      ],
+      "temperature": 0.9875,
+      "n_train": 1386,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006
+      ],
+      "ridge": 1.0,
+      "calibration_n": 756,
+      "calibration_through": 2006
+    },
+    "seed_curve": {
+      "kind": "seed_curve",
+      "features": [
+        "seed difference / 15",
+        "log seed ratio / log(16)"
+      ],
+      "coef": [
+        1.4486725254245978,
+        1.1152675677553918
+      ],
+      "temperature": 1.0,
+      "n_train": 1386,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006
+      ],
+      "ridge": 1.0,
+      "calibration_n": 756,
+      "calibration_through": 2006
+    }
+  },
+  "2008": {
+    "seed": {
+      "kind": "seed",
+      "features": [
+        "seed difference / 15"
+      ],
+      "coef": [
+        2.5486834978009996
+      ],
+      "temperature": 0.9375,
+      "n_train": 1449,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007
+      ],
+      "ridge": 1.0,
+      "calibration_n": 819,
+      "calibration_through": 2007
+    },
+    "seed_curve": {
+      "kind": "seed_curve",
+      "features": [
+        "seed difference / 15",
+        "log seed ratio / log(16)"
+      ],
+      "coef": [
+        1.4572731622439268,
+        1.178129008631332
+      ],
+      "temperature": 0.95,
+      "n_train": 1449,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007
+      ],
+      "ridge": 1.0,
+      "calibration_n": 819,
+      "calibration_through": 2007
+    },
+    "form": {
+      "kind": "form",
+      "features": [
+        "seed difference / 15",
+        "pre-March Elo difference / 400",
+        "win rate difference",
+        "mean margin difference / 20"
+      ],
+      "coef": [
+        1.844744909380219,
+        0.6181517110495509,
+        0.4845543997172436,
+        1.3290769075804572
+      ],
+      "temperature": 1.0,
+      "n_train": 126,
+      "train_seasons": [
+        2006,
+        2007
+      ],
+      "ridge": 1.0,
+      "calibration_n": 0
+    }
+  },
+  "2009": {
+    "seed": {
+      "kind": "seed",
+      "features": [
+        "seed difference / 15"
+      ],
+      "coef": [
+        2.5613150857419327
+      ],
+      "temperature": 0.9375,
+      "n_train": 1512,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008
+      ],
+      "ridge": 1.0,
+      "calibration_n": 882,
+      "calibration_through": 2008
+    },
+    "seed_curve": {
+      "kind": "seed_curve",
+      "features": [
+        "seed difference / 15",
+        "log seed ratio / log(16)"
+      ],
+      "coef": [
+        1.3736246651382706,
+        1.2816255768065379
+      ],
+      "temperature": 0.95,
+      "n_train": 1512,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008
+      ],
+      "ridge": 1.0,
+      "calibration_n": 882,
+      "calibration_through": 2008
+    },
+    "form": {
+      "kind": "form",
+      "features": [
+        "seed difference / 15",
+        "pre-March Elo difference / 400",
+        "win rate difference",
+        "mean margin difference / 20"
+      ],
+      "coef": [
+        1.7333766900293468,
+        0.5635528452242232,
+        0.3361591350781827,
+        1.8337499174829246
+      ],
+      "temperature": 1.0,
+      "n_train": 189,
+      "train_seasons": [
+        2006,
+        2007,
+        2008
+      ],
+      "ridge": 1.0,
+      "calibration_n": 0
+    }
+  },
+  "2010": {
+    "seed": {
+      "kind": "seed",
+      "features": [
+        "seed difference / 15"
+      ],
+      "coef": [
+        2.5888750318580502
+      ],
+      "temperature": 0.925,
+      "n_train": 1575,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009
+      ],
+      "ridge": 1.0,
+      "calibration_n": 945,
+      "calibration_through": 2009
+    },
+    "seed_curve": {
+      "kind": "seed_curve",
+      "features": [
+        "seed difference / 15",
+        "log seed ratio / log(16)"
+      ],
+      "coef": [
+        1.3184649322084263,
+        1.3711075649801585
+      ],
+      "temperature": 0.925,
+      "n_train": 1575,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009
+      ],
+      "ridge": 1.0,
+      "calibration_n": 945,
+      "calibration_through": 2009
+    },
+    "form": {
+      "kind": "form",
+      "features": [
+        "seed difference / 15",
+        "pre-March Elo difference / 400",
+        "win rate difference",
+        "mean margin difference / 20"
+      ],
+      "coef": [
+        1.882045865588385,
+        0.5795960224975464,
+        0.32110546028148984,
+        1.6848814149944231
+      ],
+      "temperature": 1.0,
+      "n_train": 252,
+      "train_seasons": [
+        2006,
+        2007,
+        2008,
+        2009
+      ],
+      "ridge": 1.0,
+      "calibration_n": 0
+    }
+  },
+  "2011": {
+    "seed": {
+      "kind": "seed",
+      "features": [
+        "seed difference / 15"
+      ],
+      "coef": [
+        2.5663339957792566
+      ],
+      "temperature": 0.9375,
+      "n_train": 1638,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010
+      ],
+      "ridge": 1.0,
+      "calibration_n": 1008,
+      "calibration_through": 2010
+    },
+    "seed_curve": {
+      "kind": "seed_curve",
+      "features": [
+        "seed difference / 15",
+        "log seed ratio / log(16)"
+      ],
+      "coef": [
+        1.3110643088426344,
+        1.3542185842649228
+      ],
+      "temperature": 0.95,
+      "n_train": 1638,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010
+      ],
+      "ridge": 1.0,
+      "calibration_n": 1008,
+      "calibration_through": 2010
+    },
+    "form": {
+      "kind": "form",
+      "features": [
+        "seed difference / 15",
+        "pre-March Elo difference / 400",
+        "win rate difference",
+        "mean margin difference / 20"
+      ],
+      "coef": [
+        1.7473806502037892,
+        0.8071620401975637,
+        0.5249721658634057,
+        1.6962279849514248
+      ],
+      "temperature": 0.95,
+      "n_train": 315,
+      "train_seasons": [
+        2006,
+        2007,
+        2008,
+        2009,
+        2010
+      ],
+      "ridge": 1.0,
+      "calibration_n": 189,
+      "calibration_through": 2010
+    }
+  },
+  "2012": {
+    "seed": {
+      "kind": "seed",
+      "features": [
+        "seed difference / 15"
+      ],
+      "coef": [
+        2.5404009842388744
+      ],
+      "temperature": 0.9625,
+      "n_train": 1701,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011
+      ],
+      "ridge": 1.0,
+      "calibration_n": 1071,
+      "calibration_through": 2011
+    },
+    "seed_curve": {
+      "kind": "seed_curve",
+      "features": [
+        "seed difference / 15",
+        "log seed ratio / log(16)"
+      ],
+      "coef": [
+        1.3754631405167355,
+        1.2543087429674662
+      ],
+      "temperature": 0.975,
+      "n_train": 1701,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011
+      ],
+      "ridge": 1.0,
+      "calibration_n": 1071,
+      "calibration_through": 2011
+    },
+    "form": {
+      "kind": "form",
+      "features": [
+        "seed difference / 15",
+        "pre-March Elo difference / 400",
+        "win rate difference",
+        "mean margin difference / 20"
+      ],
+      "coef": [
+        1.8102442580031672,
+        0.49232862525534815,
+        0.2016499962828121,
+        1.411157250047258
+      ],
+      "temperature": 1.1125,
+      "n_train": 378,
+      "train_seasons": [
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011
+      ],
+      "ridge": 1.0,
+      "calibration_n": 252,
+      "calibration_through": 2011
+    }
+  },
+  "2013": {
+    "seed": {
+      "kind": "seed",
+      "features": [
+        "seed difference / 15"
+      ],
+      "coef": [
+        2.5291322151332323
+      ],
+      "temperature": 0.9625,
+      "n_train": 1764,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012
+      ],
+      "ridge": 1.0,
+      "calibration_n": 1134,
+      "calibration_through": 2012
+    },
+    "seed_curve": {
+      "kind": "seed_curve",
+      "features": [
+        "seed difference / 15",
+        "log seed ratio / log(16)"
+      ],
+      "coef": [
+        1.3169863102703763,
+        1.306217262144374
+      ],
+      "temperature": 0.975,
+      "n_train": 1764,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012
+      ],
+      "ridge": 1.0,
+      "calibration_n": 1134,
+      "calibration_through": 2012
+    },
+    "form": {
+      "kind": "form",
+      "features": [
+        "seed difference / 15",
+        "pre-March Elo difference / 400",
+        "win rate difference",
+        "mean margin difference / 20"
+      ],
+      "coef": [
+        1.8144897809095888,
+        0.3409655657709979,
+        0.1549997122802724,
+        1.3999805466196626
+      ],
+      "temperature": 1.125,
+      "n_train": 441,
+      "train_seasons": [
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012
+      ],
+      "ridge": 1.0,
+      "calibration_n": 315,
+      "calibration_through": 2012
+    }
+  },
+  "2014": {
+    "seed": {
+      "kind": "seed",
+      "features": [
+        "seed difference / 15"
+      ],
+      "coef": [
+        2.4992075275014307
+      ],
+      "temperature": 0.9875,
+      "n_train": 1827,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013
+      ],
+      "ridge": 1.0,
+      "calibration_n": 1197,
+      "calibration_through": 2013
+    },
+    "seed_curve": {
+      "kind": "seed_curve",
+      "features": [
+        "seed difference / 15",
+        "log seed ratio / log(16)"
+      ],
+      "coef": [
+        1.2757717350814377,
+        1.3194914947096186
+      ],
+      "temperature": 1.0,
+      "n_train": 1827,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013
+      ],
+      "ridge": 1.0,
+      "calibration_n": 1197,
+      "calibration_through": 2013
+    },
+    "form": {
+      "kind": "form",
+      "features": [
+        "seed difference / 15",
+        "pre-March Elo difference / 400",
+        "win rate difference",
+        "mean margin difference / 20"
+      ],
+      "coef": [
+        1.7270114823993767,
+        0.19181252462717402,
+        0.227816601583306,
+        1.4169860874220255
+      ],
+      "temperature": 1.15,
+      "n_train": 504,
+      "train_seasons": [
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013
+      ],
+      "ridge": 1.0,
+      "calibration_n": 378,
+      "calibration_through": 2013
+    }
+  },
+  "2015": {
+    "seed": {
+      "kind": "seed",
+      "features": [
+        "seed difference / 15"
+      ],
+      "coef": [
+        2.4694224744196003
+      ],
+      "temperature": 1.0125,
+      "n_train": 1890,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014
+      ],
+      "ridge": 1.0,
+      "calibration_n": 1260,
+      "calibration_through": 2014
+    },
+    "seed_curve": {
+      "kind": "seed_curve",
+      "features": [
+        "seed difference / 15",
+        "log seed ratio / log(16)"
+      ],
+      "coef": [
+        1.320818768730909,
+        1.2366514965411197
+      ],
+      "temperature": 1.025,
+      "n_train": 1890,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014
+      ],
+      "ridge": 1.0,
+      "calibration_n": 1260,
+      "calibration_through": 2014
+    },
+    "form": {
+      "kind": "form",
+      "features": [
+        "seed difference / 15",
+        "pre-March Elo difference / 400",
+        "win rate difference",
+        "mean margin difference / 20"
+      ],
+      "coef": [
+        1.6552287815117157,
+        0.048396749517540034,
+        0.1207045494177892,
+        1.5678452230343034
+      ],
+      "temperature": 1.1625,
+      "n_train": 567,
+      "train_seasons": [
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014
+      ],
+      "ridge": 1.0,
+      "calibration_n": 441,
+      "calibration_through": 2014
+    }
+  },
+  "2016": {
+    "seed": {
+      "kind": "seed",
+      "features": [
+        "seed difference / 15"
+      ],
+      "coef": [
+        2.487171024504426
+      ],
+      "temperature": 1.0,
+      "n_train": 1953,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015
+      ],
+      "ridge": 1.0,
+      "calibration_n": 1323,
+      "calibration_through": 2015
+    },
+    "seed_curve": {
+      "kind": "seed_curve",
+      "features": [
+        "seed difference / 15",
+        "log seed ratio / log(16)"
+      ],
+      "coef": [
+        1.3181934554128716,
+        1.257999148885994
+      ],
+      "temperature": 1.0125,
+      "n_train": 1953,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015
+      ],
+      "ridge": 1.0,
+      "calibration_n": 1323,
+      "calibration_through": 2015
+    },
+    "form": {
+      "kind": "form",
+      "features": [
+        "seed difference / 15",
+        "pre-March Elo difference / 400",
+        "win rate difference",
+        "mean margin difference / 20"
+      ],
+      "coef": [
+        1.7355625348989139,
+        -0.09463340446942255,
+        -0.09380601713348155,
+        1.7002119870807473
+      ],
+      "temperature": 1.1,
+      "n_train": 630,
+      "train_seasons": [
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015
+      ],
+      "ridge": 1.0,
+      "calibration_n": 504,
+      "calibration_through": 2015
+    }
+  },
+  "2017": {
+    "seed": {
+      "kind": "seed",
+      "features": [
+        "seed difference / 15"
+      ],
+      "coef": [
+        2.4702146211815204
+      ],
+      "temperature": 1.0125,
+      "n_train": 2016,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016
+      ],
+      "ridge": 1.0,
+      "calibration_n": 1386,
+      "calibration_through": 2016
+    },
+    "seed_curve": {
+      "kind": "seed_curve",
+      "features": [
+        "seed difference / 15",
+        "log seed ratio / log(16)"
+      ],
+      "coef": [
+        1.2705426146654242,
+        1.291513853042472
+      ],
+      "temperature": 1.0125,
+      "n_train": 2016,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016
+      ],
+      "ridge": 1.0,
+      "calibration_n": 1386,
+      "calibration_through": 2016
+    },
+    "form": {
+      "kind": "form",
+      "features": [
+        "seed difference / 15",
+        "pre-March Elo difference / 400",
+        "win rate difference",
+        "mean margin difference / 20"
+      ],
+      "coef": [
+        1.7140200017731582,
+        0.036213509916691644,
+        -0.017099022082677287,
+        1.670071988631202
+      ],
+      "temperature": 1.0875,
+      "n_train": 693,
+      "train_seasons": [
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016
+      ],
+      "ridge": 1.0,
+      "calibration_n": 567,
+      "calibration_through": 2016
+    }
+  },
+  "2018": {
+    "seed": {
+      "kind": "seed",
+      "features": [
+        "seed difference / 15"
+      ],
+      "coef": [
+        2.481442595124373
+      ],
+      "temperature": 1.0,
+      "n_train": 2079,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017
+      ],
+      "ridge": 1.0,
+      "calibration_n": 1449,
+      "calibration_through": 2017
+    },
+    "seed_curve": {
+      "kind": "seed_curve",
+      "features": [
+        "seed difference / 15",
+        "log seed ratio / log(16)"
+      ],
+      "coef": [
+        1.282335103728486,
+        1.2897057686634439
+      ],
+      "temperature": 1.0125,
+      "n_train": 2079,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017
+      ],
+      "ridge": 1.0,
+      "calibration_n": 1449,
+      "calibration_through": 2017
+    },
+    "form": {
+      "kind": "form",
+      "features": [
+        "seed difference / 15",
+        "pre-March Elo difference / 400",
+        "win rate difference",
+        "mean margin difference / 20"
+      ],
+      "coef": [
+        1.778983868367745,
+        -0.07875279316076221,
+        -0.13304077704239997,
+        1.6774643487012217
+      ],
+      "temperature": 1.075,
+      "n_train": 756,
+      "train_seasons": [
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017
+      ],
+      "ridge": 1.0,
+      "calibration_n": 630,
+      "calibration_through": 2017
+    }
+  },
+  "2019": {
+    "seed": {
+      "kind": "seed",
+      "features": [
+        "seed difference / 15"
+      ],
+      "coef": [
+        2.464146340412724
+      ],
+      "temperature": 1.0125,
+      "n_train": 2142,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018
+      ],
+      "ridge": 1.0,
+      "calibration_n": 1512,
+      "calibration_through": 2018
+    },
+    "seed_curve": {
+      "kind": "seed_curve",
+      "features": [
+        "seed difference / 15",
+        "log seed ratio / log(16)"
+      ],
+      "coef": [
+        1.2611748870353814,
+        1.2954449464338156
+      ],
+      "temperature": 1.0125,
+      "n_train": 2142,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018
+      ],
+      "ridge": 1.0,
+      "calibration_n": 1512,
+      "calibration_through": 2018
+    },
+    "form": {
+      "kind": "form",
+      "features": [
+        "seed difference / 15",
+        "pre-March Elo difference / 400",
+        "win rate difference",
+        "mean margin difference / 20"
+      ],
+      "coef": [
+        1.7786518017339954,
+        -0.1386606857845939,
+        -0.13565254131353913,
+        1.594968379799817
+      ],
+      "temperature": 1.1,
+      "n_train": 819,
+      "train_seasons": [
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018
+      ],
+      "ridge": 1.0,
+      "calibration_n": 693,
+      "calibration_through": 2018
+    }
+  },
+  "2021": {
+    "seed": {
+      "kind": "seed",
+      "features": [
+        "seed difference / 15"
+      ],
+      "coef": [
+        2.4788030470778537
+      ],
+      "temperature": 1.0,
+      "n_train": 2205,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019
+      ],
+      "ridge": 1.0,
+      "calibration_n": 1575,
+      "calibration_through": 2019
+    },
+    "seed_curve": {
+      "kind": "seed_curve",
+      "features": [
+        "seed difference / 15",
+        "log seed ratio / log(16)"
+      ],
+      "coef": [
+        1.2499196850087204,
+        1.3226600896895058
+      ],
+      "temperature": 1.0125,
+      "n_train": 2205,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019
+      ],
+      "ridge": 1.0,
+      "calibration_n": 1575,
+      "calibration_through": 2019
+    },
+    "form": {
+      "kind": "form",
+      "features": [
+        "seed difference / 15",
+        "pre-March Elo difference / 400",
+        "win rate difference",
+        "mean margin difference / 20"
+      ],
+      "coef": [
+        1.84984911356856,
+        -0.28118368791536064,
+        -0.24431603414349912,
+        1.6292879404071996
+      ],
+      "temperature": 1.075,
+      "n_train": 882,
+      "train_seasons": [
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019
+      ],
+      "ridge": 1.0,
+      "calibration_n": 756,
+      "calibration_through": 2019
+    }
+  },
+  "2022": {
+    "seed": {
+      "kind": "seed",
+      "features": [
+        "seed difference / 15"
+      ],
+      "coef": [
+        2.4391419234329543
+      ],
+      "temperature": 1.025,
+      "n_train": 2267,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2021
+      ],
+      "ridge": 1.0,
+      "calibration_n": 1637,
+      "calibration_through": 2021
+    },
+    "seed_curve": {
+      "kind": "seed_curve",
+      "features": [
+        "seed difference / 15",
+        "log seed ratio / log(16)"
+      ],
+      "coef": [
+        1.1623143829168667,
+        1.3756495625557497
+      ],
+      "temperature": 1.025,
+      "n_train": 2267,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2021
+      ],
+      "ridge": 1.0,
+      "calibration_n": 1637,
+      "calibration_through": 2021
+    },
+    "form": {
+      "kind": "form",
+      "features": [
+        "seed difference / 15",
+        "pre-March Elo difference / 400",
+        "win rate difference",
+        "mean margin difference / 20"
+      ],
+      "coef": [
+        1.7824501434703093,
+        -0.2958052658668762,
+        -0.32934220550622756,
+        1.6479941440471124
+      ],
+      "temperature": 1.1,
+      "n_train": 944,
+      "train_seasons": [
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2021
+      ],
+      "ridge": 1.0,
+      "calibration_n": 818,
+      "calibration_through": 2021
+    }
+  },
+  "2023": {
+    "seed": {
+      "kind": "seed",
+      "features": [
+        "seed difference / 15"
+      ],
+      "coef": [
+        2.412297743306597
+      ],
+      "temperature": 1.0375,
+      "n_train": 2330,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2021,
+        2022
+      ],
+      "ridge": 1.0,
+      "calibration_n": 1700,
+      "calibration_through": 2022
+    },
+    "seed_curve": {
+      "kind": "seed_curve",
+      "features": [
+        "seed difference / 15",
+        "log seed ratio / log(16)"
+      ],
+      "coef": [
+        1.1347609934545728,
+        1.3770039335827664
+      ],
+      "temperature": 1.0375,
+      "n_train": 2330,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2021,
+        2022
+      ],
+      "ridge": 1.0,
+      "calibration_n": 1700,
+      "calibration_through": 2022
+    },
+    "form": {
+      "kind": "form",
+      "features": [
+        "seed difference / 15",
+        "pre-March Elo difference / 400",
+        "win rate difference",
+        "mean margin difference / 20"
+      ],
+      "coef": [
+        1.8106137190758003,
+        -0.24848429248097706,
+        -0.3241410651946263,
+        1.3748909589961547
+      ],
+      "temperature": 1.15,
+      "n_train": 1007,
+      "train_seasons": [
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2021,
+        2022
+      ],
+      "ridge": 1.0,
+      "calibration_n": 881,
+      "calibration_through": 2022
+    }
+  },
+  "2024": {
+    "seed": {
+      "kind": "seed",
+      "features": [
+        "seed difference / 15"
+      ],
+      "coef": [
+        2.4007456181686933
+      ],
+      "temperature": 1.0375,
+      "n_train": 2393,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2021,
+        2022,
+        2023
+      ],
+      "ridge": 1.0,
+      "calibration_n": 1763,
+      "calibration_through": 2023
+    },
+    "seed_curve": {
+      "kind": "seed_curve",
+      "features": [
+        "seed difference / 15",
+        "log seed ratio / log(16)"
+      ],
+      "coef": [
+        1.215283664039606,
+        1.2781029137991522
+      ],
+      "temperature": 1.05,
+      "n_train": 2393,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2021,
+        2022,
+        2023
+      ],
+      "ridge": 1.0,
+      "calibration_n": 1763,
+      "calibration_through": 2023
+    },
+    "form": {
+      "kind": "form",
+      "features": [
+        "seed difference / 15",
+        "pre-March Elo difference / 400",
+        "win rate difference",
+        "mean margin difference / 20"
+      ],
+      "coef": [
+        1.81663074193565,
+        -0.31066489020606797,
+        -0.3413387428638076,
+        1.3873793799493899
+      ],
+      "temperature": 1.15,
+      "n_train": 1070,
+      "train_seasons": [
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2021,
+        2022,
+        2023
+      ],
+      "ridge": 1.0,
+      "calibration_n": 944,
+      "calibration_through": 2023
+    }
+  },
+  "2025": {
+    "seed": {
+      "kind": "seed",
+      "features": [
+        "seed difference / 15"
+      ],
+      "coef": [
+        2.3993024176164273
+      ],
+      "temperature": 1.0375,
+      "n_train": 2456,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "ridge": 1.0,
+      "calibration_n": 1826,
+      "calibration_through": 2024
+    },
+    "seed_curve": {
+      "kind": "seed_curve",
+      "features": [
+        "seed difference / 15",
+        "log seed ratio / log(16)"
+      ],
+      "coef": [
+        1.1861247718894563,
+        1.3079592497154227
+      ],
+      "temperature": 1.05,
+      "n_train": 2456,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "ridge": 1.0,
+      "calibration_n": 1826,
+      "calibration_through": 2024
+    },
+    "form": {
+      "kind": "form",
+      "features": [
+        "seed difference / 15",
+        "pre-March Elo difference / 400",
+        "win rate difference",
+        "mean margin difference / 20"
+      ],
+      "coef": [
+        1.833718491434431,
+        -0.3162945417926454,
+        -0.3034124596067035,
+        1.327321489843864
+      ],
+      "temperature": 1.1375,
+      "n_train": 1133,
+      "train_seasons": [
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "ridge": 1.0,
+      "calibration_n": 1007,
+      "calibration_through": 2024
+    }
+  },
+  "2026": {
+    "seed": {
+      "kind": "seed",
+      "features": [
+        "seed difference / 15"
+      ],
+      "coef": [
+        2.427802592527406
+      ],
+      "temperature": 1.025,
+      "n_train": 2519,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "ridge": 1.0,
+      "calibration_n": 1889,
+      "calibration_through": 2025
+    },
+    "seed_curve": {
+      "kind": "seed_curve",
+      "features": [
+        "seed difference / 15",
+        "log seed ratio / log(16)"
+      ],
+      "coef": [
+        1.1476950331545996,
+        1.3806128766455128
+      ],
+      "temperature": 1.025,
+      "n_train": 2519,
+      "train_seasons": [
+        1985,
+        1986,
+        1987,
+        1988,
+        1989,
+        1990,
+        1991,
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "ridge": 1.0,
+      "calibration_n": 1889,
+      "calibration_through": 2025
+    },
+    "form": {
+      "kind": "form",
+      "features": [
+        "seed difference / 15",
+        "pre-March Elo difference / 400",
+        "win rate difference",
+        "mean margin difference / 20"
+      ],
+      "coef": [
+        1.9048298604977367,
+        -0.293169569382997,
+        -0.4143671493160212,
+        1.3617414766522722
+      ],
+      "temperature": 1.1,
+      "n_train": 1196,
+      "train_seasons": [
+        2006,
+        2007,
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "ridge": 1.0,
+      "calibration_n": 1070,
+      "calibration_through": 2025
+    }
+  }
+}

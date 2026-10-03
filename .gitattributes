@@ -1,0 +1,3 @@
+* text=auto eol=lf
+data/archive/*.txt -text
+*.png -text

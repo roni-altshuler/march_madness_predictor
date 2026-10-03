@@ -1,6 +1,12 @@
 import {request as staticRequest} from './static_api.js';
 const main=document.querySelector('main'),dialog=document.querySelector('#detail');
 const $=s=>document.querySelector(s);
+// Moving to content must not enter the hash router.
+$('.skip').addEventListener('click',event=>{
+  event.preventDefault();
+  main.focus({preventScroll:true});
+  main.scrollIntoView({block:'start'});
+});
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const pct=p=>p==null?'—':`${(p*100).toFixed(1)}%`,num=(n,d=4)=>n==null?'—':Number(n).toFixed(d);
 let summary,season,region=0,year=2026,simulation=null,view='actual',routeVersion=0,seasonRequest=0;

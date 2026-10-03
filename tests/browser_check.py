@@ -13,6 +13,19 @@ BASE='http://127.0.0.1:8037'
 STATIC='--static' in sys.argv
 
 
+def assert_skip_preserves_archive(page):
+    route = page.url
+    content = page.locator('main').inner_html()
+    selected_year = page.locator('#archive-year').input_value()
+    page.get_by_role('link', name='Skip to content', exact=True).focus()
+    page.keyboard.press('Enter')
+    expect(page.locator('main')).to_be_focused()
+    expect(page).to_have_url(route)
+    expect(page.locator('nav a[href="#archive"]')).to_have_attribute('aria-current', 'page')
+    assert page.locator('main').inner_html() == content
+    expect(page.locator('#archive-year')).to_have_value(selected_year)
+
+
 def run():
     command=[sys.executable,'-m','http.server','8037','--bind','127.0.0.1','--directory','public'] if STATIC else [sys.executable,'-m','madness','serve','--port','8037']
     proc=subprocess.Popen(command,cwd=ROOT,
@@ -36,6 +49,7 @@ def run():
             page.screenshot(path=str(shots/'2027-desktop.png'),full_page=True)
             page.locator('nav').get_by_role('link',name='Historical bracket').click()
             expect(page.locator('.game')).to_have_count(15)
+            assert_skip_preserves_archive(page)
             page.locator('.game').first.focus();page.keyboard.press('Enter')
             expect(page.locator('dialog')).to_be_visible();expect(page.locator('#detail-title')).to_contain_text('Duke')
             page.select_option('#detail-model','form');expect(page.locator('#detail-prediction')).to_contain_text('trained through 2025')
@@ -48,6 +62,7 @@ def run():
             page.get_by_role('button',name='Simulate this field',exact=True).click()
             expect(page.get_by_role('heading',name='Advancement probabilities · 2026')).to_be_visible(timeout=15000)
             expect(page.get_by_role('button',name='Actual results',exact=True)).to_be_visible()
+            assert_skip_preserves_archive(page)
             page.select_option('#archive-year','2021');expect(page.get_by_text('62',exact=True)).to_be_visible()
             page.get_by_role('button',name='Region 3',exact=True).click()
             page.get_by_role('button',name='Oregon versus VCU, Round of 64, open details').click()
@@ -90,6 +105,7 @@ def run():
             assert page.evaluate('document.documentElement.scrollWidth <= window.innerWidth')
             assert page.locator('.game:visible').count()==8
             page.select_option('#mobile-round','1');assert page.locator('.game:visible').count()==4
+            assert_skip_preserves_archive(page)
             page.select_option('#mobile-round','0')
             page.screenshot(path=str(shots/'archive-mobile.png'),full_page=True)
             page.locator('.game').first.click();expect(page.locator('dialog')).to_be_visible()
@@ -97,7 +113,7 @@ def run():
             page.keyboard.press('Escape')
             assert not errors,errors
             browser.close()
-        print('Browser checks passed: desktop, mobile, archive, keyboard dialog, no-contest, simulation, matchup, evidence, unknown field and validation errors.')
+        print('Browser checks passed: desktop, mobile, archive, skip-link focus/state, keyboard dialog, no-contest, simulation, matchup, evidence, unknown field and validation errors.')
     finally:
         proc.terminate();proc.wait(timeout=10)
 

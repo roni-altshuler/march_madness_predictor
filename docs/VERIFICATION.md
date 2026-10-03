@@ -48,9 +48,19 @@ intervals include zero; only six holdout tournaments limit the evidence.
 ## CI and release review
 
 The GitHub workflow runs backend checks, JavaScript syntax, CLI inference and
-historical simulation, plus Chromium browser checks on Ubuntu. Remote status
-will be verified before merging the first-release PR. A separate release record
-and the final report identify the actual PR, CI run and merged commit.
+historical simulation, plus Chromium browser checks on Ubuntu. The first-release
+PR was reviewed and merged after both CI runs passed. Main verification and
+GitHub Pages publication passed. The actual public app was verified in Edge,
+including its project subpath, historical bracket, modal, simulation, unknown
+2027 field and mobile navigation. [RELEASE.md](RELEASE.md) records the URLs,
+review, CI runs and merged implementation commit.
+
+The browser regression workflow also checks keyboard activation of Skip to
+content on the archive, its simulated view and the mobile round list. Focus must
+move to the main landmark while the route, year and rendered state stay intact.
+This regression failed on the first release because the URL changed from
+`#archive` to `#main`; it passed locally after the skip link received a dedicated
+focus/scroll handler that prevents the hash navigation.
 
 Review covers temporal boundaries, source identities/provenance/licensing,
 unmatched data behavior, declared bracket validation, untrusted import escaping,
@@ -62,9 +72,7 @@ responsive/keyboard UI and absence of credentials/raw private data from Git.
 - Full-field historical Opening/First Four evaluation: those games are absent.
 - Injury/roster/market benchmarks and pre-2006 form evaluation: data unavailable.
 - Safari/iOS/Android device testing: not run; viewport checks use desktop Edge.
-- Public publication: newly user-authorized, pending release PR review/CI and
-  the separately recorded verification of the resulting live page.
 - Full 1939–1984 archive: not ingested, explicitly missing.
 
-No local failed checks remain at this checkpoint. Passing tests establish the
+Passing tests establish the
 tested behavior and temporal safeguards, not guaranteed future prediction skill.

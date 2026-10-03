@@ -1,8 +1,11 @@
 # March Lab
 
 Men's NCAA Division I tournament probabilities, a real historical bracket archive,
-and a local interactive browser app. Built for Roni Altshuler and the upcoming
+and an interactive browser app. Built for Roni Altshuler and the upcoming
 2027 tournament. Independent project; no NCAA affiliation.
+
+[Open March Lab](https://roni-altshuler.github.io/march_madness_predictor/).
+The public app works without a backend. See the verified [release record](docs/RELEASE.md).
 
 The 2027 field is **unknown**. The published format has **76 teams and 12 Opening
 Round games** feeding a 64-team bracket. This project does not invent entrants.

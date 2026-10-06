@@ -29,7 +29,7 @@ function seasonMarkup(season,summary){
     <dl class="snapshot-grid"><div><dt>Primary model training</dt><dd>${model?`${number(model.n_train)} earlier games · through ${through}`:'— · no prediction snapshot'}</dd></div><div><dt>Primary model calibration</dt><dd>${model?.calibration_n?`${number(model.calibration_n)} earlier predictions · through ${model.calibration_through}`:model?'No prior calibration fit · temperature 1':'— · no prediction snapshot'}</dd></div></dl>
     <p class="note">${model?'This saved annual snapshot uses only earlier tournaments for fitting and calibration. It is a retrospective evaluation; later rolling years can learn from earlier holdout outcomes.':'This season belongs to the training warm-up era. An archived result does not imply an evaluated prediction.'}</p>
     <p class="insight-scroll-hint note">On narrow screens, scroll the table → to compare scores.</p><div class="table-scroll" tabindex="0" role="region" aria-label="Saved tournament evaluation, scroll horizontally to compare scores"><table><caption>Saved ${year} evaluation · lower Brier and log loss are better</caption><thead><tr><th>Forecaster</th><th class="numeric">Scored games</th><th class="numeric">Brier ↓</th><th class="numeric">Log loss ↓</th></tr></thead><tbody>${Object.entries(forecasters).map(([kind,name])=>{const m=metrics?.[kind];return `<tr><th scope="row">${name}</th><td class="numeric">${number(m?.n)}</td><td class="numeric">${metric(m?.brier)}</td><td class="numeric">${metric(m?.log_loss)}</td></tr>`;}).join('')}</tbody></table></div>
-    <p class="note insight-footnote">${season.available_models?.includes('form')?'The form challenger has an earlier training snapshot for this season.':featureCount?'Form features exist, but the form challenger has too few earlier feature-covered games for a training snapshot.':'The form challenger is unavailable for this season.'} A dash means no recorded evaluation; it is never a zero score. One tournament does not justify promoting a challenger. The form challenger did not improve the primary seed model’s Brier or log loss across the full saved holdout.</p>`;
+    <p class="note insight-footnote"><strong>Seed baseline stays primary.</strong>${season.available_models?.includes('form')?'The form challenger has an earlier training snapshot for this season.':featureCount?'Form features exist, but the form challenger has too few earlier feature-covered games for a training snapshot.':'The form challenger is unavailable for this season.'} A dash means no recorded evaluation; it is never a zero score. One tournament does not justify promoting a challenger. The form challenger did not improve the primary seed model’s Brier or log loss across the full saved holdout.</p>`;
 }
 
 export function mountSeasonInsights(container,{summary,request,initialYear,onOpenArchive}){
@@ -43,7 +43,7 @@ export function mountSeasonInsights(container,{summary,request,initialYear,onOpe
   let revision=0;
   async function load(){
     const year=Number(select.value),current=++revision;
-    content.innerHTML='';content.setAttribute('aria-busy','true');
+    content.innerHTML='<div class="insight-placeholder"><span class="loading-track" aria-hidden="true"></span><p class="note">Retrieving the saved tournament snapshot.</p></div>';content.setAttribute('aria-busy','true');
     status.textContent=`Loading ${year} evidence…`;
     try{
       if(cancelled.includes(year)){
@@ -58,7 +58,8 @@ export function mountSeasonInsights(container,{summary,request,initialYear,onOpe
     }catch(error){
       if(current!==revision||!container.isConnected)return;
       status.textContent=`Could not load ${year} evidence: ${error.message}`;
-      const retry=document.createElement('button');retry.textContent='Retry season evidence';retry.addEventListener('click',load);content.append(retry);
+      content.innerHTML='<div class="insight-empty"><h3>Evidence unavailable</h3><p class="muted">Try loading the saved snapshot again, or choose another tournament year above.</p></div>';
+      const retry=document.createElement('button');retry.textContent='Retry season evidence';retry.addEventListener('click',load);content.querySelector('.insight-empty').append(retry);
     }finally{
       if(current===revision)content.removeAttribute('aria-busy');
     }

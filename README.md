@@ -45,6 +45,11 @@ form snapshots and cancelled 2020 are explicit; missing evaluations stay as
 dashes. Feature availability does not imply that a form model could be trained
 on enough earlier games. The inspector reads bundled artifacts without refitting
 or promoting a challenger, and works in both local and static builds.
+Its cream surfaces, warm neutral cards, clear bracket action and visible primary
+model callout sit within March Lab's original dark navigation. Focus outlines,
+responsive score tables and reduced-motion-aware control transitions support
+keyboard and mobile exploration. Loading, cancelled and retry states remain
+explicit rather than displaying old or invented scores.
 [Desktop inspector](docs/screenshots/season-evidence-desktop.png) ·
 [Mobile inspector](docs/screenshots/season-evidence-mobile.png).
 

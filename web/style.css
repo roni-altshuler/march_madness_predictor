@@ -6,8 +6,82 @@ body{font-size:16px;line-height:1.5}table{font-size:14px;line-height:1.45}.team-
 @media(max-width:720px){.topbar{height:76px;padding:16px 18px}.brand{font-size:17px}.shell{display:block}nav{border-right:0;border-bottom:1px solid var(--line);padding:8px 12px;display:flex;flex-direction:row;overflow:auto;gap:3px}nav a{font-size:11px;padding:10px;white-space:nowrap}nav a.active{border-left:0;border-bottom:2px solid var(--blue)}.navfoot{display:none}main{padding:24px 16px}h1{font-size:34px}.hero{grid-template-columns:1fr;padding:22px;gap:20px}.hero-side{border-left:0;border-top:1px solid var(--line);padding:18px 0 0;flex-direction:row;align-items:center;gap:16px}.hero-number{font-size:48px}.hero-side small{margin:0}.stats{gap:8px}.stat{padding:15px}.stat strong{font-size:24px}.schedule{grid-template-columns:1fr}.two-inputs{gap:15px}.panel{padding:17px}.scroll-hint{display:block;font-size:11px;color:var(--muted)}.toolbar{gap:12px}.toolbar label{flex:1}.toolbar select{width:100%;min-width:130px}.comparison{gap:12px}dialog{padding:24px 18px}.probability{font-size:36px}footer{padding:18px;font-size:9px}}
 @media(prefers-reduced-motion:no-preference){main{animation:arrive .18s ease-out}@keyframes arrive{from{opacity:.5;transform:translateY(4px)}to{opacity:1;transform:none}}}
 @media(max-width:720px){.mobile-round{display:block;margin-top:18px}.mobile-round select{width:100%}.bracket{min-width:0;display:block}.round-column{display:none;min-width:0;width:100%}.round-column.mobile-selected{display:block}.round-games{height:auto!important;display:grid;gap:12px}.game{position:static;height:81px}.team-line{height:39px;font-size:14px}.game-prob,.seed{font-size:12px}.connectors{display:none}.bracket-scroll{padding:15px}.scroll-hint{display:none}}
-.season-insights{margin:24px 0}.insight-toolbar,.insight-heading{display:flex;justify-content:space-between;align-items:center;gap:20px}.insight-toolbar h2{margin-bottom:8px}.insight-toolbar p{margin:0}.insight-toolbar label{flex-shrink:0}.insight-heading{margin:18px 0}.insight-heading h3{font-size:22px;margin:0}.insight-heading .eyebrow{margin-bottom:6px}.coverage-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.coverage-card{padding:16px;border:1px solid var(--line);border-radius:7px;background:var(--bg)}.coverage-card h3{font-size:12px;color:var(--muted);margin-bottom:10px}.coverage-card strong{display:block;color:var(--blue);font:22px var(--mono);margin-bottom:10px}.coverage-card p{margin:0}.snapshot-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:18px 0;margin:0}.snapshot-grid dt{font-size:12px;color:var(--muted);margin-bottom:6px}.snapshot-grid dd{font-size:14px;margin:0}.season-insights caption{text-align:left;font-size:13px;color:var(--muted);padding:10px 0}.season-insights th[scope=row]{font:inherit;text-transform:none;color:var(--text)}.insight-footnote{margin:16px 0}.cancelled-season{padding:18px 0}.cancelled-season h3{margin-top:16px}
-@media(max-width:900px){.coverage-grid{grid-template-columns:1fr}.coverage-card{display:grid;grid-template-columns:minmax(130px,1fr) 2fr;column-gap:16px}.coverage-card strong{grid-column:1;grid-row:2;margin-bottom:0}.coverage-card h3{margin-bottom:6px}.coverage-card p{grid-column:2;grid-row:1 / 3;align-self:center}}
-@media(max-width:720px){.insight-toolbar,.insight-heading{align-items:start;flex-direction:column;gap:14px}.insight-toolbar label,.insight-toolbar select{width:100%}.snapshot-grid{grid-template-columns:1fr;gap:14px}.coverage-card{display:block}.coverage-card strong{margin:10px 0}.coverage-card h3{margin:0}.insight-heading .button{width:100%;text-align:center}}
-.insight-scroll-hint{display:none}@media(max-width:720px){.insight-scroll-hint{display:block;margin:4px 0}.season-insights .table-scroll{border:1px solid var(--line);border-radius:6px}}
-@media(max-width:720px){.season-insights table{table-layout:fixed;min-width:310px;font-size:12px}.season-insights th,.season-insights td{padding:10px 6px}.season-insights th:first-child{width:38%;white-space:normal}.season-insights th.numeric{white-space:normal}.season-insights td.numeric{font-size:11px}.season-insights caption{padding:10px 6px}}
+/* Season evidence uses a warm neutral workspace inside March Lab's dark shell. */
+.season-insights{
+  --bg:#eae6dc;--surface:#f3f0e7;--surface2:#e8e3d8;--line:#d5cfc2;
+  --text:#20252b;--muted:#5b6268;--blue:#2d526d;--accent:#76501f;
+  color-scheme:light;color:var(--text);background:var(--surface);
+  border-color:#e0d9cd;border-radius:18px;padding:clamp(20px,2.5vw,36px);
+  margin:24px 0;box-shadow:0 12px 36px #00000018;
+}
+.insight-toolbar,.insight-heading{display:flex;justify-content:space-between;align-items:center;gap:24px}
+.insight-toolbar h2{font-size:28px;letter-spacing:-.035em;margin-bottom:10px}
+.insight-toolbar p{margin:0;max-width:64ch;font-size:14px;line-height:1.6}
+.insight-toolbar label{flex-shrink:0;font-size:12px}
+.season-insights select{background:var(--bg);border-color:#7a817f;border-radius:9px;min-height:48px;font-size:14px}
+.season-insights .statusline{margin:16px 0 0;font-size:12px;display:flex;align-items:center;gap:8px}
+.season-insights .statusline::before{content:"";width:6px;height:6px;flex-shrink:0;border-radius:50%;background:var(--blue)}
+.insight-heading{margin:28px 0 24px}
+.insight-heading h3{font-size:25px;letter-spacing:-.025em;margin:0}
+.insight-heading .eyebrow{margin-bottom:8px;font-size:10px;letter-spacing:.1em}
+.season-insights .button,.season-insights button{background:var(--blue);color:#f5f1e8;border-color:var(--blue);font-size:14px;font-weight:600;padding:12px 18px;border-radius:9px;min-height:48px}
+.season-insights .button:hover,.season-insights button:hover{background:#1e3f56;border-color:#1e3f56}
+.season-insights :focus-visible{outline:3px solid var(--blue);outline-offset:4px}
+.coverage-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.coverage-card{padding:20px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
+.coverage-card h3{font-size:12px;color:var(--muted);font-weight:600;margin-bottom:14px}
+.coverage-card strong{display:block;color:var(--text);font:24px/1.25 var(--mono);letter-spacing:-.04em;margin-bottom:12px;font-variant-numeric:tabular-nums}
+.coverage-card p{margin:0;font-size:12px;line-height:1.6}
+.snapshot-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:24px 0;margin:0}
+.snapshot-grid dt{font-size:12px;color:var(--muted);margin-bottom:8px}
+.snapshot-grid dd{font-size:14px;margin:0;font-variant-numeric:tabular-nums}
+.season-insights caption{text-align:left;font-size:13px;color:var(--muted);padding:16px 0}
+.season-insights th[scope=row]{font:inherit;text-transform:none;color:var(--text)}
+.season-insights th,.season-insights td{padding:14px 10px}
+.season-insights th{font-size:10px;letter-spacing:.02em}
+.season-insights tbody tr:nth-child(3){background:#e7e2d6}
+.season-insights .table-scroll{border-radius:8px}
+.insight-footnote{margin:20px 0 24px;padding:16px 18px;background:#e8e3d8;border-left:3px solid var(--blue);border-radius:0 8px 8px 0;line-height:1.65}
+.insight-footnote strong{display:block;color:var(--text);font-size:13px;margin-bottom:6px}
+.season-insights details{padding:20px 0 0}
+.season-insights details summary{font-size:14px}
+.cancelled-season,.insight-placeholder,.insight-empty{padding:24px;margin:24px 0;background:var(--bg);border:1px solid var(--line);border-radius:12px}
+.cancelled-season h3{font-size:22px;letter-spacing:-.02em;margin-top:18px}
+.cancelled-season p,.insight-placeholder p,.insight-empty p{margin-bottom:0;line-height:1.65;max-width:65ch}
+.season-insights .tag{color:#6c501f;border-color:#9a8663;background:#ece2ce;letter-spacing:.06em}
+.insight-placeholder .loading-track{display:block;width:110px;height:5px;border-radius:10px;background:#bec8c8;margin-bottom:18px}
+.insight-empty h3{font-size:22px;margin-bottom:12px;letter-spacing:-.02em}
+.insight-empty button{margin-top:20px}
+.insight-scroll-hint{display:none}
+@media(max-width:1000px){
+  .coverage-grid{grid-template-columns:1fr}
+  .coverage-card{display:grid;grid-template-columns:minmax(150px,1fr) 2fr;column-gap:20px}
+  .coverage-card strong{grid-column:1;grid-row:2;margin-bottom:0}
+  .coverage-card h3{margin-bottom:8px}
+  .coverage-card p{grid-column:2;grid-row:1 / 3;align-self:center}
+}
+@media(max-width:720px){
+  .season-insights{padding:20px;border-radius:14px}
+  .insight-toolbar,.insight-heading{align-items:start;flex-direction:column;gap:18px}
+  .insight-toolbar h2{font-size:25px}
+  .insight-toolbar label,.insight-toolbar select{width:100%}
+  .insight-heading{margin:26px 0 20px}
+  .snapshot-grid{grid-template-columns:1fr;gap:18px;padding:22px 0}
+  .coverage-card{display:block;padding:18px}
+  .coverage-card strong{margin:12px 0;font-size:23px}
+  .coverage-card h3{margin:0}
+  .insight-heading .button{width:100%;text-align:center}
+  .insight-scroll-hint{display:block;margin:8px 0;font-size:11px}
+  .season-insights .table-scroll{border:1px solid var(--line)}
+  .season-insights table{table-layout:fixed;min-width:300px;font-size:12px}
+  .season-insights th,.season-insights td{padding:12px 5px}
+  .season-insights th:first-child{width:37%;white-space:normal}
+  .season-insights th.numeric{white-space:normal;font-size:9px}
+  .season-insights td.numeric{font-size:11px}
+  .season-insights caption{padding:12px 6px;line-height:1.5}
+  .insight-footnote{padding:14px;line-height:1.6}
+  .cancelled-season,.insight-placeholder,.insight-empty{padding:20px}
+}
+@media(prefers-reduced-motion:no-preference){
+  .season-insights .button,.season-insights button,.season-insights select{transition:background-color .16s ease,border-color .16s ease,box-shadow .16s ease}
+}

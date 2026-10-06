@@ -100,6 +100,23 @@ Inspector screenshots: [desktop](screenshots/season-evidence-desktop.png) and
 artifacts, the primary seed model and existing bracket behavior are unchanged.
 No training, model promotion, merge or production job was performed.
 
+The follow-on visual pass applies cream (`#f3f0e7`) and warm neutral surfaces only
+to this inspector, preserving the dark shell and existing bracket. Main text,
+muted text and the bracket action measured 13.54:1, 5.43:1 and 7.34:1 contrast
+respectively against their actual backgrounds. No new surface is pure white.
+The browser workflow now also verifies Back/Forward navigation after the bracket
+action, keyboard retry, explicit busy/loading presentation and zero control
+transition duration when reduced motion is requested. Transient HTTP 503 errors
+in the static loader are distinguished from absent HTTP 404 snapshots.
+
+Desktop and mobile [loading](screenshots/season-evidence-loading-desktop.png),
+[cancelled](screenshots/season-evidence-cancelled-desktop.png) and
+[error](screenshots/season-evidence-error-desktop.png) screenshots are captured
+alongside the populated view. Mobile state counterparts use the `-mobile.png`
+suffix. [Desktop page context](screenshots/season-evidence-page-desktop.png) and
+[mobile page context](screenshots/season-evidence-page-mobile.png) show the
+inspector within the preserved March Lab identity.
+
 ## Not run or unavailable
 
 - Prospective 2027 accuracy: no games or announced field exist yet.

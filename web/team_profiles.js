@@ -59,7 +59,7 @@ export async function renderTeamProfile(container,{profileId,request,origin,appe
     container.querySelectorAll('[data-appearance]').forEach(button=>button.addEventListener('click',()=>{select.value=button.dataset.appearance;show(Number(select.value),true);detail.scrollIntoView({block:'start'});}));
   }catch(error){
     if(!isCurrent())return;
-    container.innerHTML=shell(`<p class="eyebrow">MARCH LAB · TEAM HISTORY</p><h1>Team history unavailable</h1><div class="profile-empty" role="alert"><p>${esc(error.message)}</p><p>No appearances or aggregate values have been invented. Return to the bracket or try loading this profile again.</p><button id="profile-retry">Retry team history</button></div>`);
+    container.innerHTML=shell(`<p class="eyebrow">MARCH LAB · TEAM HISTORY</p><h1>Team history unavailable</h1><div class="profile-empty" role="alert"><p>${esc(error.message)}</p><p>Tournament totals are unavailable for this profile. Return to the bracket or try loading its recorded history again.</p><button id="profile-retry">Retry team history</button></div>`);
     container.querySelector('#profile-retry').addEventListener('click',()=>renderTeamProfile(container,{profileId,request,origin,appearanceYear,isCurrent}));
   }
 }

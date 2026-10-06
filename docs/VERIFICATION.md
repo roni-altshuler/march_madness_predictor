@@ -157,6 +157,23 @@ Profile screenshots: [desktop](screenshots/team-profile-desktop.png),
 This change does not alter model artifacts, ingest data, retrain, merge or
 dispatch publication. Public live verification of this draft is not claimed.
 
+Independent navigation review reproduced three failures: a recorded 2026 link
+kept a sampled view, control changes left a stale archive hash for browser Back,
+and a delayed simulation raised a page error and changed the return view. A
+related cross-year journey also lost the original draw. Focused fixes make
+archive views explicit, replace the current URL as controls/game selections
+change, retain the latest draw per year in memory and discard simulation
+successes or failures after the requesting route/year is no longer current.
+
+Actual local/static Chromium regressions use the existing field/artifacts with
+RNG 42. They check sampled 2026 → profile → recorded 2026 as actual results;
+2026 → profile → 2015 → Back → Back as the exact original 2026 sampled draw;
+changed 2021/Region 3 controls → profile → browser Back/Forward on desktop and
+phone; and intercepted delayed simulation success/failure responses while a
+profile is open. The profile DOM stays unchanged, its return stays actual and
+no JavaScript errors occur. Reload clears ephemeral draws and canonicalizes the
+URL and visible label to actual results. No production endpoint is used.
+
 ## Not run or unavailable
 
 - Prospective 2027 accuracy: no games or announced field exist yet.

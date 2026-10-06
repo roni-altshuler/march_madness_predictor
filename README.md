@@ -57,6 +57,10 @@ Team names in historical game details open a **team tournament profile**. Browse
 recorded appearances, seeds, final stages, opponents and available scores/dates,
 then return to the originating bracket, region and game. The same journey works
 with keyboard navigation, the mobile round list and the exported static app.
+Recorded-appearance links always open actual results. Archive controls keep the
+URL aligned with the displayed year, region and view for browser Back/Forward.
+The latest sampled draw per year survives browsing other seasons during the
+session; reloading switches to explicitly labeled actual results.
 The cream/navy profile uses text initials; no team logos or player portraits are
 downloaded, and rosters/player statistics are unavailable.
 

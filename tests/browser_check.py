@@ -150,6 +150,91 @@ def assert_insight_request_states(page, shots):
     page.emulate_media(reduced_motion='no-preference')
 
 
+def assert_profile_navigation_regressions(page):
+    # Fixed browser clock controls the seeded draw; all teams/results stay bundled data.
+    page.set_viewport_size({'width':1440,'height':1000})
+    page.goto(BASE+'/#archive?year=2026&region=0');page.reload()
+    expect(page.locator('.game')).to_have_count(15)
+    page.evaluate('Date.now=()=>42')
+    page.locator('#draw-bracket').click()
+    expect(page.locator('[data-view="sample"]')).to_have_attribute('aria-pressed','true')
+    original_draw=page.locator('.bracket').inner_html()
+    page.locator('.game').first.click();page.locator('#detail-title a').first.click()
+    expect(page.locator('#profile-year')).to_be_visible()
+    # Same-year recorded-appearance links must show historical results even with a saved draw.
+    page.get_by_role('link',name='Open 2026 bracket →').click()
+    expect(page.locator('[data-view="actual"]')).to_have_attribute('aria-pressed','true')
+    expect(page.locator('.bracket-key')).to_contain_text('Actual winner')
+    expect(page.locator('#season-content')).to_contain_text('The bracket above shows recorded actual results.')
+    expect(page.locator('#season-content')).not_to_contain_text('The draw above is one sample.')
+    assert 'view=actual' in page.url
+    expect(page.locator('.game:focus')).to_contain_text('Duke')
+    # Browsing another tournament must preserve the original in-session 2026 draw.
+    page.go_back();expect(page.locator('#profile-year')).to_have_value('2026')
+    page.select_option('#profile-year','2015')
+    page.get_by_role('link',name='Open 2015 bracket →').click()
+    expect(page.locator('#archive-year')).to_have_value('2015')
+    expect(page.locator('.bracket-key')).to_contain_text('Actual winner')
+    page.go_back();expect(page.locator('#profile-year')).to_have_value('2015')
+    page.go_back();expect(page.locator('#archive-year')).to_have_value('2026')
+    expect(page.locator('[data-view="sample"]')).to_have_attribute('aria-pressed','true')
+    assert 'view=sample' in page.url
+    assert page.locator('.bracket').inner_html()==original_draw
+    # Reload cannot recover an ephemeral draw: both the URL and label become actual.
+    page.reload()
+    expect(page.locator('.bracket-key')).to_contain_text('Actual winner')
+    expect(page.locator('[data-view="sample"]')).to_have_count(0)
+    assert 'view=actual' in page.url
+    for width in (1440,390):
+        page.set_viewport_size({'width':width,'height':1000 if width==1440 else 844})
+        page.goto(BASE+'/#archive?year=2026&region=0');page.reload()
+        expect(page.locator('.game')).to_have_count(15)
+        page.select_option('#archive-year','2021')
+        expect(page.locator('.stat').nth(1)).to_contain_text('62')
+        page.locator('[data-region="2"]').click()
+        original_bracket=page.locator('.bracket').inner_html()
+        card=page.get_by_role('button',name='Oregon versus VCU, Round of 64, open details')
+        card.focus();page.keyboard.press('Enter')
+        page.locator('dialog').get_by_role('link',name='Oregon',exact=True).click()
+        expect(page.locator('#profile-year')).to_have_value('2021')
+        page.go_back()
+        expect(page.locator('#archive-year')).to_have_value('2021')
+        expect(page.locator('[data-region="2"]')).to_have_attribute('aria-pressed','true')
+        expect(card).to_be_focused()
+        assert all(value in page.url for value in ('year=2021','region=2','view=actual'))
+        assert page.locator('.bracket').inner_html()==original_bracket
+        assert page.evaluate('document.documentElement.scrollWidth <= window.innerWidth')
+        page.go_forward();expect(page.locator('#profile-year')).to_have_value('2021')
+    # Delayed successful and failed draws must leave the profile and return view intact.
+    page.set_viewport_size({'width':1440,'height':1000})
+    path='**/data/tables/2026.json' if STATIC else '**/api/simulate?*'
+    for outcome in ('success','failure'):
+        page.goto(BASE+'/#archive?year=2026&region=0');page.reload()
+        expect(page.locator('.game')).to_have_count(15)
+        page.evaluate('Date.now=()=>42')
+        pending=[]
+        page.route(path,lambda route:pending.append(route))
+        page.locator('#draw-bracket').click()
+        expect(page.locator('#draw-bracket')).to_have_text('Calculating…')
+        page.locator('.game').first.click();page.locator('#detail-title a').first.click()
+        expect(page.locator('#profile-year')).to_be_visible()
+        original_profile=page.locator('main').inner_html()
+        assert len(pending)==1
+        if outcome=='success':
+            pending[0].continue_()
+        else:
+            pending[0].fulfill(status=503,content_type='application/json',body='{"error":"Controlled simulation failure"}')
+        page.wait_for_load_state('networkidle')
+        assert page.locator('main').inner_html()==original_profile
+        expect(page.get_by_role('heading',name='Duke',exact=True)).to_be_visible()
+        page.unroute(path)
+        page.get_by_role('link',name='← Back to 2026 bracket').click()
+        expect(page.locator('.bracket-key')).to_contain_text('Actual winner')
+        expect(page.locator('[data-view="sample"]')).to_have_count(0)
+        expect(page.locator('#draw-bracket')).to_be_enabled()
+        assert 'view=actual' in page.url
+
+
 def assert_team_profiles(page, shots):
     page.set_viewport_size({'width':1440,'height':1000})
     page.goto(BASE+'/#archive?year=2026&region=0')
@@ -381,9 +466,10 @@ def run():
             assert page.locator('dialog').bounding_box()['width']<=390
             page.keyboard.press('Escape')
             assert_team_profiles(page,shots)
+            assert_profile_navigation_regressions(page)
             assert not errors,errors
             browser.close()
-        print('Browser checks passed: desktop/mobile archive and profiles, exact identity separation, honest aggregates, missing history/cancelled/no-contest, origin-year/region/round/focus, keyboard dialog/back/forward/retry, table scrolling, reduced motion, stale requests, season evidence, simulation, matchup and import validation.')
+        print('Browser checks passed: desktop/mobile archive and profiles, exact identity separation, honest aggregates, missing history/cancelled/no-contest, origin-year/region/round/focus, keyboard dialog/back/forward/retry, same-year actual links, per-year sampled draw preservation, changed-control history, delayed simulation success/failure, table scrolling, reduced motion, stale requests, season evidence, simulation, matchup and import validation.')
     finally:
         proc.terminate();proc.wait(timeout=10)
 

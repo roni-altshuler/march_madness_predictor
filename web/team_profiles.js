@@ -2,9 +2,8 @@ const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;
 const count=value=>Number(value).toLocaleString('en-US');
 
 export function archiveHref(origin){
-  const query=new URLSearchParams({year:origin.year,region:origin.region??0});
+  const query=new URLSearchParams({year:origin.year,region:origin.region??0,view:origin.view==='sample'?'sample':'actual'});
   if(origin.game)query.set('game',origin.game);
-  if(origin.view==='sample')query.set('view','sample');
   return `#archive?${query}`;
 }
 

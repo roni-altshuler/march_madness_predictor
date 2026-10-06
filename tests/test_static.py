@@ -6,6 +6,8 @@ from madness.data import ROOT,read,feature_table
 from madness.bracket import historical_field,simulate
 from madness.export import export_static
 from madness.model import predict
+from madness.server import load_state
+import hashlib
 
 
 @pytest.fixture(scope='module')
@@ -57,3 +59,31 @@ def test_static_76_team_draw_matches_python(public):
     assert browser['sampled_opening']==python['sampled_opening']
     assert browser['sampled_rounds']==python['sampled_rounds']
     assert sum(t['champion'] for t in browser['odds'])==pytest.approx(1,abs=1e-12)
+
+
+def test_static_profiles_match_api_state_with_safe_exact_paths(public):
+    state=load_state();index=read(public/'data/teams/index.json')['profiles']
+    assert set(index)==set(state['team_profiles']['profiles'])
+    for key,entry in index.items():
+        assert entry['file']==hashlib.sha256(key.encode()).hexdigest()+'.json'
+        assert read(public/'data/teams'/entry['file'])==state['team_profiles']['profiles'][key]
+    for year in ('1985','2008','2025','2026'):
+        teams=read(public/f'data/seasons/{year}.json')['teams']
+        assert all(t['profile_id']==state['team_profiles']['assignments'][year][t['id']] for t in teams)
+
+
+def test_static_profile_lookup_rejects_missing_and_inherited_keys(public):
+    code="""import {pathToFileURL} from 'node:url'; import fs from 'node:fs';
+    const root=process.argv[2],fetched=[];
+    globalThis.fetch=async url=>{const path=new URL(url).pathname.split('/data/')[1];fetched.push(path);return {ok:true,json:async()=>JSON.parse(fs.readFileSync(root+'/data/'+path,'utf8'))};};
+    const {request}=await import(pathToFileURL(process.argv[1]).href);
+    for(const id of ['missing','__proto__','constructor','../../summary']){
+      try{await request('/api/team?profile='+encodeURIComponent(id));throw Error('unexpected profile');}
+      catch(e){if(!e.message.includes('exact profile ID'))throw e;}
+    }
+    const profile=await request('/api/team?profile=espn%3A150');
+    process.stdout.write(JSON.stringify({id:profile.id,fetched}));"""
+    result=subprocess.run(['node','--input-type=module','-e',code,str(ROOT/'web/static_api.js'),str(public)],text=True,capture_output=True,check=True)
+    actual=json.loads(result.stdout)
+    assert actual['id']=='espn:150'
+    assert actual['fetched']==['teams/index.json','teams/'+hashlib.sha256(b'espn:150').hexdigest()+'.json']

@@ -117,6 +117,63 @@ suffix. [Desktop page context](screenshots/season-evidence-page-desktop.png) and
 [mobile page context](screenshots/season-evidence-page-mobile.png) show the
 inspector within the preserved March Lab identity.
 
+## Team tournament profiles · 2026-10-06
+
+This bounded follow-on starts from main `143fd4db729e45a2365e3955f9314d5257d46b5a`.
+No open PR was reported before starting. The profile journey adds links inside
+historical matchup details and preserves the existing bracket renderer.
+
+- Python suite: 35 tests passed. New checks separate the reused `SanDiego` and
+  `Lafayette` labels and similarly named Miami teams, reject same-tournament
+  identity collisions, allow a changed archive name only with an agreeing
+  published ID, and keep older uncrosswalked Duke records separate.
+- Totals independently reconcile to the archive: 2,624 appearances, 2,582 played
+  wins, 2,582 played losses, 41 titles, two team no-contest entries and one
+  no-contest advancement. Cancelled 2020 cannot create an appearance.
+- Exported profiles match local API state exactly. Hash-based filenames and
+  exact index membership prevent guessed, inherited or traversal-like profile
+  IDs from resolving to a record. Source archive/features are not mutated.
+- JavaScript syntax checks cover the app, static API, season inspector and new
+  profile module. Static export uses the existing published artifacts only.
+- Actual Chromium browser checks cover local API and static modes, desktop,
+  768px tablet, 390px phone and 320px narrow views. They exercise game → team →
+  appearance → bracket navigation, origin year/region/game/round focus, browser
+  Back/Forward, an unchanged sampled draw, old/modern identity boundaries,
+  opponent links, no-contest outcomes, cancelled and other missing years,
+  unavailable IDs, keyboard retry, stale responses and reduced motion.
+- Results and appearance tables keep overflow inside focusable regions and
+  support keyboard scrolling. Original cream/navy surfaces and text initials
+  retain the dark March Lab shell; no official portraits/logos or new assets
+  were sourced. Desktop/mobile screenshots were visually inspected.
+- `agent-browser` independently exercised the mobile no-contest journey and
+  static profiles under `/march_madness_predictor/`, including selecting a past
+  appearance and returning to the origin year. No JavaScript errors appeared.
+
+Profile screenshots: [desktop](screenshots/team-profile-desktop.png),
+[mobile](screenshots/team-profile-mobile.png),
+[no-contest](screenshots/team-profile-no-contest-desktop.png),
+[cancelled appearance](screenshots/team-profile-cancelled-desktop.png), and
+[unavailable ID](screenshots/team-profile-unavailable-mobile.png).
+This change does not alter model artifacts, ingest data, retrain, merge or
+dispatch publication. Public live verification of this draft is not claimed.
+
+Independent navigation review reproduced three failures: a recorded 2026 link
+kept a sampled view, control changes left a stale archive hash for browser Back,
+and a delayed simulation raised a page error and changed the return view. A
+related cross-year journey also lost the original draw. Focused fixes make
+archive views explicit, replace the current URL as controls/game selections
+change, retain the latest draw per year in memory and discard simulation
+successes or failures after the requesting route/year is no longer current.
+
+Actual local/static Chromium regressions use the existing field/artifacts with
+RNG 42. They check sampled 2026 → profile → recorded 2026 as actual results;
+2026 → profile → 2015 → Back → Back as the exact original 2026 sampled draw;
+changed 2021/Region 3 controls → profile → browser Back/Forward on desktop and
+phone; and intercepted delayed simulation success/failure responses while a
+profile is open. The profile DOM stays unchanged, its return stays actual and
+no JavaScript errors occur. Reload clears ephemeral draws and canonicalizes the
+URL and visible label to actual results. No production endpoint is used.
+
 ## Not run or unavailable
 
 - Prospective 2027 accuracy: no games or announced field exist yet.

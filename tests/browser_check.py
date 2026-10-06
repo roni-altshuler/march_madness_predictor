@@ -1,6 +1,7 @@
 """Real Edge smoke test. Run separately: python tests/browser_check.py."""
 from pathlib import Path
 import json
+import hashlib
 import os
 import subprocess
 import sys
@@ -149,6 +150,234 @@ def assert_insight_request_states(page, shots):
     page.emulate_media(reduced_motion='no-preference')
 
 
+def assert_profile_navigation_regressions(page):
+    # Fixed browser clock controls the seeded draw; all teams/results stay bundled data.
+    page.set_viewport_size({'width':1440,'height':1000})
+    page.goto(BASE+'/#archive?year=2026&region=0');page.reload()
+    expect(page.locator('.game')).to_have_count(15)
+    page.evaluate('Date.now=()=>42')
+    page.locator('#draw-bracket').click()
+    expect(page.locator('[data-view="sample"]')).to_have_attribute('aria-pressed','true')
+    original_draw=page.locator('.bracket').inner_html()
+    page.locator('.game').first.click();page.locator('#detail-title a').first.click()
+    expect(page.locator('#profile-year')).to_be_visible()
+    # Same-year recorded-appearance links must show historical results even with a saved draw.
+    page.get_by_role('link',name='Open 2026 bracket →').click()
+    expect(page.locator('[data-view="actual"]')).to_have_attribute('aria-pressed','true')
+    expect(page.locator('.bracket-key')).to_contain_text('Actual winner')
+    expect(page.locator('#season-content')).to_contain_text('The bracket above shows recorded actual results.')
+    expect(page.locator('#season-content')).not_to_contain_text('The draw above is one sample.')
+    assert 'view=actual' in page.url
+    expect(page.locator('.game:focus')).to_contain_text('Duke')
+    # Browsing another tournament must preserve the original in-session 2026 draw.
+    page.go_back();expect(page.locator('#profile-year')).to_have_value('2026')
+    page.select_option('#profile-year','2015')
+    page.get_by_role('link',name='Open 2015 bracket →').click()
+    expect(page.locator('#archive-year')).to_have_value('2015')
+    expect(page.locator('.bracket-key')).to_contain_text('Actual winner')
+    page.go_back();expect(page.locator('#profile-year')).to_have_value('2015')
+    page.go_back();expect(page.locator('#archive-year')).to_have_value('2026')
+    expect(page.locator('[data-view="sample"]')).to_have_attribute('aria-pressed','true')
+    assert 'view=sample' in page.url
+    assert page.locator('.bracket').inner_html()==original_draw
+    # Reload cannot recover an ephemeral draw: both the URL and label become actual.
+    page.reload()
+    expect(page.locator('.bracket-key')).to_contain_text('Actual winner')
+    expect(page.locator('[data-view="sample"]')).to_have_count(0)
+    assert 'view=actual' in page.url
+    for width in (1440,390):
+        page.set_viewport_size({'width':width,'height':1000 if width==1440 else 844})
+        page.goto(BASE+'/#archive?year=2026&region=0');page.reload()
+        expect(page.locator('.game')).to_have_count(15)
+        page.select_option('#archive-year','2021')
+        expect(page.locator('.stat').nth(1)).to_contain_text('62')
+        page.locator('[data-region="2"]').click()
+        original_bracket=page.locator('.bracket').inner_html()
+        card=page.get_by_role('button',name='Oregon versus VCU, Round of 64, open details')
+        card.focus();page.keyboard.press('Enter')
+        page.locator('dialog').get_by_role('link',name='Oregon',exact=True).click()
+        expect(page.locator('#profile-year')).to_have_value('2021')
+        page.go_back()
+        expect(page.locator('#archive-year')).to_have_value('2021')
+        expect(page.locator('[data-region="2"]')).to_have_attribute('aria-pressed','true')
+        expect(card).to_be_focused()
+        assert all(value in page.url for value in ('year=2021','region=2','view=actual'))
+        assert page.locator('.bracket').inner_html()==original_bracket
+        assert page.evaluate('document.documentElement.scrollWidth <= window.innerWidth')
+        page.go_forward();expect(page.locator('#profile-year')).to_have_value('2021')
+    # Delayed successful and failed draws must leave the profile and return view intact.
+    page.set_viewport_size({'width':1440,'height':1000})
+    path='**/data/tables/2026.json' if STATIC else '**/api/simulate?*'
+    for outcome in ('success','failure'):
+        page.goto(BASE+'/#archive?year=2026&region=0');page.reload()
+        expect(page.locator('.game')).to_have_count(15)
+        page.evaluate('Date.now=()=>42')
+        pending=[]
+        page.route(path,lambda route:pending.append(route))
+        page.locator('#draw-bracket').click()
+        expect(page.locator('#draw-bracket')).to_have_text('Calculating…')
+        page.locator('.game').first.click();page.locator('#detail-title a').first.click()
+        expect(page.locator('#profile-year')).to_be_visible()
+        original_profile=page.locator('main').inner_html()
+        assert len(pending)==1
+        if outcome=='success':
+            pending[0].continue_()
+        else:
+            pending[0].fulfill(status=503,content_type='application/json',body='{"error":"Controlled simulation failure"}')
+        page.wait_for_load_state('networkidle')
+        assert page.locator('main').inner_html()==original_profile
+        expect(page.get_by_role('heading',name='Duke',exact=True)).to_be_visible()
+        page.unroute(path)
+        page.get_by_role('link',name='← Back to 2026 bracket').click()
+        expect(page.locator('.bracket-key')).to_contain_text('Actual winner')
+        expect(page.locator('[data-view="sample"]')).to_have_count(0)
+        expect(page.locator('#draw-bracket')).to_be_enabled()
+        assert 'view=actual' in page.url
+
+
+def assert_team_profiles(page, shots):
+    page.set_viewport_size({'width':1440,'height':1000})
+    page.goto(BASE+'/#archive?year=2026&region=0')
+    card=page.get_by_role('button',name='Duke versus Siena, Round of 64, open details')
+    card.focus();page.keyboard.press('Enter')
+    link=page.locator('dialog').get_by_role('link',name='Duke',exact=True)
+    link.focus();page.keyboard.press('Enter')
+    profile=page.locator('.team-profile')
+    expect(profile.get_by_role('heading',name='Duke',exact=True)).to_be_visible()
+    expect(page.locator('dialog')).not_to_be_visible()
+    expect(profile.locator('.profile-stats')).to_contain_text('19')
+    expect(profile.locator('.profile-stats')).to_contain_text('46–17')
+    expect(profile).to_contain_text('not a complete school career')
+    expect(profile).to_contain_text('rosters and player statistics are not bundled')
+    page.select_option('#profile-year','2015')
+    expect(profile.get_by_role('heading',name='2015 · seed 1')).to_be_visible()
+    expect(page.locator('#profile-appearance')).to_contain_text('Champion')
+    assert 'appearance=2015' in page.url
+    # Browsing older results must preserve the origin bracket, game and focus.
+    profile.get_by_role('link',name='← Back to 2026 bracket').focus();page.keyboard.press('Enter')
+    expect(page.locator('#archive-year')).to_have_value('2026')
+    expect(card).to_be_focused()
+    expect(page.locator('[data-region="0"]')).to_have_attribute('aria-pressed','true')
+    page.go_back();expect(page.locator('#profile-year')).to_have_value('2015')
+    page.go_forward();expect(card).to_be_focused()
+    page.get_by_role('button',name='Simulate this field',exact=True).click()
+    expect(page.get_by_role('heading',name='Advancement probabilities · 2026')).to_be_visible(timeout=15000)
+    sample_cards=page.locator('.bracket').inner_html()
+    page.locator('.game').first.click()
+    page.locator('#detail-title a').first.click()
+    expect(page.locator('#profile-year')).to_be_visible()
+    profile.get_by_role('link',name='← Back to 2026 bracket').click()
+    expect(page.locator('[data-view="sample"]')).to_have_attribute('aria-pressed','true')
+    assert page.locator('.bracket').inner_html()==sample_cards
+    # A direct selected-appearance link opens the matching year/region/round.
+    page.go_back()
+    page.select_option('#profile-year','2015')
+    page.locator('#profile-appearance').get_by_role('link',name='Open 2015 bracket →').click()
+    expect(page.locator('#archive-year')).to_have_value('2015')
+    expect(page.locator('[data-region="4"]')).to_have_attribute('aria-pressed','true')
+    expect(page.locator('.game:focus')).to_contain_text('Duke')
+    # No guessed join of old labels or of labels reused by different schools.
+    page.goto(BASE+'/#team?profile=archive%3ADuke&from=2026&appearance=2005')
+    expect(profile).to_contain_text('Exact archive-key history')
+    expect(profile.locator('.profile-stats')).to_contain_text('20')
+    expect(page.locator('#profile-appearance')).to_contain_text('0 / 3 played games')
+    expect(page.locator('#profile-appearance tbody td').last).to_have_text('—')
+    profile.get_by_text('Overlapping archive labels · separate identities',exact=True).click()
+    profile.locator('.profile-related a').filter(has_text='Duke').click()
+    expect(profile).to_contain_text('Verified schedule ID: 150')
+    page.goto(BASE+'/#team?profile=espn%3A301&from=2008&appearance=2008')
+    expect(profile.get_by_role('heading',name='San Diego',exact=True)).to_be_visible()
+    expect(profile.locator('.profile-stats strong').first).to_have_text('1')
+    profile.get_by_text('Overlapping archive labels · separate identities',exact=True).click()
+    profile.locator('.profile-related a').filter(has_text='UC San Diego').click()
+    expect(profile.get_by_role('heading',name='UC San Diego',exact=True)).to_be_visible()
+    expect(profile.locator('.profile-stats strong').first).to_have_text('1')
+    # No-contest is separate even for the team that did not advance.
+    page.goto(BASE+'/#team?profile=espn%3A2483&from=2021&from_region=2&appearance=2021')
+    expect(page.locator('#profile-appearance')).to_contain_text('No contest · advanced')
+    expect(page.locator('#profile-appearance')).to_contain_text('2 / 2 played games')
+    page.locator('#profile-appearance').get_by_role('link',name='VCU',exact=True).click()
+    expect(page.locator('#profile-appearance')).to_contain_text('No contest · did not advance')
+    expect(page.locator('#profile-appearance')).to_contain_text('0 / 0 played games')
+    expect(page.locator('#profile-appearance tbody td').nth(1)).to_have_text('—')
+    page.screenshot(path=str(shots/'team-profile-no-contest-desktop.png'),full_page=True)
+    # Cancelled and other absent years show an empty appearance, not zero career data.
+    page.goto(BASE+'/#team?profile=espn%3A150&from=2026&appearance=2020')
+    expect(profile.get_by_role('heading',name='No recorded appearance for 2020')).to_be_visible()
+    expect(page.locator('#profile-appearance')).to_contain_text('The tournament was cancelled.')
+    expect(page.locator('#profile-appearance table')).to_have_count(0)
+    page.screenshot(path=str(shots/'team-profile-cancelled-desktop.png'),full_page=True)
+    page.goto(BASE+'/#team?profile=espn%3A150&from=2026&appearance=2021')
+    expect(page.locator('#profile-appearance')).to_contain_text('does not establish the team’s qualification history')
+    page.select_option('#profile-year','2026')
+    # Responsive typography, controls, table scrolling and reduced motion.
+    page.locator('#profile-year').focus()
+    page.screenshot(path=str(shots/'team-profile-desktop.png'),full_page=True)
+    for width in (768,390,320):
+        page.set_viewport_size({'width':width,'height':844})
+        assert page.evaluate('document.documentElement.scrollWidth <= window.innerWidth')
+    results=profile.get_by_role('region',name='Recorded tournament games, scroll horizontally for scores')
+    results.focus();page.keyboard.press('ArrowRight')
+    page.wait_for_function('document.querySelector("#profile-appearance .profile-table-scroll").scrollLeft > 0')
+    page.set_viewport_size({'width':390,'height':844})
+    results.evaluate('(e)=>e.scrollLeft=0')
+    page.locator('#profile-year').focus()
+    page.screenshot(path=str(shots/'team-profile-mobile.png'),full_page=True)
+    profile.get_by_text('All 19 recorded appearances',exact=True).click()
+    history_table=profile.get_by_role('region',name='All recorded appearances, scroll horizontally for results')
+    history_table.focus();page.keyboard.press('ArrowRight')
+    page.wait_for_function('document.querySelector(".profile-history .profile-table-scroll").scrollLeft > 0')
+    profile.get_by_role('button',name='View 2010 appearance').click()
+    expect(page.locator('#profile-year')).to_have_value('2010')
+    page.emulate_media(reduced_motion='reduce')
+    assert page.locator('#profile-year').evaluate('(e)=>getComputedStyle(e).transitionDuration')=='0s'
+    page.emulate_media(reduced_motion='no-preference')
+    # Return focus restores the matching mobile round, even for a later round.
+    profile.get_by_role('link',name='← Back to 2026 bracket').click()
+    expect(page.locator('#archive-year')).to_have_value('2026')
+    page.select_option('#mobile-round','2')
+    card=page.locator('.game:visible').first
+    card.focus();page.keyboard.press('Enter')
+    page.locator('#detail-title a').first.focus();page.keyboard.press('Enter')
+    expect(page.locator('#profile-year')).to_be_visible()
+    profile.get_by_role('link',name='← Back to 2026 bracket').click()
+    expect(page.locator('#mobile-round')).to_have_value('2')
+    expect(page.locator('.game:focus')).to_be_visible()
+    # A missing ID is an explicit unavailable view, never a guessed school.
+    page.goto(BASE+'/#team?profile=missing&from=2026')
+    expect(profile.get_by_role('heading',name='Team history unavailable')).to_be_visible()
+    expect(profile).to_contain_text('exact profile ID')
+    expect(profile.locator('.profile-stats')).to_have_count(0)
+    page.screenshot(path=str(shots/'team-profile-unavailable-mobile.png'),full_page=True)
+    if not STATIC:
+        assert page.request.get(BASE+'/api/team?profile=missing').status==404
+    # A failed fetch can be retried with Enter; late responses cannot replace a new route.
+    page.set_viewport_size({'width':1440,'height':1000})
+    path='**/data/teams/*.json' if STATIC else '**/api/team?profile=*'
+    page.route(path,lambda route:route.fulfill(status=503,content_type='application/json',body='{"error":"Team history temporarily unavailable"}'))
+    page.goto(BASE+'/#team?profile=espn%3A150&from=2026&appearance=2026')
+    page.reload()
+    expect(profile.get_by_role('heading',name='Team history unavailable')).to_be_visible()
+    page.unroute(path)
+    profile.get_by_role('button',name='Retry team history',exact=True).focus();page.keyboard.press('Enter')
+    expect(profile.get_by_role('heading',name='Duke',exact=True)).to_be_visible()
+    pending=[]
+    path='**/data/teams/'+hashlib.sha256(b'espn:150').hexdigest()+'.json' if STATIC else '**/api/team?profile=*'
+    page.route(path,lambda route:pending.append(route))
+    # Reload clears static request caches before testing the delayed request.
+    page.reload()
+    expect(profile.get_by_role('status')).to_contain_text('Loading recorded tournament appearances')
+    page.locator('nav').get_by_role('link',name='Matchup lab').click()
+    expect(page.get_by_role('heading',name='Matchup lab',exact=True)).to_be_visible()
+    assert len(pending)==1
+    for route in pending:
+        route.continue_()
+    page.wait_for_load_state('networkidle')
+    expect(page.get_by_role('heading',name='Matchup lab',exact=True)).to_be_visible()
+    expect(profile).to_have_count(0)
+    page.unroute(path)
+
+
 def run():
     command=[sys.executable,'-m','http.server','8037','--bind','127.0.0.1','--directory','public'] if STATIC else [sys.executable,'-m','madness','serve','--port','8037']
     proc=subprocess.Popen(command,cwd=ROOT,
@@ -236,9 +465,11 @@ def run():
             page.locator('.game').first.click();expect(page.locator('dialog')).to_be_visible()
             assert page.locator('dialog').bounding_box()['width']<=390
             page.keyboard.press('Escape')
+            assert_team_profiles(page,shots)
+            assert_profile_navigation_regressions(page)
             assert not errors,errors
             browser.close()
-        print('Browser checks passed: desktop, mobile, archive, skip-link focus/state, keyboard dialog, no-contest, simulation, matchup, season coverage/training/evaluation, cancelled/loading/error states, archive handoff, back/forward, narrow-table keyboard scroll, reduced motion, stale-response guard, request retry, unknown field and validation errors.')
+        print('Browser checks passed: desktop/mobile archive and profiles, exact identity separation, honest aggregates, missing history/cancelled/no-contest, origin-year/region/round/focus, keyboard dialog/back/forward/retry, same-year actual links, per-year sampled draw preservation, changed-control history, delayed simulation success/failure, table scrolling, reduced motion, stale requests, season evidence, simulation, matchup and import validation.')
     finally:
         proc.terminate();proc.wait(timeout=10)
 

@@ -19,6 +19,7 @@ jobs:
       - run: python -m pytest -q
       - run: node --check web/app.js
       - run: node --check web/static_api.js
+      - run: node --check web/season_insights.js
       - run: python -m madness predict --a 5 --b 12
       - run: python -m madness simulate --year 2026 --rng 42 --output /tmp/march-simulation.json
       - run: python -m playwright install --with-deps chromium

@@ -1,7 +1,7 @@
 // Probabilities are lookup tables computed by the trained Python model.
 // Only bracket path aggregation and reproducible drawing happen in this module.
 const cache=new Map();
-async function load(path){if(!cache.has(path))cache.set(path,fetch(new URL(`./data/${path}`,import.meta.url)).then(async r=>{if(!r.ok)throw Error('This year or model has no published snapshot.');return r.json();}).catch(e=>{cache.delete(path);throw e;}));return cache.get(path);}
+async function load(path){if(!cache.has(path))cache.set(path,fetch(new URL(`./data/${path}`,import.meta.url)).then(async r=>{if(!r.ok)throw Error(r.status===404?'This year or model has no published snapshot.':'The saved snapshot could not be loaded. Try again.');return r.json();}).catch(e=>{cache.delete(path);throw e;}));return cache.get(path);}
 const rounds=['Round of 64','Round of 32','Sweet 16','Elite Eight','Final Four','Championship'];
 const seedOrder=[1,16,8,9,4,13,5,12,2,15,7,10,3,14,6,11];
 export function validate(field){

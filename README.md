@@ -37,6 +37,22 @@ tournament conventions, with its own branding and no copied NCAA assets.
 On mobile, a round selector gives a readable matchup list. On desktop/tablet,
 the connected bracket scrolls inside its own frame.
 
+The model evidence page includes a **Season evidence** inspector. Choose a year
+to see played labels, score/date coverage, pre-March feature coverage, the saved
+seed model's training and calibration horizons, and per-model evaluation scores.
+Open that year's bracket directly from the inspector. Warm-up years, unavailable
+form snapshots and cancelled 2020 are explicit; missing evaluations stay as
+dashes. Feature availability does not imply that a form model could be trained
+on enough earlier games. The inspector reads bundled artifacts without refitting
+or promoting a challenger, and works in both local and static builds.
+Its cream surfaces, warm neutral cards, clear bracket action and visible primary
+model callout sit within March Lab's original dark navigation. Focus outlines,
+responsive score tables and reduced-motion-aware control transitions support
+keyboard and mobile exploration. Loading, cancelled and retry states remain
+explicit rather than displaying old or invented scores.
+[Desktop inspector](docs/screenshots/season-evidence-desktop.png) ·
+[Mobile inspector](docs/screenshots/season-evidence-mobile.png).
+
 ![Historical bracket](docs/screenshots/archive-desktop.png)
 
 ## Actual coverage
@@ -132,6 +148,8 @@ preliminary games, rather than full-field Selection Sunday forecasts.
 ```powershell
 python -m pytest -q
 node --check web/app.js
+node --check web/static_api.js
+node --check web/season_insights.js
 python -m pip install -r requirements-dev.txt
 python tests/browser_check.py
 python -m madness export

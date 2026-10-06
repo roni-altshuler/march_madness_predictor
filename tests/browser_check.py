@@ -26,6 +26,129 @@ def assert_skip_preserves_archive(page):
     expect(page.locator('#archive-year')).to_have_value(selected_year)
 
 
+def capture_insight_state(page, shots, state):
+    previous=page.viewport_size
+    panel=page.locator('#season-insights')
+    for name,width,height in [('desktop',1440,1000),('mobile',390,844)]:
+        page.set_viewport_size({'width':width,'height':height})
+        assert page.evaluate('document.documentElement.scrollWidth <= window.innerWidth')
+        panel.screenshot(path=str(shots/f'season-evidence-{state}-{name}.png'))
+    page.set_viewport_size(previous)
+
+
+def assert_season_evidence(page, shots):
+    panel=page.locator('#season-insights')
+    expect(panel.get_by_role('heading',name='Season evidence',exact=True)).to_be_visible()
+    expect(page.locator('#insight-status')).to_have_text('1985 evidence loaded.')
+    expect(panel).to_contain_text('Warm-up · unscored')
+    expect(panel).to_contain_text('— · no prediction snapshot')
+    # Feature coverage must not be presented as model availability.
+    page.select_option('#insight-year','2006')
+    expect(page.locator('#insight-status')).to_have_text('2006 evidence loaded.')
+    expect(panel).to_contain_text('64 / 64 teams')
+    expect(panel).to_contain_text('too few earlier feature-covered games')
+    expect(panel.locator('tbody tr').last).to_contain_text('—')
+    page.select_option('#insight-year','2008')
+    expect(page.locator('#insight-status')).to_have_text('2008 evidence loaded.')
+    expect(panel).to_contain_text('form challenger has an earlier training snapshot')
+    expect(panel.locator('tbody tr').last).not_to_contain_text('—')
+    page.select_option('#insight-year','2021')
+    expect(page.locator('#insight-status')).to_have_text('2021 evidence loaded.')
+    expect(panel).to_contain_text('62 played games')
+    expect(panel).to_contain_text('1 no-contest advancement excluded')
+    # Cancelled tournaments have no fabricated coverage, scores or bracket link.
+    page.select_option('#insight-year','2020')
+    expect(panel).to_contain_text('TOURNAMENT CANCELLED')
+    expect(panel.locator('#insight-archive')).to_have_count(0)
+    capture_insight_state(page,shots,'cancelled')
+    page.select_option('#insight-year','1995')
+    expect(page.locator('#insight-status')).to_have_text('1995 evidence loaded.')
+    expect(panel).to_contain_text('0 / 63')
+    expect(panel).to_contain_text('0 / 64 teams')
+    expect(panel).to_contain_text('No prior calibration fit · temperature 1')
+    page.select_option('#insight-year','2026')
+    expect(page.locator('#insight-status')).to_have_text('2026 evidence loaded.')
+    expect(panel).to_contain_text('2,519 earlier games · through 2025')
+    expect(panel).to_contain_text('1,889 earlier predictions · through 2025')
+    expect(panel.locator('tbody tr').nth(2)).to_contain_text('0.16585')
+    panel.get_by_text('How to read this evidence',exact=True).click()
+    expect(panel).to_contain_text('not a guarantee of future accuracy')
+    panel.screenshot(path=str(shots/'season-evidence-desktop.png'))
+    page.set_viewport_size({'width':390,'height':844})
+    panel.scroll_into_view_if_needed()
+    assert page.evaluate('document.documentElement.scrollWidth <= window.innerWidth')
+    expect(panel.get_by_text('On narrow screens, scroll the table → to compare scores.',exact=True)).to_be_visible()
+    comparison=panel.get_by_role('region',name='Saved tournament evaluation, scroll horizontally to compare scores')
+    page.set_viewport_size({'width':320,'height':844})
+    assert page.evaluate('document.documentElement.scrollWidth <= window.innerWidth')
+    comparison.focus();page.keyboard.press('ArrowRight')
+    page.wait_for_function('document.querySelector("#season-insights .table-scroll").scrollLeft > 0')
+    page.set_viewport_size({'width':390,'height':844})
+    comparison.evaluate('(element)=>element.scrollLeft=0')
+    panel.screenshot(path=str(shots/'season-evidence-mobile.png'))
+    # The archive action opens the inspected season, including with keyboard input.
+    page.select_option('#insight-year','2006')
+    expect(page.locator('#insight-status')).to_have_text('2006 evidence loaded.')
+    page.locator('#insight-archive').focus();page.keyboard.press('Enter')
+    expect(page.locator('#archive-year')).to_have_value('2006')
+    expect(page.locator('.game')).to_have_count(15)
+    # Back/forward must return to the evidence route and the inspected bracket.
+    page.go_back()
+    expect(page.locator('nav a[href="#evidence"]')).to_have_attribute('aria-current','page')
+    expect(page.locator('#insight-year')).to_have_value('2006')
+    expect(page.locator('#insight-status')).to_have_text('2006 evidence loaded.')
+    page.go_forward()
+    expect(page.locator('nav a[href="#archive"]')).to_have_attribute('aria-current','page')
+    expect(page.locator('#archive-year')).to_have_value('2006')
+    page.set_viewport_size({'width':1440,'height':1000})
+
+
+def assert_insight_request_states(page, shots):
+    # A late response must not replace the newer selected year.
+    page.goto(BASE+'/#evidence')
+    page.reload()
+    expect(page.locator('#insight-status')).to_have_text('2026 evidence loaded.')
+    path='**/data/seasons/2006.json' if STATIC else '**/api/season?year=2006'
+    pending=[]
+    page.route(path,lambda route:pending.append(route))
+    page.select_option('#insight-year','2006')
+    expect(page.locator('#insight-status')).to_have_text('Loading 2006 evidence…')
+    expect(page.locator('#insight-content')).to_have_attribute('aria-busy','true')
+    expect(page.locator('#insight-content table')).to_have_count(0)
+    capture_insight_state(page,shots,'loading')
+    page.select_option('#insight-year','1985')
+    expect(page.locator('#insight-status')).to_have_text('1985 evidence loaded.')
+    assert len(pending)==1
+    with page.expect_response(lambda response:'2006' in response.url):
+        pending[0].continue_()
+    page.wait_for_load_state('networkidle')
+    expect(page.locator('#insight-content h3').first).to_have_text('1985 tournament')
+    expect(page.locator('#insight-year')).to_have_value('1985')
+    page.unroute(path)
+    # Errors leave a working selector and an explicit retry; no stale scores.
+    path='**/data/seasons/1996.json' if STATIC else '**/api/season?year=1996'
+    page.route(path,lambda route:route.fulfill(status=503,content_type='application/json',body='{"error":"Evidence temporarily unavailable"}'))
+    page.select_option('#insight-year','1996')
+    expect(page.locator('#insight-status')).to_contain_text('Could not load 1996 evidence:')
+    if STATIC:
+        expect(page.locator('#insight-status')).to_contain_text('The saved snapshot could not be loaded. Try again.')
+        expect(page.locator('#insight-status')).not_to_contain_text('no published snapshot')
+    expect(page.locator('#insight-content table')).to_have_count(0)
+    expect(page.get_by_role('heading',name='Evidence unavailable',exact=True)).to_be_visible()
+    capture_insight_state(page,shots,'error')
+    page.unroute(path)
+    page.get_by_role('button',name='Retry season evidence',exact=True).focus();page.keyboard.press('Enter')
+    expect(page.locator('#insight-status')).to_have_text('1996 evidence loaded.')
+    expect(page.locator('#insight-content h3').first).to_have_text('1996 tournament')
+    # Interactions remain stable and use no transitions with reduced motion.
+    page.emulate_media(reduced_motion='reduce')
+    page.locator('#insight-year').focus()
+    assert page.locator('#insight-year').evaluate('(e)=>getComputedStyle(e).transitionDuration')=='0s'
+    page.select_option('#insight-year','2020')
+    expect(page.locator('#insight-content')).to_contain_text('TOURNAMENT CANCELLED')
+    page.emulate_media(reduced_motion='no-preference')
+
+
 def run():
     command=[sys.executable,'-m','http.server','8037','--bind','127.0.0.1','--directory','public'] if STATIC else [sys.executable,'-m','madness','serve','--port','8037']
     proc=subprocess.Popen(command,cwd=ROOT,
@@ -75,6 +198,8 @@ def run():
             page.locator('nav').get_by_role('link',name='Model evidence').click()
             expect(page.get_by_role('heading',name='2021–2026 holdout')).to_be_visible()
             expect(page.locator('svg[role="img"]')).to_be_visible()
+            assert_season_evidence(page,shots)
+            assert_insight_request_states(page,shots)
             if STATIC:
                 message=page.evaluate("async()=>{const {request}=await import('./static_api.js');try{await request('/api/simulate?year=2027')}catch(e){return e.message}}")
                 assert 'unknown' in message
@@ -113,7 +238,7 @@ def run():
             page.keyboard.press('Escape')
             assert not errors,errors
             browser.close()
-        print('Browser checks passed: desktop, mobile, archive, skip-link focus/state, keyboard dialog, no-contest, simulation, matchup, evidence, unknown field and validation errors.')
+        print('Browser checks passed: desktop, mobile, archive, skip-link focus/state, keyboard dialog, no-contest, simulation, matchup, season coverage/training/evaluation, cancelled/loading/error states, archive handoff, back/forward, narrow-table keyboard scroll, reduced motion, stale-response guard, request retry, unknown field and validation errors.')
     finally:
         proc.terminate();proc.wait(timeout=10)
 

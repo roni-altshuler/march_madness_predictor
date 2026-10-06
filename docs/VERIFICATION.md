@@ -1,4 +1,4 @@
-# First-release verification
+# Verification history
 
 Date: 2026-10-03. Local environment: Windows (YogaRoni), Python 3.12, NumPy 2.3.3,
 PyArrow 21.0.0, pytest 8.4.2, Playwright 1.55.0 and installed Microsoft Edge.
@@ -65,6 +65,40 @@ focus/scroll handler that prevents the hash navigation.
 Review covers temporal boundaries, source identities/provenance/licensing,
 unmatched data behavior, declared bracket validation, untrusted import escaping,
 responsive/keyboard UI and absence of credentials/raw private data from Git.
+
+## Season evidence inspector · 2026-10-06
+
+Verified in the saved Linux cloud workspace, starting from main
+`fae9ffa92b7a1b1b01d60148c005b535a2128558`. No open PR was reported by the
+GitHub connector before this follow-on work. The unpublished laptop-only
+`feat/cbs-bracket` commit `e2b0e2e` was unavailable and was not recovered.
+This change adds a separate evidence inspector; it does not replace the bracket.
+
+- Python suite: 27 tests passed. Syntax checks passed for `web/app.js`,
+  `web/static_api.js` and `web/season_insights.js`.
+- Static export, CLI seed inference and the 2026 historical simulation passed.
+- Playwright Chromium checks passed against both the local API app and exported
+  static app. They exercise 1985 warm-up dashes, absent 1995 scores/form and
+  calibration fit, 2006 form coverage without an eligible model, 2008 form model
+  availability, 2021 no-contest exclusion, cancelled 2020 and exact saved 2026
+  training/calibration counts and seed Brier score.
+- Desktop and phone views were inspected visually. At 390px, all four score
+  columns fit; at 320px, keyboard scrolling keeps overflow inside the table.
+  The archive action preserves the selected year when activated with Enter.
+- Delayed-request and failed-request regressions passed: a late response cannot
+  replace the newly selected year; a failed request clears old evidence and a
+  retry restores the requested season.
+- `agent-browser` verified the local page and static export under
+  `/march_madness_predictor/`: content, controls and navigation loaded with no
+  JavaScript errors. Chromium needed a temporary writable Fontconfig cache and
+  TrueType fallback configuration in `/tmp` because this cloud image's default
+  WOFF2 system-font fallback rendered zero-height text. This environment setup
+  is not part of the app or repository.
+
+Inspector screenshots: [desktop](screenshots/season-evidence-desktop.png) and
+[mobile](screenshots/season-evidence-mobile.png). Data sources, saved model
+artifacts, the primary seed model and existing bracket behavior are unchanged.
+No training, model promotion, merge or production job was performed.
 
 ## Not run or unavailable
 

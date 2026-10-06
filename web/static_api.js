@@ -36,6 +36,11 @@ export function simulate(field,table,kind='seed',randomSeed=2027){
 export async function request(path,options={}){
   const url=new URL(path,'https://parse-only.invalid'),q=url.searchParams;
   if(url.pathname==='/api/summary')return load('summary.json');
+  if(url.pathname==='/api/team'){
+    const index=await load('teams/index.json'),id=q.get('profile');
+    if(!Object.hasOwn(index.profiles,id))throw Error('No published tournament history for this exact profile ID.');
+    return load(`teams/${index.profiles[id].file}`);
+  }
   if(options.method==='POST'){const payload=JSON.parse(options.body),table=await load('tables/2027.json');return simulate(payload.field,table,'seed',payload.rng??2027);}
   const year=Number(q.get('year')||2027),kind=q.get('model')||'seed';
   if(url.pathname==='/api/season')return load(`seasons/${year}.json`);

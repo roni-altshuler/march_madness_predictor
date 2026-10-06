@@ -5,14 +5,17 @@ import json
 from .data import ROOT, read, feature_table
 from .model import predict, vector
 from .bracket import historical_field, simulate
+from .team_profiles import build_team_profiles, profile_teams
 
 
 def load_state():
-    return dict(archive=read(ROOT/'data/derived/archive.json'), models=read(ROOT/'artifacts/models.json'),
+    state = dict(archive=read(ROOT/'data/derived/archive.json'), models=read(ROOT/'artifacts/models.json'),
                 historical=read(ROOT/'artifacts/historical_models.json'), evaluation=read(ROOT/'artifacts/evaluation.json'),
                 provenance=read(ROOT/'data/derived/provenance.json'), features=feature_table(),
                 field=read(ROOT/'data/field_2027.json'),
                 coverage=read(ROOT/'data/derived/schedule_coverage.json') if (ROOT/'data/derived/schedule_coverage.json').exists() else None)
+    state['team_profiles'] = build_team_profiles(state['archive'], state['features'], state['provenance'])
+    return state
 
 
 def serve(port=8027):
@@ -55,9 +58,14 @@ def serve(port=8027):
                     games=[]
                     for g in season['games']:
                         games.append(dict(g,p_a=predict(model,g['seed_a'],g['seed_b']) if model and g['status']=='played' else None))
-                    return self.send_json(dict(season,games=games,features=state['features'].get(str(year),{}),
+                    return self.send_json(dict(season,teams=profile_teams(state,year),games=games,features=state['features'].get(str(year),{}),
                                                available_models=list(state['historical'].get(str(year),{})),
                                                model=model,model_note='Retrospective pre-tournament seed model fitted only on earlier years.'))
+                if parsed.path=='/api/team':
+                    profile = state['team_profiles']['profiles'].get(q.get('profile',[''])[0])
+                    if profile is None:
+                        return self.send_json(dict(error='No published tournament history for this exact profile ID.'),404)
+                    return self.send_json(profile)
                 if parsed.path=='/api/predict':
                     year=int(q.get('year',['2027'])[0]); kind=q.get('model',['seed'])[0]
                     a=int(q.get('a',['1'])[0]); b=int(q.get('b',['16'])[0])

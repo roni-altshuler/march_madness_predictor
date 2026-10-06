@@ -53,6 +53,26 @@ explicit rather than displaying old or invented scores.
 [Desktop inspector](docs/screenshots/season-evidence-desktop.png) ·
 [Mobile inspector](docs/screenshots/season-evidence-mobile.png).
 
+Team names in historical game details open a **team tournament profile**. Browse
+recorded appearances, seeds, final stages, opponents and available scores/dates,
+then return to the originating bracket, region and game. The same journey works
+with keyboard navigation, the mobile round list and the exported static app.
+The cream/navy profile uses text initials; no team logos or player portraits are
+downloaded, and rosters/player statistics are unavailable.
+
+Modern appearances join only through the existing per-season verified ESPN IDs.
+Older records use a separate exact archive-key namespace and do not contribute
+to modern school totals. Similar names never establish identity: the archive
+label `SanDiego` represents San Diego in 2008 and UC San Diego in 2025;
+`Lafayette` represents Lafayette in 2015 and Louisiana in 2023. Profiles keep
+these verified identities separate and offer clearly scoped related-record
+links. Appearance counts, titles and played wins–losses describe only that
+profile's bundled main-bracket records, not a complete school career.
+No-contests are listed separately; cancelled 2020, missing years and failed
+loads remain explicit. No sources, model fitting or prediction claims change.
+[Desktop profile](docs/screenshots/team-profile-desktop.png) ·
+[Mobile profile](docs/screenshots/team-profile-mobile.png).
+
 ![Historical bracket](docs/screenshots/archive-desktop.png)
 
 ## Actual coverage
@@ -63,6 +83,7 @@ explicit rather than displaying old or invented scores.
 | Played model labels | 2,582 games | Oregon–VCU 2021 no-contest excluded |
 | Modern scores/dates | All 1,259 played main-bracket games in 2006–2026 excluding 2020 | Scores/dates before 2006 absent; venues/geographic region names absent |
 | Pre-March team features | All 64 main-bracket teams in each of 20 seasons, 2006–2026 excluding 2020 | No pre-2006 form features; no claim of complete NCAA regular-season coverage |
+| Team tournament profiles | Published modern ESPN-ID records; separate uncrosswalked exact archive-key records | No complete-career aggregation, rosters, player statistics or qualification history |
 | 2027 field | Format and dates; no entrants | Actual teams, seeds and opening placements await announcement |
 
 The archive comes from
@@ -150,6 +171,7 @@ python -m pytest -q
 node --check web/app.js
 node --check web/static_api.js
 node --check web/season_insights.js
+node --check web/team_profiles.js
 python -m pip install -r requirements-dev.txt
 python tests/browser_check.py
 python -m madness export

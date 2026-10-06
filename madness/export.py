@@ -1,8 +1,10 @@
 """Public static build: publish Python-computed lookup tables, never train in a browser."""
 import shutil
+import hashlib
 from .data import ROOT,dump
 from .server import load_state
 from .model import predict,vector
+from .team_profiles import profile_teams
 
 
 def export_static():
@@ -18,11 +20,17 @@ def export_static():
     summary={k:state[k] for k in ('provenance','field','evaluation','models','coverage')}
     summary['years']=sorted(map(int,state['archive']),reverse=True)
     dump(output/'data/summary.json',summary)
+    team_index = {}
+    for key, profile in state['team_profiles']['profiles'].items():
+        filename = hashlib.sha256(key.encode('utf-8')).hexdigest()+'.json'
+        team_index[key] = dict(file=filename)
+        dump(output/'data/teams'/filename,profile)
+    dump(output/'data/teams/index.json',dict(profiles=team_index))
     for year,season in state['archive'].items():
         models=state['historical'].get(year,{})
         m=models.get('seed')
         sg=[dict(g,p_a=predict(m,g['seed_a'],g['seed_b']) if m and g['status']=='played' else None) for g in season['games']]
-        dump(output/f'data/seasons/{year}.json',dict(season,games=sg,features=state['features'].get(year,{}),
+        dump(output/f'data/seasons/{year}.json',dict(season,teams=profile_teams(state,year),games=sg,features=state['features'].get(year,{}),
              available_models=list(models),model=m,model_note='Retrospective model fitted only on earlier tournaments.'))
     for year in [*state['historical'],'2027']:
         models=state['models']['models'] if year=='2027' else state['historical'][year]

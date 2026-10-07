@@ -1,0 +1,34 @@
+.matchup-compare{margin-top:28px}
+.compare-heading,.compare-game-heading{display:flex;justify-content:space-between;align-items:center;gap:24px}
+.compare-heading h2{font-size:28px;letter-spacing:-.035em;margin-bottom:10px}
+.compare-heading .note{max-width:66ch;margin-bottom:0;font-size:14px}
+.compare-primary-label{border:1px solid var(--blue);border-radius:6px;padding:8px 10px;color:var(--blue);font:10px/1.5 var(--mono);flex-shrink:0}
+.compare-controls{display:grid;grid-template-columns:180px minmax(0,1fr);gap:18px;margin:24px 0 12px}
+.compare-controls select{width:100%;max-width:100%;min-width:0}
+.compare-actions{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:12px 0 24px}
+.compare-actions a{font-size:13px;font-weight:600}
+.compare-game-heading{padding:20px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:24px}
+.compare-game-heading h3{font-size:23px;letter-spacing:-.025em;line-height:1.4;margin:0 0 10px;overflow-wrap:anywhere}
+.compare-game-heading h3 span{color:var(--muted);font-size:14px;font-weight:400;margin:0 6px}
+.compare-game-heading .eyebrow{font-size:10px}
+.compare-game-heading p:last-child{margin-bottom:0}
+.compare-game-heading .button{flex-shrink:0}
+.forecast-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.forecast-card{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:20px;display:flex;flex-direction:column;min-width:0}
+.forecast-card.forecast-primary{border:2px solid var(--blue);padding:19px;background:#e2e5de}
+.forecast-heading{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.forecast-heading h4{font-size:17px;line-height:1.3;margin:0}
+.forecast-heading span{font:10px var(--mono);color:var(--blue);text-transform:uppercase}
+.forecast-card>.note{font-size:12px;line-height:1.6;min-height:58px}
+.forecast-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:4px 0 16px}
+.forecast-pair span{display:block;font-size:12px;overflow-wrap:anywhere;color:var(--muted);min-height:38px}
+.forecast-pair strong{display:block;font:27px/1.3 var(--mono);letter-spacing:-.055em;color:var(--blue)}
+.forecast-pair div:last-child strong{color:var(--accent)}
+.forecast-strip{height:6px;border-radius:6px;background:#ac9a7d;overflow:hidden;margin-bottom:16px}
+.forecast-strip span{display:block;height:100%;background:var(--blue)}
+.forecast-gap{font-size:12px;font-weight:600;line-height:1.6;min-height:58px;margin-bottom:14px}
+.forecast-card .forecast-horizon{margin:auto 0 0;padding-top:14px;border-top:1px solid var(--line);min-height:0}
+.compare-boundary{margin:24px 0 0;max-width:none;line-height:1.65}
+.matchup-compare :focus-visible{outline:3px solid var(--blue);outline-offset:4px}
+@media(max-width:1100px){.forecast-cards{grid-template-columns:1fr}.forecast-card>.note,.forecast-gap{min-height:0}.forecast-pair span{min-height:0;margin-bottom:8px}.forecast-heading{flex-direction:row;justify-content:space-between;align-items:center}.compare-heading{align-items:start;flex-direction:column;gap:16px}}
+@media(max-width:720px){.compare-controls{grid-template-columns:1fr;gap:14px}.compare-game-heading{align-items:start;flex-direction:column;gap:18px}.compare-game-heading .button{width:100%;text-align:center}.compare-actions{align-items:start;flex-direction:column;gap:18px}.forecast-card{padding:18px}.forecast-card.forecast-primary{padding:17px}.compare-primary-label{font-size:10px}.forecast-pair strong{font-size:30px}.compare-heading h2{font-size:26px}.forecast-heading h4{font-size:16px}}

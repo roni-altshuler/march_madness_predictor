@@ -174,6 +174,86 @@ profile is open. The profile DOM stays unchanged, its return stays actual and
 no JavaScript errors occur. Reload clears ephemeral draws and canonicalizes the
 URL and visible label to actual results. No production endpoint is used.
 
+## Recorded matchup comparison · 2026-10-07
+
+Started from main `5f52fed75edb7a435d322ebfa0eb11fb0b71cffa`; no open PR was
+reported before work. The audit found a native JavaScript/CSS app with no Node
+UI package dependencies. The existing seed lab, detail model selector, annual
+evidence inspector, history links, API and static tables were reused. The
+unpublished laptop CBS rewrite remains untransferred and was not recovered.
+
+Story: actual game details → Matchup Lab year/game controls → saved annual season
+and prediction artifacts → paired model cards → existing history/evidence/actual
+bracket links. No dataset, model artifact or training code changes.
+
+| Boundary | Verified evidence |
+|---|---|
+| Browser → data | Native year/game controls request existing `/api/season` and `/api/predict`; static mode reads the existing relative season/model tables |
+| Data → probabilities | 45 Python/Node checks pass; comparison values match Python predictions for the same recorded game, swapped sides complement, percentage-point gaps reverse and horizons precede the selected tournament |
+| Missing data | 1985 renders three dashed snapshots; 2006 has form features without a trained form model; Oregon–VCU has no played-game probabilities; cancelled 2020 has no matchup/model cards |
+| Response → browser | Actual Chromium interactions pass in local/static modes at desktop, tablet, 390px and 320px, with no document overflow or JavaScript page errors |
+
+Browser interactions include Enter from an actual matchup into the comparison,
+focus on its year control, repeated game selection, keyboard side swapping with
+focus retained, team-history and evidence links, and Back/Forward returning to
+the selected game and explicit actual bracket. The 2026 final displays UConn
+46.1% under the primary seed snapshot, 39.9% under the curve and 37.6% under form;
+all train through 2025. Swapping sides shows the complementary probabilities and
+reversed signed gaps. The comparison does not promote a challenger.
+
+Controlled local HTTP fixtures verify busy/loading, an empty cancelled year, a
+503 error and Enter retry. Delayed season and prediction/table responses cannot
+replace the newer selection or resurrect a departed route. The delayed 2008
+comparison resolves to the selected equal-seed final with 50% under both seed
+models, rather than the earlier first-round values. Reduced motion produces zero
+control-transition duration. Source fixtures are not edited or newly collected.
+
+Desktop/mobile populated, warm-up, no-contest, loading, empty and error
+screenshots were captured and visually inspected. The original cream/navy cards
+reuse the evidence palette, native controls and dark March Lab shell. No new
+logos, portraits, paid services, providers, credentials or access settings were
+introduced. Actual browser QA also covers the exported app under the project
+subpath `/march_madness_predictor/`; build/DOM checks alone are not used as proof.
+
+[Desktop](screenshots/matchup-comparison-populated-desktop.png) ·
+[Mobile](screenshots/matchup-comparison-populated-mobile.png) ·
+[Loading](screenshots/matchup-comparison-loading-mobile.png) ·
+[Cancelled/empty](screenshots/matchup-comparison-empty-mobile.png) ·
+[Error](screenshots/matchup-comparison-error-mobile.png).
+All JavaScript syntax checks and static export pass. No production workflow was
+manually dispatched or merged; the draft requires independent review.
+
+### Independent review follow-up
+
+Targeted actual Chromium QA on the reviewed head `ed73a8adf63ecda8a22403668a721892e17e16c3`
+found one control-state mismatch: after swapping sides, selecting cancelled 2020
+cleared the URL's side parameter and all game cards but left the disabled swap
+button's `aria-pressed` state true. Loading now synchronizes that state and year
+changes reset the side. Saved probabilities and model chronology are unchanged.
+
+The fix passes targeted API/static checks at 1440px desktop and 390px mobile.
+Each case performs 40 rapid real button activations and 19 game changes, checks
+both teams' displayed probabilities against the existing Python artifacts, and
+asserts year/game/side agreement across the URL, controls and content. Cancelled
+2020 → season evidence → Back returns the same cancelled state with disabled
+controls, no game/side URL parameters and no forecast cards. Changing a team
+history's appearance year and going Back preserves the comparison's selected
+game and swapped orientation. The profile's explicit bracket return preserves
+the actual championship, final-round selection and keyboard focus.
+
+Delayed prediction responses are released in reverse request order after rapid
+game changes; the 2008 final remains selected with 50% under both seed models.
+A late season response released after cancelled-year evidence/Back cannot replace
+2020. All four combinations pass with no page errors or document overflow.
+The normal browser suite also guards cancelled evidence/Back, rapid swaps and
+game changes, and the swap reset during loading. Screenshots were visually
+inspected; no deployment or access changes were made.
+
+[Cancelled Back · desktop](screenshots/matchup-comparison-review-cancelled-back-desktop.png) ·
+[mobile](screenshots/matchup-comparison-review-cancelled-back-mobile.png) ·
+[History Back · desktop](screenshots/matchup-comparison-review-history-back-desktop.png) ·
+[mobile](screenshots/matchup-comparison-review-history-back-mobile.png).
+
 ## Not run or unavailable
 
 - Prospective 2027 accuracy: no games or announced field exist yet.

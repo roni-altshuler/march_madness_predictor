@@ -77,6 +77,23 @@ loads remain explicit. No sources, model fitting or prediction claims change.
 [Desktop profile](docs/screenshots/team-profile-desktop.png) ·
 [Mobile profile](docs/screenshots/team-profile-mobile.png).
 
+Matchup Lab also includes a **recorded matchup comparison**. Open it from actual
+game details, or choose an archived year and matchup in the lab. Three cards show
+the saved seed baseline and eligible challengers for the same game, with both
+teams' numeric probabilities, training horizons and percentage-point gaps from
+the baseline. Swap the displayed team sides, follow their existing histories,
+inspect that year's evidence or open the actual bracket. Browser Back/Forward
+preserves the comparison selection; simulated game details remain distinct.
+
+Warm-up snapshots, the 2006 form-coverage/model-availability boundary, cancelled
+2020 and no-contests stay explicit. Missing probabilities are dashes, and model
+gaps are not confidence intervals or evidence that a challenger is better. The
+feature reuses native controls, the season-evidence theme, profile links and the
+existing prediction API/static tables. It adds no UI dependencies, assets,
+sources, training or model promotion.
+[Desktop comparison](docs/screenshots/matchup-comparison-populated-desktop.png) ·
+[Mobile comparison](docs/screenshots/matchup-comparison-populated-mobile.png).
+
 ![Historical bracket](docs/screenshots/archive-desktop.png)
 
 ## Actual coverage
@@ -176,6 +193,7 @@ node --check web/app.js
 node --check web/static_api.js
 node --check web/season_insights.js
 node --check web/team_profiles.js
+node --check web/matchup_compare.js
 python -m pip install -r requirements-dev.txt
 python tests/browser_check.py
 python -m madness export

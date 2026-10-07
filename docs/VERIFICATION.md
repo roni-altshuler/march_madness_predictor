@@ -223,6 +223,37 @@ subpath `/march_madness_predictor/`; build/DOM checks alone are not used as proo
 All JavaScript syntax checks and static export pass. No production workflow was
 manually dispatched or merged; the draft requires independent review.
 
+### Independent review follow-up
+
+Targeted actual Chromium QA on the reviewed head `ed73a8adf63ecda8a22403668a721892e17e16c3`
+found one control-state mismatch: after swapping sides, selecting cancelled 2020
+cleared the URL's side parameter and all game cards but left the disabled swap
+button's `aria-pressed` state true. Loading now synchronizes that state and year
+changes reset the side. Saved probabilities and model chronology are unchanged.
+
+The fix passes targeted API/static checks at 1440px desktop and 390px mobile.
+Each case performs 40 rapid real button activations and 19 game changes, checks
+both teams' displayed probabilities against the existing Python artifacts, and
+asserts year/game/side agreement across the URL, controls and content. Cancelled
+2020 → season evidence → Back returns the same cancelled state with disabled
+controls, no game/side URL parameters and no forecast cards. Changing a team
+history's appearance year and going Back preserves the comparison's selected
+game and swapped orientation. The profile's explicit bracket return preserves
+the actual championship, final-round selection and keyboard focus.
+
+Delayed prediction responses are released in reverse request order after rapid
+game changes; the 2008 final remains selected with 50% under both seed models.
+A late season response released after cancelled-year evidence/Back cannot replace
+2020. All four combinations pass with no page errors or document overflow.
+The normal browser suite also guards cancelled evidence/Back, rapid swaps and
+game changes, and the swap reset during loading. Screenshots were visually
+inspected; no deployment or access changes were made.
+
+[Cancelled Back · desktop](screenshots/matchup-comparison-review-cancelled-back-desktop.png) ·
+[mobile](screenshots/matchup-comparison-review-cancelled-back-mobile.png) ·
+[History Back · desktop](screenshots/matchup-comparison-review-history-back-desktop.png) ·
+[mobile](screenshots/matchup-comparison-review-history-back-mobile.png).
+
 ## Not run or unavailable
 
 - Prospective 2027 accuracy: no games or announced field exist yet.

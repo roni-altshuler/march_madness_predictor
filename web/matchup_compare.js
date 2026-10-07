@@ -47,7 +47,7 @@ export function mountMatchupComparison(container,{summary,request,initialYear,in
     url.hash=`matchup?${query}`;history.replaceState(null,'',url);
   }
   function loading(note){
-    forecasts={};swap.disabled=true;content.setAttribute('aria-busy','true');
+    forecasts={};swap.disabled=true;swap.setAttribute('aria-pressed',String(swapped));content.setAttribute('aria-busy','true');
     content.innerHTML=`<div class="insight-placeholder"><span class="loading-track" aria-hidden="true"></span><p class="note">${note}</p></div>`;
   }
   function showError(error,retry){
@@ -81,7 +81,7 @@ export function mountMatchupComparison(container,{summary,request,initialYear,in
   }
   async function loadYear(preferredGame=null,side=false){
     const year=Number(yearSelect.value),version=++revision;
-    season=null;game=null;gameSelect.disabled=true;gameSelect.innerHTML='<option>Loading games…</option>';
+    season=null;game=null;swapped=side;gameSelect.disabled=true;gameSelect.innerHTML='<option>Loading games…</option>';
     updateUrl(year,preferredGame,side);container.querySelector('#compare-evidence').href=`#evidence?year=${year}`;
     loading('Retrieving the recorded tournament and its saved model availability.');status.textContent=`Loading ${year} comparison…`;
     if(cancelled.includes(year)){

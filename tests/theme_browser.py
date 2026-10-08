@@ -36,6 +36,15 @@ def assert_contrast(page, selector, pseudo=None, boundary=False):
     return min(item['ratio'] for item in ratios)
 
 
+def assert_profile_control_frame(page):
+    frame=page.evaluate('''() => new Promise(resolve=>requestAnimationFrame(()=>{
+      const control=getComputedStyle(document.querySelector('#profile-year')),body=getComputedStyle(document.body);
+      resolve({background:control.backgroundColor,bodyBackground:body.backgroundColor,
+               text:control.color,bodyText:body.color});
+    }))''')
+    assert frame['background']==frame['bodyBackground'] and frame['text']==frame['bodyText'],frame
+
+
 def assert_theme_journeys(browser, shots, base, static):
     report=[]
     summary_path='**/data/summary.json' if static else '**/api/summary'
@@ -45,7 +54,8 @@ def assert_theme_journeys(browser, shots, base, static):
             context=browser.new_context(viewport={'width':width,'height':height},color_scheme=preference)
             context.add_init_script(f'''if(!localStorage.getItem('marchlab.theme'))localStorage.setItem('marchlab.theme',{json.dumps(theme)});
               requestAnimationFrame(()=>window.firstThemeFrame={{theme:document.documentElement.dataset.theme,
-                background:getComputedStyle(document.body).backgroundColor}});''')
+                background:getComputedStyle(document.body).backgroundColor,
+                content_opacity:getComputedStyle(document.querySelector('main')).opacity}});''')
             page=context.new_page();errors=[]
             page.on('pageerror',lambda error:errors.append(str(error)))
             pending=[];page.route(summary_path,lambda route:pending.append(route))
@@ -56,7 +66,7 @@ def assert_theme_journeys(browser, shots, base, static):
             page.wait_for_function('window.firstThemeFrame !== undefined')
             frame=page.evaluate('window.firstThemeFrame')
             expected_bg='rgb(234, 230, 220)' if theme=='light' else 'rgb(8, 11, 18)'
-            assert frame == dict(theme=theme,background=expected_bg),frame
+            assert frame == dict(theme=theme,background=expected_bg,content_opacity='1'),frame
             assert_contrast(page,'.loading')
             if name=='mobile': page.screenshot(path=str(shots/f'theme-loading-{theme}-mobile.png'))
             assert len(pending)==1
@@ -89,12 +99,14 @@ def assert_theme_journeys(browser, shots, base, static):
             # Changing the header control must update a previously light-only detail page.
             page.select_option('#theme-choice',preference)
             expect(page.locator('html')).to_have_attribute('data-theme',preference)
+            assert_profile_control_frame(page)
             assert_palette(page,'.team-profile');assert_palette(page,'#team-scouting')
             page.reload();expect(page.locator('#theme-choice')).to_have_value(preference)
             expect(page.locator('#scout-window')).to_have_value('5')
             page.select_option('#theme-choice','system')
             page.emulate_media(color_scheme=theme)
             expect(page.locator('html')).to_have_attribute('data-theme',theme)
+            assert_profile_control_frame(page)
             assert_palette(page,'.team-profile');assert_palette(page,'#team-scouting')
             page.emulate_media(color_scheme=preference)
             expect(page.locator('html')).to_have_attribute('data-theme',preference)

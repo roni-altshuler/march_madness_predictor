@@ -5,7 +5,8 @@
     "opposite_system_preference": "dark",
     "first_frame": {
       "theme": "light",
-      "background": "rgb(234, 230, 220)"
+      "background": "rgb(234, 230, 220)",
+      "content_opacity": "1"
     },
     "minimum_sampled_text_contrast": 4.72,
     "minimum_sampled_control_border_contrast": 3.19,
@@ -17,7 +18,8 @@
     "opposite_system_preference": "light",
     "first_frame": {
       "theme": "dark",
-      "background": "rgb(8, 11, 18)"
+      "background": "rgb(8, 11, 18)",
+      "content_opacity": "1"
     },
     "minimum_sampled_text_contrast": 7.36,
     "minimum_sampled_control_border_contrast": 4.67,
@@ -29,7 +31,8 @@
     "opposite_system_preference": "dark",
     "first_frame": {
       "theme": "light",
-      "background": "rgb(234, 230, 220)"
+      "background": "rgb(234, 230, 220)",
+      "content_opacity": "1"
     },
     "minimum_sampled_text_contrast": 4.72,
     "minimum_sampled_control_border_contrast": 3.19,
@@ -41,7 +44,8 @@
     "opposite_system_preference": "light",
     "first_frame": {
       "theme": "dark",
-      "background": "rgb(8, 11, 18)"
+      "background": "rgb(8, 11, 18)",
+      "content_opacity": "1"
     },
     "minimum_sampled_text_contrast": 7.36,
     "minimum_sampled_control_border_contrast": 4.67,

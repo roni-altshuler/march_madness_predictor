@@ -362,11 +362,19 @@ the import panel's intrinsic grid width. Zero-minimum grid tracks contain it;
 bracket layout, records, model outputs and route/query state remain unchanged.
 The theme control has a visible label and 44px target, and bracket/control
 borders plus light-mode success/error text use suitable contrast tokens.
+An additional first-frame check found the old entrance animation starting loading
+text at 50% opacity. The small positional entrance remains, with full text opacity
+from the first sampled frame; reduced-motion behavior is preserved.
+The first frame after switching a profile from light to dark also exposed the
+old control background fade: light text appeared while the selector was still
+cream. Palette backgrounds and text now change together; border/focus effects
+remain. A browser guard checks the first profile-control frame after both an
+explicit choice and a System preference change.
 
 | Browser journey/condition | Verified result |
 |---|---|
 | Desktop 1440×1000 and mobile 390×844, explicit light/dark against opposite system preference | Shared palette/color scheme through home, bracket, matchup dialog, profile/scouting, comparison, evidence and method; no page errors |
-| First rendered frame while summary data is held | Saved light/dark already applied to the loading view and body; no sampled dark/light initialization flash |
+| First rendered frame while summary data is held | Saved light/dark already applied to the loading view and body, with content opacity 1; no sampled initialization flash or text fade |
 | Header choice while viewing a profile | Profile/scouting update together; changed choice survives reload without resetting the recorded appearance |
 | System preference change while on profile/home | All surfaces update together; explicit Light/Dark remain stable until System is chosen |
 | Reload and browser Back/Forward | Lookback, source year/game and saved theme remain consistent through the real route journey |

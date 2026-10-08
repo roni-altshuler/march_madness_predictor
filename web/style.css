@@ -28,7 +28,7 @@
 body{font-size:16px;line-height:1.5}table{font-size:14px;line-height:1.45}.team-line{font-size:14px}button,.button,nav a{min-height:44px}.mobile-round{display:none}
 @media(max-width:1100px){main{padding:26px}.shell{grid-template-columns:185px minmax(0,1fr)}.stats{grid-template-columns:repeat(2,1fr)}.panels{grid-template-columns:minmax(0,1fr)}.freshness{display:none}}
 @media(max-width:720px){.topbar{height:76px;padding:16px 18px}.brand{font-size:17px}.shell{display:block}nav{border-right:0;border-bottom:1px solid var(--line);padding:8px 12px;display:flex;flex-direction:row;overflow:auto;gap:3px}nav a{font-size:11px;padding:10px;white-space:nowrap}nav a.active{border-left:0;border-bottom:2px solid var(--blue)}.navfoot{display:none}main{padding:24px 16px}h1{font-size:34px}.hero{grid-template-columns:1fr;padding:22px;gap:20px}.hero-side{border-left:0;border-top:1px solid var(--line);padding:18px 0 0;flex-direction:row;align-items:center;gap:16px}.hero-number{font-size:48px}.hero-side small{margin:0}.stats{gap:8px}.stat{padding:15px}.stat strong{font-size:24px}.schedule{grid-template-columns:1fr}.two-inputs{gap:15px}.panel{padding:17px}.scroll-hint{display:block;font-size:11px;color:var(--muted)}.toolbar{gap:12px}.toolbar label{flex:1}.toolbar select{width:100%;min-width:130px}.comparison{gap:12px}dialog{padding:24px 18px}.probability{font-size:36px}footer{padding:18px;font-size:9px}}
-@media(prefers-reduced-motion:no-preference){main{animation:arrive .18s ease-out}@keyframes arrive{from{opacity:.5;transform:translateY(4px)}to{opacity:1;transform:none}}}
+@media(prefers-reduced-motion:no-preference){main{animation:arrive .18s ease-out}@keyframes arrive{from{transform:translateY(4px)}to{transform:none}}}
 @media(max-width:720px){.mobile-round{display:block;margin-top:18px}.mobile-round select{width:100%}.bracket{min-width:0;display:block}.round-column{display:none;min-width:0;width:100%}.round-column.mobile-selected{display:block}.round-games{height:auto!important;display:grid;gap:12px}.game{position:static;height:81px}.team-line{height:39px;font-size:14px}.game-prob,.seed{font-size:12px}.connectors{display:none}.bracket-scroll{padding:15px}.scroll-hint{display:none}}
 /* Evidence and comparison workspaces use the same theme as the app shell. */
 .season-insights{
@@ -105,7 +105,7 @@ body{font-size:16px;line-height:1.5}table{font-size:14px;line-height:1.45}.team-
   .cancelled-season,.insight-placeholder,.insight-empty{padding:20px}
 }
 @media(prefers-reduced-motion:no-preference){
-  .season-insights .button,.season-insights button,.season-insights select{transition:background-color .16s ease,border-color .16s ease,box-shadow .16s ease}
+  .season-insights .button,.season-insights button,.season-insights select{transition:border-color .16s ease,box-shadow .16s ease}
 }
 @media(max-width:720px){.topbar{height:auto;min-height:76px;gap:12px;padding:12px}.header-tools{gap:0}.brand{gap:10px}.brand small{font-size:9px}.theme-control{flex-shrink:0}}
 

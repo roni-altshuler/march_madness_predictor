@@ -328,6 +328,88 @@ unchanged.
 [Loading](screenshots/team-scouting-loading-mobile.png) ·
 [Error](screenshots/team-scouting-error-mobile.png).
 
+## Navigation and theme consistency · 2026-10-08
+
+Audited current remote main `062a8bdc92ed6eda6c6d20919452ec363d05fd5c` in the
+same saved cloud checkout. No PR was open, the tree was clean, and repository
+`AGENTS.md` plus root/repository `.agents`/`.codex` locations were checked (no
+additional instruction files). Local recovery branches and the unavailable
+laptop CBS rewrite remain intact. This change does not rebuild the bracket or
+alter tournament structure, coverage, probabilities, training or model artifacts.
+
+The initial browser journey used real navigation: homepage → historical bracket
+→ keyboard-opened Duke matchup → profile/scouting → Back/Forward and reload →
+matchup comparison → evidence → method → brand/home. Both desktop/light-system
+and mobile/dark-system preferences showed a hardcoded dark shell (`#080b12`)
+and dark home/bracket/dialog/method, then cream profile/comparison/evidence panels
+(`#f3f0e7`) with their own light color scheme. No theme control or stored choice
+existed. [Before home](screenshots/theme-before-home-desktop.png) and
+[before profile](screenshots/theme-before-profile-desktop.png) record that split.
+This is a native hash-routed app; no framework hydration boundary is involved.
+
+Both existing palettes now live in shared root tokens. Pages, dialogs, native
+controls, highlight/forecast cards, loading, cancelled/empty and error states
+inherit the chosen palette, typography and blue/gold March Lab identity. Light
+uses cream/off-white surfaces; dark remains available throughout the app. The
+header's native System/Light/Dark select initializes before stylesheet rendering.
+`marchlab.theme` stores the explicit choice locally; System follows device
+preference changes, while Light/Dark override them. Invalid or unavailable
+storage falls back to System; with blocked storage a choice works for the visit
+but cannot persist across a reload. No account, provider or dependency added.
+
+The audit also found 42px of document overflow on the 320px homepage, caused by
+the import panel's intrinsic grid width. Zero-minimum grid tracks contain it;
+bracket layout, records, model outputs and route/query state remain unchanged.
+The theme control has a visible label and 44px target, and bracket/control
+borders plus light-mode success/error text use suitable contrast tokens.
+An additional first-frame check found the old entrance animation starting loading
+text at 50% opacity. The small positional entrance remains, with full text opacity
+from the first sampled frame; reduced-motion behavior is preserved.
+The first frame after switching a profile from light to dark also exposed the
+old control background fade: light text appeared while the selector was still
+cream. Palette backgrounds and text now change together; border/focus effects
+remain. A browser guard checks the first profile-control frame after both an
+explicit choice and a System preference change.
+
+| Browser journey/condition | Verified result |
+|---|---|
+| Desktop 1440×1000 and mobile 390×844, explicit light/dark against opposite system preference | Shared palette/color scheme through home, bracket, matchup dialog, profile/scouting, comparison, evidence and method; no page errors |
+| First rendered frame while summary data is held | Saved light/dark already applied to the loading view and body, with content opacity 1; no sampled initialization flash or text fade |
+| Header choice while viewing a profile | Profile/scouting update together; changed choice survives reload without resetting the recorded appearance |
+| System preference change while on profile/home | All surfaces update together; explicit Light/Dark remain stable until System is chosen |
+| Reload and browser Back/Forward | Lookback, source year/game and saved theme remain consistent through the real route journey |
+| Empty/cancelled/error | First modern appearance has no earlier identity; cancelled 2020 has no forecasts; unavailable exact profile renders the normal error and returns via Back |
+| Invalid/blocked local storage | Navigation and theme selection remain usable |
+| 320/390/768/1440px homepage | No document overflow; full suites also retain existing mobile bracket/table behavior |
+| Sampled ordinary text, links, probabilities, winner marker and request states | Minimum 4.72:1 light / 7.36:1 dark |
+| Sampled theme/bracket control borders | Minimum 3.19:1 light / 4.67:1 dark against their surfaces |
+
+57 Python tests and seven JavaScript syntax checks pass, as do static export and
+whitespace checks. Full actual Chromium API and static browser suites pass with
+the original archive/profile/scouting/comparison/evidence/loading/error/navigation
+regressions. The same theme journeys pass under the exported project's
+`/march_madness_predictor/` subpath. The extended browser fixture and machine-read
+[journey report](screenshots/theme-journey-report.json) record the four viewport/
+theme combinations, first frame, measured contrast samples and zero page errors.
+This is sampled contrast verification, not a claim of a full accessibility audit.
+This native Python/JavaScript app has no separate lint or TypeScript configuration.
+
+[Light home · desktop](screenshots/theme-home-light-desktop.png) ·
+[mobile](screenshots/theme-home-light-mobile.png) ·
+[dark home](screenshots/theme-home-dark-desktop.png) ·
+[dark profile · mobile](screenshots/theme-profile-dark-mobile.png) ·
+[light bracket](screenshots/theme-bracket-light-desktop.png) ·
+[dark comparison](screenshots/theme-comparison-dark-desktop.png) ·
+[loading](screenshots/theme-loading-dark-mobile.png) ·
+[empty](screenshots/theme-empty-light-mobile.png) ·
+[error](screenshots/theme-error-dark-mobile.png).
+
+Screenshots were captured from continuous journeys and visually inspected.
+Earlier verification screenshots are preserved as historical evidence. Source
+`data` tree `54b8d1b74c96a76390d7edf4469b363abd00b0d1` and model `artifacts` tree
+`641b4a61c6872c384fe810f9befe9b5815316ad3` are unchanged. No production dispatch,
+access change, merge or other-project edit; draft review precedes shipping.
+
 ## Not run or unavailable
 
 - Prospective 2027 accuracy: no games or announced field exist yet.

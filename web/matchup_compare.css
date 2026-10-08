@@ -15,7 +15,7 @@
 .compare-game-heading .button{flex-shrink:0}
 .forecast-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 .forecast-card{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:20px;display:flex;flex-direction:column;min-width:0}
-.forecast-card.forecast-primary{border:2px solid var(--blue);padding:19px;background:#e2e5de}
+.forecast-card.forecast-primary{border:2px solid var(--blue);padding:19px;background:var(--highlight)}
 .forecast-heading{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
 .forecast-heading h4{font-size:17px;line-height:1.3;margin:0}
 .forecast-heading span{font:10px var(--mono);color:var(--blue);text-transform:uppercase}
@@ -24,7 +24,7 @@
 .forecast-pair span{display:block;font-size:12px;overflow-wrap:anywhere;color:var(--muted);min-height:38px}
 .forecast-pair strong{display:block;font:27px/1.3 var(--mono);letter-spacing:-.055em;color:var(--blue)}
 .forecast-pair div:last-child strong{color:var(--accent)}
-.forecast-strip{height:6px;border-radius:6px;background:#ac9a7d;overflow:hidden;margin-bottom:16px}
+.forecast-strip{height:6px;border-radius:6px;background:var(--forecast-track);overflow:hidden;margin-bottom:16px}
 .forecast-strip span{display:block;height:100%;background:var(--blue)}
 .forecast-gap{font-size:12px;font-weight:600;line-height:1.6;min-height:58px;margin-bottom:14px}
 .forecast-card .forecast-horizon{margin:auto 0 0;padding-top:14px;border-top:1px solid var(--line);min-height:0}

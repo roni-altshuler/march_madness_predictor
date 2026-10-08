@@ -1,4 +1,4 @@
-.team-scouting{margin:24px 0 32px;padding:26px;border:1px solid #a0adb3;border-radius:12px;background:var(--bg)}
+.team-scouting{margin:24px 0 32px;padding:26px;border:1px solid var(--highlight-line);border-radius:12px;background:var(--bg)}
 .scout-heading{border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:22px}
 .scout-heading h2{margin:0 0 12px;font-size:27px;letter-spacing:-.03em}
 .scout-heading .eyebrow{font-size:10px;margin-bottom:10px}
@@ -9,15 +9,15 @@
 .scout-metric strong{font:28px/1.3 var(--mono);color:var(--blue);letter-spacing:-.04em}
 .scout-metric p{font-size:12px;margin:12px 0 8px}
 .scout-metric .note{line-height:1.65}
-.scout-percentile{height:5px;border-radius:4px;overflow:hidden;background:#d5cfc2;margin:12px 0}
+.scout-percentile{height:5px;border-radius:4px;overflow:hidden;background:var(--track);margin:12px 0}
 .scout-percentile span{height:100%;display:block;background:var(--blue)}
 .scout-lookback{display:flex;gap:24px;justify-content:space-between;align-items:end;margin:26px 0 20px;padding-top:24px;border-top:1px solid var(--line)}
 .scout-lookback label{font-size:12px;min-width:280px;max-width:380px}
-.scout-lookback select{width:100%;min-height:48px;background:var(--surface);color:var(--text);border-color:#7a817f}
+.scout-lookback select{width:100%;min-height:48px;background:var(--surface);color:var(--text);border-color:var(--control-line)}
 .scout-lookback p{margin-bottom:0}
 .scout-history-summary{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:18px}
 .scout-totals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:18px 0}
-.scout-totals div{padding:16px;background:#dde2df;border:1px solid #a0adb3;border-radius:10px}
+.scout-totals div{padding:16px;background:var(--highlight);border:1px solid var(--highlight-line);border-radius:10px}
 .scout-totals span{display:block;color:var(--muted);font-size:11px;line-height:1.6;min-height:36px}
 .scout-totals strong{display:block;font:26px/1.5 var(--mono);color:var(--blue);margin-top:12px}
 .scout-empty{background:var(--surface);padding:20px;border:1px solid var(--line);border-radius:10px;font-size:13px;line-height:1.7}

@@ -21,6 +21,7 @@ jobs:
       - run: node --check web/static_api.js
       - run: node --check web/season_insights.js
       - run: node --check web/team_profiles.js
+      - run: node --check web/team_scouting.js
       - run: node --check web/matchup_compare.js
       - run: python -m madness predict --a 5 --b 12
       - run: python -m madness simulate --year 2026 --rng 42 --output /tmp/march-simulation.json

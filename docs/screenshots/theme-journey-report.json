@@ -1,0 +1,50 @@
+[
+  {
+    "viewport": "desktop",
+    "theme": "light",
+    "opposite_system_preference": "dark",
+    "first_frame": {
+      "theme": "light",
+      "background": "rgb(234, 230, 220)"
+    },
+    "minimum_sampled_text_contrast": 4.72,
+    "minimum_sampled_control_border_contrast": 3.19,
+    "page_errors": []
+  },
+  {
+    "viewport": "desktop",
+    "theme": "dark",
+    "opposite_system_preference": "light",
+    "first_frame": {
+      "theme": "dark",
+      "background": "rgb(8, 11, 18)"
+    },
+    "minimum_sampled_text_contrast": 7.36,
+    "minimum_sampled_control_border_contrast": 4.67,
+    "page_errors": []
+  },
+  {
+    "viewport": "mobile",
+    "theme": "light",
+    "opposite_system_preference": "dark",
+    "first_frame": {
+      "theme": "light",
+      "background": "rgb(234, 230, 220)"
+    },
+    "minimum_sampled_text_contrast": 4.72,
+    "minimum_sampled_control_border_contrast": 3.19,
+    "page_errors": []
+  },
+  {
+    "viewport": "mobile",
+    "theme": "dark",
+    "opposite_system_preference": "light",
+    "first_frame": {
+      "theme": "dark",
+      "background": "rgb(8, 11, 18)"
+    },
+    "minimum_sampled_text_contrast": 7.36,
+    "minimum_sampled_control_border_contrast": 4.67,
+    "page_errors": []
+  }
+]

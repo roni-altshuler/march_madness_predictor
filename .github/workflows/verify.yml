@@ -18,6 +18,7 @@ jobs:
       - run: python -m pip install -r requirements-dev.txt
       - run: python -m pytest -q
       - run: node --check web/app.js
+      - run: node --check web/theme.js
       - run: node --check web/static_api.js
       - run: node --check web/season_insights.js
       - run: node --check web/team_profiles.js

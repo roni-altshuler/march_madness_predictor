@@ -1,4 +1,4 @@
-"""Real Edge smoke test. Run separately: python tests/browser_check.py."""
+"""Real browser smoke test (Edge or Chromium): python tests/browser_check.py."""
 from pathlib import Path
 import json
 import hashlib
@@ -9,6 +9,7 @@ import time
 import urllib.request
 from playwright.sync_api import sync_playwright, expect
 from scouting_browser import assert_team_scouting
+from theme_browser import assert_theme_journeys
 
 ROOT=Path(__file__).resolve().parents[1]
 BASE='http://127.0.0.1:8037'
@@ -636,9 +637,10 @@ def run():
             assert_profile_navigation_regressions(page)
             assert_matchup_comparison(page,shots)
             assert_team_scouting(page,shots,BASE,STATIC)
+            assert_theme_journeys(browser,shots,BASE,STATIC)
             assert not errors,errors
             browser.close()
-        print('Browser checks passed: desktop/mobile archive and profiles, exact identity separation, honest aggregates, missing history/cancelled/no-contest, origin-year/region/round/focus, keyboard dialog/back/forward/retry, same-year actual links, per-year sampled draw preservation, changed-control history, delayed simulation success/failure, table scrolling, reduced motion, stale requests, recorded model comparisons/swap/loading/empty/error/profile/evidence links, historical scouting windows/field percentiles/prior-only expectations, season evidence, simulation, matchup and import validation.')
+        print('Browser checks passed: desktop/mobile archive and profiles, exact identity separation, honest aggregates, missing history/cancelled/no-contest, origin-year/region/round/focus, keyboard dialog/back/forward/retry, same-year actual links, per-year sampled draw preservation, changed-control history, delayed simulation success/failure, table scrolling, reduced motion, stale requests, recorded model comparisons/swap/loading/empty/error/profile/evidence links, historical scouting windows/field percentiles/prior-only expectations, season evidence, simulation, matchup and import validation; shared light/dark palettes across complete journeys, saved/system themes, first loading frame, contrast samples and storage fallback.')
     finally:
         proc.terminate();proc.wait(timeout=10)
 

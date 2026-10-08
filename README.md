@@ -113,7 +113,20 @@ is retrospective context, not a selection-day full-field forecast.
 [Desktop dossier](docs/screenshots/team-scouting-populated-desktop.png) ·
 [Mobile dossier](docs/screenshots/team-scouting-populated-mobile.png).
 
-![Historical bracket](docs/screenshots/archive-desktop.png)
+The whole navigation journey shares March Lab's blue/gold identity and palette:
+cream/off-white light surfaces or a dark workspace. The header's **Theme** control
+offers System, Light and Dark. The choice is initialized before styles render,
+saved locally when storage is available, and carried through the bracket, matchup
+details, profiles/scouting, comparisons, evidence, method and request states.
+System follows changes to the device preference; an explicit choice overrides it.
+Blocked storage keeps the current visit usable but cannot persist a choice.
+
+[Light desktop](docs/screenshots/theme-home-light-desktop.png) ·
+[Light mobile](docs/screenshots/theme-home-light-mobile.png) ·
+[Dark profile](docs/screenshots/theme-profile-dark-mobile.png) ·
+[Dark comparison](docs/screenshots/theme-comparison-dark-desktop.png).
+
+![Historical bracket](docs/screenshots/theme-bracket-light-desktop.png)
 
 ## Actual coverage
 
@@ -209,6 +222,7 @@ preliminary games, rather than full-field Selection Sunday forecasts.
 ```powershell
 python -m pytest -q
 node --check web/app.js
+node --check web/theme.js
 node --check web/static_api.js
 node --check web/season_insights.js
 node --check web/team_profiles.js

@@ -333,7 +333,7 @@ unchanged.
 - Prospective 2027 accuracy: no games or announced field exist yet.
 - Full-field historical Opening/First Four evaluation: those games are absent.
 - Injury/roster/market benchmarks and pre-2006 form evaluation: data unavailable.
-- Safari/iOS/Android device testing: not run; viewport checks use desktop Edge.
+- Safari/iOS/Android device testing: not run; the latest cloud viewport checks use Chromium.
 - Full 1939–1984 archive: not ingested, explicitly missing.
 
 Passing tests establish the

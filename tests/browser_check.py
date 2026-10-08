@@ -8,6 +8,7 @@ import sys
 import time
 import urllib.request
 from playwright.sync_api import sync_playwright, expect
+from scouting_browser import assert_team_scouting
 
 ROOT=Path(__file__).resolve().parents[1]
 BASE='http://127.0.0.1:8037'
@@ -634,9 +635,10 @@ def run():
             assert_team_profiles(page,shots)
             assert_profile_navigation_regressions(page)
             assert_matchup_comparison(page,shots)
+            assert_team_scouting(page,shots,BASE,STATIC)
             assert not errors,errors
             browser.close()
-        print('Browser checks passed: desktop/mobile archive and profiles, exact identity separation, honest aggregates, missing history/cancelled/no-contest, origin-year/region/round/focus, keyboard dialog/back/forward/retry, same-year actual links, per-year sampled draw preservation, changed-control history, delayed simulation success/failure, table scrolling, reduced motion, stale requests, recorded model comparisons/swap/loading/empty/error/profile/evidence links, season evidence, simulation, matchup and import validation.')
+        print('Browser checks passed: desktop/mobile archive and profiles, exact identity separation, honest aggregates, missing history/cancelled/no-contest, origin-year/region/round/focus, keyboard dialog/back/forward/retry, same-year actual links, per-year sampled draw preservation, changed-control history, delayed simulation success/failure, table scrolling, reduced motion, stale requests, recorded model comparisons/swap/loading/empty/error/profile/evidence links, historical scouting windows/field percentiles/prior-only expectations, season evidence, simulation, matchup and import validation.')
     finally:
         proc.terminate();proc.wait(timeout=10)
 

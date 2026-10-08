@@ -94,6 +94,25 @@ sources, training or model promotion.
 [Desktop comparison](docs/screenshots/matchup-comparison-populated-desktop.png) ·
 [Mobile comparison](docs/screenshots/matchup-comparison-populated-mobile.png).
 
+Team profiles also include a **historical scouting dossier** for the selected
+recorded appearance. Elo, win rate and scoring margin show March 1 values and
+percentiles among covered entrants in that tournament. The lookback control
+compares the last 3, last 5 or all earlier appearances in the same stored identity:
+recorded wins versus the sum of saved seed probabilities on those same matchups.
+Current and later tournament results are excluded from that earlier-results signal.
+
+This is descriptive evidence on observed paths, not expected full-bracket wins,
+national team rankings, player value or a future strength forecast. Missing form,
+warm-up models, no-contests, missing identities and cancelled appearances remain
+explicit; no confidence interval is estimated. The dossier reuses existing
+features and strictly earlier-trained annual snapshots without fitting or
+promoting a model. Source schedules may be incomplete, and old archive keys are
+kept separate from verified modern school identities.
+The field cohort is conditional on preliminary-round survivors; the dossier
+is retrospective context, not a selection-day full-field forecast.
+[Desktop dossier](docs/screenshots/team-scouting-populated-desktop.png) ·
+[Mobile dossier](docs/screenshots/team-scouting-populated-mobile.png).
+
 ![Historical bracket](docs/screenshots/archive-desktop.png)
 
 ## Actual coverage
@@ -193,6 +212,7 @@ node --check web/app.js
 node --check web/static_api.js
 node --check web/season_insights.js
 node --check web/team_profiles.js
+node --check web/team_scouting.js
 node --check web/matchup_compare.js
 python -m pip install -r requirements-dev.txt
 python tests/browser_check.py

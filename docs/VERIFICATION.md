@@ -254,6 +254,80 @@ inspected; no deployment or access changes were made.
 [History Back · desktop](screenshots/matchup-comparison-review-history-back-desktop.png) ·
 [mobile](screenshots/matchup-comparison-review-history-back-mobile.png).
 
+## Historical team scouting dossier · 2026-10-08
+
+Started from merged main `ac95e07c2e54e846f7f0c9bb26902de7503e367c` after checking
+that no PR was open. The saved cloud checkout was clean. Root `.agents`/`.codex`
+had no extra skill/instruction files; the repository's men's-only, chronological
+model and exact-identity rules remain in force. The laptop CBS rewrite remains
+unavailable and untouched. No bracket rewrite, source collection or training.
+
+Story: recorded bracket/matchup → existing team profile → frozen form and saved
+annual seed probabilities → selectable earlier-appearance window → source matchup
+comparison and return navigation. The existing `/api/team` and exported profile
+JSON carry display-only form context and paired game probabilities. No new
+endpoint, provider, dependency or access setting is needed.
+
+| Boundary | Evidence |
+|---|---|
+| Data → probabilities | 57 Python/Node tests pass. Displayed earlier expectations match the seed model on identical played game IDs, in each team's orientation. Every saved model fits strictly before its own tournament |
+| Temporal window | Last 3/5/all windows include appearances strictly before the selected year. Changing selected/later outcomes cannot change the earlier summary. Old archive keys are not joined into modern ESPN identities |
+| Form → field context | Finite Elo/win-rate/margin values at March 1, 00:00 UTC, compared only with covered archived entrants at the same cutoff. Percentile = 100 × (lower values + half tied values) / covered values |
+| Missing data | No-contests excluded; warm-up expectations and missing form are dashes. First modern appearance has no earlier identity record. Cancelled 2020 and unrecorded 2027 have no dossier forecasts or scouting controls |
+| Browser → API/static → UI | Actual Chromium desktop/mobile interactions, keyboard controls, loading/error/retry, repeated navigation and delayed profile responses are covered in `tests/scouting_browser.py`, called by the full browser suite |
+
+Duke's five recorded appearances before 2026 are 2025, 2024, 2023, 2022 and 2019:
+20 covered played games, 15 recorded wins, 13.53 expected wins under their own
+earlier-trained seed snapshots and a +1.47 difference. These are sums on the
+opponents actually faced, not expected full-bracket wins. The form panel shows
+29 covered games, Elo 1694.9, win rate 93.1% and mean margin 20.3 points, with
+field percentiles 96.1, 94.5 and 96.1 among 64 covered archived entrants. This
+field is conditional on preliminary survivors, not a selection-day full field.
+
+Controls preserve lookback/year in the URL across reload and Back/Forward; Enter
+from an earlier row opens Duke's real `2025-r1-16` matchup. Returning to the
+origin bracket restores 2026, its region/round and game focus. A delayed Duke
+profile cannot overwrite a newer Michigan profile. Retry with Enter preserves
+the requested lookback. Reduced motion disables control transitions; table
+scrolling remains keyboard accessible on mobile. No confidence interval, player
+value, team ability ranking or prospective accuracy claim is introduced. The
+seed baseline and rolling holdouts do not consume this display-only dossier.
+
+Full API and static browser suites pass. The dossier flow also passes under the
+exported project's `/march_madness_predictor/` subpath at desktop 1440×1000 and
+mobile 390×844; 768px and 320px checks have no document overflow. All twelve
+populated/no-prior/warm-up/loading/error/cancelled screenshots were captured and
+visually inspected at both sizes. Six JavaScript syntax checks, static export and
+whitespace checks pass. No separate lint or TypeScript configuration exists in
+this native JavaScript/Python app. Source `data` tree
+`54b8d1b74c96a76390d7edf4469b363abd00b0d1` and model `artifacts` tree
+`641b4a61c6872c384fe810f9befe9b5815316ad3` remain unchanged. No merge or manual
+production workflow dispatch; independent review is required before shipping.
+
+### Reel reference and reuse decision
+
+Reviewed `grandngom/xG-model-football` at commit
+`c992f0335ddecc281c211dda062132808868fb3f` on 2026-10-08. Its
+[license](https://github.com/grandngom/xG-model-football/blob/c992f0335ddecc281c211dda062132808868fb3f/LICENSE)
+is MIT; its [README](https://github.com/grandngom/xG-model-football/blob/c992f0335ddecc281c211dda062132808868fb3f/README.md)
+reports 50 soccer matches, 1,390 shots and 166 goals. Its
+[main script](https://github.com/grandngom/xG-model-football/blob/c992f0335ddecc281c211dda062132808868fb3f/main.py)
+uses shot geometry/context, random shot splits and evaluates/bootstrap-samples
+full-dataset predictions that include training shots. This is not evidence for
+chronological basketball validation or a production tournament model. No code,
+soccer data or fitted models were copied; the other reel's gated bundle was not
+obtained. The useful expected-versus-observed comparison idea is implemented in
+the correct unit—played tournament wins—using the existing NumPy model and
+native accessible UI. Existing basketball provenance and source licenses remain
+unchanged.
+
+[Desktop dossier](screenshots/team-scouting-populated-desktop.png) ·
+[Mobile dossier](screenshots/team-scouting-populated-mobile.png) ·
+[No earlier identity](screenshots/team-scouting-no-prior-mobile.png) ·
+[Warm-up](screenshots/team-scouting-warm-up-mobile.png) ·
+[Loading](screenshots/team-scouting-loading-mobile.png) ·
+[Error](screenshots/team-scouting-error-mobile.png).
+
 ## Not run or unavailable
 
 - Prospective 2027 accuracy: no games or announced field exist yet.

@@ -6,6 +6,7 @@ from .data import ROOT, read, feature_table
 from .model import predict, vector
 from .bracket import historical_field, simulate
 from .team_profiles import build_team_profiles, profile_teams
+from .scouting import add_scouting_context
 
 
 def load_state():
@@ -15,6 +16,7 @@ def load_state():
                 field=read(ROOT/'data/field_2027.json'),
                 coverage=read(ROOT/'data/derived/schedule_coverage.json') if (ROOT/'data/derived/schedule_coverage.json').exists() else None)
     state['team_profiles'] = build_team_profiles(state['archive'], state['features'], state['provenance'])
+    add_scouting_context(state)
     return state
 
 

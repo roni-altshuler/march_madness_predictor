@@ -110,3 +110,4 @@ body{font-size:16px;line-height:1.5}table{font-size:14px;line-height:1.45}.team-
 @media(max-width:720px){.topbar{height:auto;min-height:76px;gap:12px;padding:12px}.header-tools{gap:0}.brand{gap:10px}.brand small{font-size:9px}.theme-control{flex-shrink:0}}
 
 .hero .button{margin:4px 4px 0 0}
+#detail-prediction{margin-top:10px}

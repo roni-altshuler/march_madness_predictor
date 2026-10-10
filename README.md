@@ -37,6 +37,13 @@ tournament conventions, with its own branding and no copied NCAA assets.
 On mobile, a round selector gives a readable matchup list. On desktop/tablet,
 the connected bracket scrolls inside its own frame.
 
+The bracket matchup dialog labels the selected comparison model and shows a
+loading state while its saved probability is retrieved. Results and failures
+belong to the open matchup and latest model choice: switching games or seasons,
+closing the dialog, or choosing another model cannot replace the current view
+with an older response. A failed comparison stays explicit; changing the model
+retries it. This changes display behavior, not the saved probabilities or models.
+
 The model evidence page includes a **Season evidence** inspector. Choose a year
 to see played labels, score/date coverage, pre-March feature coverage, the saved
 seed model's training and calibration horizons, and per-model evaluation scores.
@@ -45,8 +52,8 @@ form snapshots and cancelled 2020 are explicit; missing evaluations stay as
 dashes. Feature availability does not imply that a form model could be trained
 on enough earlier games. The inspector reads bundled artifacts without refitting
 or promoting a challenger, and works in both local and static builds.
-Its cream surfaces, warm neutral cards, clear bracket action and visible primary
-model callout sit within March Lab's original dark navigation. Focus outlines,
+Its clear bracket action and visible primary model callout share the selected
+palette with March Lab's navigation. Focus outlines,
 responsive score tables and reduced-motion-aware control transitions support
 keyboard and mobile exploration. Loading, cancelled and retry states remain
 explicit rather than displaying old or invented scores.

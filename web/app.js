@@ -88,7 +88,23 @@ $('#detail-body').innerHTML=`<p class="eyebrow">${year} · ${esc(g.round_name||'
 <div class="table-scroll"><table><caption>Team comparison · form frozen March 1, 00:00 UTC</caption><thead><tr><th>Feature</th><th>${esc(labelTeam(g.a))}</th><th>${esc(labelTeam(g.b))}</th></tr></thead><tbody><tr><td>Seed</td><td>${g.seed_a}</td><td>${g.seed_b}</td></tr><tr><td>Within-season Elo</td><td>${teamCell(fa,'elo')}</td><td>${teamCell(fb,'elo')}</td></tr><tr><td>Win rate</td><td>${fa?pct(fa.win_rate):'—'}</td><td>${fb?pct(fb.win_rate):'—'}</td></tr><tr><td>Mean scoring margin</td><td>${teamCell(fa,'margin')}</td><td>${teamCell(fb,'margin')}</td></tr><tr><td>Completed games</td><td>${teamCell(fa,'games',0)}</td><td>${teamCell(fb,'games',0)}</td></tr></tbody></table></div>
 <p class="note" style="margin-top:15px">Missing statistics stay absent. The seed model does not use form statistics. No injuries, rosters or market prices are modeled.</p>${season.model&&g.status!=='no_contest'?`<label for="detail-model">Compare probability model<select id="detail-model"><option value="seed">Seed baseline</option><option value="seed_curve">Seed curve challenger</option>${fa&&fb&&season.available_models?.includes('form')?'<option value="form">Pre-March form challenger</option>':''}</select></label><div id="detail-prediction" class="statusline" role="status"></div>`:''}`;
 if(origin&&view==='actual'){const link=document.createElement('a');link.className='button';link.textContent='Compare saved forecasts →';link.href=`#matchup?${new URLSearchParams({compare_year:year,compare_game:g.id})}`;$('#detail-body').append(link);}
-dialog.showModal();$('#detail-model')?.addEventListener('change',async e=>{try{const r=await api(`/api/predict?year=${year}&model=${e.target.value}&a=${g.seed_a}&b=${g.seed_b}&team_a=${encodeURIComponent(g.a)}&team_b=${encodeURIComponent(g.b)}`);$('#detail-prediction').textContent=`${labelTeam(g.a)} ${pct(r.p_a)} · ${labelTeam(g.b)} ${pct(r.p_b)} · trained through ${maxTrain(r.model)}`;}catch(err){$('#detail-prediction').textContent=err.message;}});
+dialog.showModal();
+const modelSelect=$('#detail-model'),prediction=$('#detail-prediction');
+let predictionVersion=0;
+modelSelect?.addEventListener('change',async()=>{
+  const request=++predictionVersion,kind=modelSelect.value,label=modelSelect.selectedOptions[0].textContent;
+  const isCurrent=()=>request===predictionVersion&&dialog.open&&modelSelect.isConnected&&prediction.isConnected;
+  prediction.textContent=`Loading ${label.toLowerCase()} probability…`;
+  prediction.setAttribute('aria-busy','true');
+  try{
+    const r=await api(`/api/predict?year=${year}&model=${kind}&a=${g.seed_a}&b=${g.seed_b}&team_a=${encodeURIComponent(g.a)}&team_b=${encodeURIComponent(g.b)}`);
+    if(isCurrent())prediction.textContent=`${label} · ${labelTeam(g.a)} ${pct(r.p_a)} · ${labelTeam(g.b)} ${pct(r.p_b)} · trained through ${maxTrain(r.model)}`;
+  }catch(err){
+    if(isCurrent())prediction.textContent=`${label}: comparison unavailable. ${err.message}`;
+  }finally{
+    if(request===predictionVersion)prediction.removeAttribute('aria-busy');
+  }
+});
 }
 function matchup(params=new URLSearchParams()){main.innerHTML=heading('PROBABILITY EXPLORER','Matchup lab','Explore a seed scenario, then compare the saved forecasts for a recorded tournament game.')+
 `<section class="panel"><form id="matchup-form"><div class="two-inputs"><label for="seed-a">Team A seed<input id="seed-a" name="a" type="number" min="1" max="16" step="1" value="5" required></label><label for="seed-b">Team B seed<input id="seed-b" name="b" type="number" min="1" max="16" step="1" value="12" required></label></div><div class="toolbar"><label for="matchup-model">Model<select id="matchup-model"><option value="seed">Seed baseline · primary</option><option value="seed_curve">Seed curve · challenger</option></select></label><button class="primary" type="submit">Compare seeds</button></div></form><div id="matchup-result" role="status"></div></section><div class="panels"><section class="panel"><h2>What a seed probability means</h2><p class="muted">Teams with the same seed receive the same probability. A 5 seed’s chance against a 12 seed reflects past seed outcomes, rather than this season’s roster or style of play.</p></section><section class="panel"><h2>Where the numbers come from</h2><p class="muted">Logistic regression on 2,582 played main-bracket games through 2026. A temperature adjustment uses prior rolling predictions. Swapping teams complements the probability exactly.</p><a href="#evidence">See the benchmark →</a></section></div>`;

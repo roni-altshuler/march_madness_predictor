@@ -1,0 +1,16 @@
+[
+  {
+    "viewport": "desktop",
+    "title": "Auburn vs Alabama State",
+    "selected_model": "seed_curve",
+    "current_before_late_response": "Auburn 91.5% \u00b7 Alabama State 8.5% \u00b7 trained through 2024",
+    "after_late_2026_response": "Duke 92.7% \u00b7 Siena 7.3% \u00b7 trained through 2025"
+  },
+  {
+    "viewport": "mobile",
+    "title": "Auburn vs Alabama State",
+    "selected_model": "seed_curve",
+    "current_before_late_response": "Auburn 91.5% \u00b7 Alabama State 8.5% \u00b7 trained through 2024",
+    "after_late_2026_response": "Duke 92.7% \u00b7 Siena 7.3% \u00b7 trained through 2025"
+  }
+]

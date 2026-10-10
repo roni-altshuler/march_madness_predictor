@@ -10,6 +10,7 @@ import urllib.request
 from playwright.sync_api import sync_playwright, expect
 from scouting_browser import assert_team_scouting
 from theme_browser import assert_theme_journeys
+from bracket_drilldown_browser import assert_bracket_drilldowns
 
 ROOT=Path(__file__).resolve().parents[1]
 BASE='http://127.0.0.1:8037'
@@ -638,9 +639,10 @@ def run():
             assert_matchup_comparison(page,shots)
             assert_team_scouting(page,shots,BASE,STATIC)
             assert_theme_journeys(browser,shots,BASE,STATIC)
+            assert_bracket_drilldowns(browser,shots,BASE,STATIC)
             assert not errors,errors
             browser.close()
-        print('Browser checks passed: desktop/mobile archive and profiles, exact identity separation, honest aggregates, missing history/cancelled/no-contest, origin-year/region/round/focus, keyboard dialog/back/forward/retry, same-year actual links, per-year sampled draw preservation, changed-control history, delayed simulation success/failure, table scrolling, reduced motion, stale requests, recorded model comparisons/swap/loading/empty/error/profile/evidence links, historical scouting windows/field percentiles/prior-only expectations, season evidence, simulation, matchup and import validation; shared light/dark palettes across complete journeys, saved/system themes, first loading frame, contrast samples and storage fallback.')
+        print('Browser checks passed: desktop/mobile archive and profiles, exact identity separation, honest aggregates, missing history/cancelled/no-contest, origin-year/region/round/focus, keyboard dialog/back/forward/retry, same-year actual links, per-year sampled draw preservation, changed-control history, delayed simulation success/failure, table scrolling, reduced motion, stale requests, recorded model comparisons/swap/loading/empty/error/profile/evidence links, historical scouting windows/field percentiles/prior-only expectations, season evidence, simulation, matchup and import validation; shared light/dark palettes across complete journeys, saved/system themes, first loading frame, contrast samples and storage fallback; bracket drilldown request ownership, latest model, loading/current errors/retry and delayed success/failure.')
     finally:
         proc.terminate();proc.wait(timeout=10)
 

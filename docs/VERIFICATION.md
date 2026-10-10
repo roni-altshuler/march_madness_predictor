@@ -410,6 +410,78 @@ Earlier verification screenshots are preserved as historical evidence. Source
 `641b4a61c6872c384fe810f9befe9b5815316ad3` are unchanged. No production dispatch,
 access change, merge or other-project edit; draft review precedes shipping.
 
+## Bracket matchup response ownership · 2026-10-10
+
+Started from remote main `dd237eedce04bece2b19093532e7639fa318a5c4` after checking
+the clean saved checkout, open PRs (none), `AGENTS.md` and root/repository
+`.agents`/`.codex` locations (no additional files). All local recovery branches
+remain intact; the unpublished laptop CBS rewrite is unavailable and untouched.
+Temporary pinned test/browser dependencies were restored in `/tmp`.
+
+The desktop/mobile audit covered the existing connected bracket and mobile round
+list, keyboard-opened games, Escape/return focus, later-round profile drilldown
+and Back, warm-up/no-contest dialogs, cancelled evidence and unknown future field.
+The highest-impact reproduced issue was a probability result belonging to a
+different game, model and year. Holding Duke–Siena's 2026 form request, then
+opening Auburn–Alabama State for 2025 and selecting the seed curve, initially
+showed the correct Auburn 91.5% result trained through 2024. Releasing the earlier
+real response replaced it with Duke 92.7% / Siena 7.3%, trained through 2025,
+under the Auburn title and seed-curve control. This occurred on both sizes.
+[Before desktop](screenshots/bracket-drilldown-before-title-desktop.png) ·
+[before mobile result](screenshots/bracket-drilldown-before-result-mobile.png) ·
+[before report](screenshots/bracket-drilldown-before-report.json).
+
+The dialog now captures its own result/control nodes and gates updates on the
+open dialog, connected nodes and latest choice. Loading clears the earlier
+comparison and sets `aria-busy`; completion/error names the selected model and
+clears busy only for its latest request. Closing or replacing a matchup prevents
+late success/error from writing into another dialog or route. Current errors
+remain explicit, and a new model choice retries without replacing the control
+or losing its keyboard focus. The large seed-baseline figures, query inputs,
+stored annual snapshots and probability calculations are unchanged.
+The status has a small top gap so the selector's focus outline does not overlap
+loading/error text; the existing palette and bracket layout remain intact.
+
+| Actual Chromium case | Verified result |
+|---|---|
+| Late 2026 success after a 2025 matchup opens | Auburn's seed-curve 91.5% / 8.5%, trained through 2024, remains intact |
+| Late failure from a previous matchup/year | Current title, selected model, result and busy state remain intact |
+| Rapid form → curve → seed choices | Only the last seed result is rendered/announced; older success/error cannot replace it |
+| Current controlled comparison failure, then new choice | Explicit unavailable comparison; fresh curve result loads and selector keeps focus |
+| Pending comparison → keyboard-opened team profile | Late response does not alter the profile or update hidden comparison text |
+| Sweet 16 → team profile → keyboard Back | Original game focus and matching mobile round are restored |
+| 1985 warm-up and Oregon–VCU no-contest | No comparison control; both probabilities remain dashes |
+| Cancelled 2020 evidence and unknown future field | No invented bracket/forecasts; existing field-pending state remains |
+
+The reproducible fixture in `tests/bracket_drilldown_browser.py` runs twelve cases
+across desktop 1440×1000 and mobile 390×844 in both the API and static suites.
+It delays real saved responses; 503 fixtures are explicitly controlled UI tests.
+Same-year static requests share a delayed table, while local forecasts are
+released in reverse order. Both paths render/announce only the latest choice.
+The [after report](screenshots/bracket-drilldown-report.json) records titles,
+results, cases and zero page errors. Screenshots were captured and visually
+inspected at both sizes.
+
+57 Python tests, seven JavaScript syntax checks, full API/static Chromium browser
+suites, static export and whitespace checks pass. Existing comparison, scouting,
+profile, theme, chronology and model/table-equality regressions remain green.
+This native app has no separate lint or TypeScript configuration. The focused
+drilldown cases also pass under the exported `/march_madness_predictor/` subpath.
+Responsive 320/390/768/1440px checks have no document overflow.
+
+[After desktop](screenshots/bracket-drilldown-after-title-desktop.png) ·
+[after mobile result](screenshots/bracket-drilldown-after-result-mobile.png) ·
+[loading](screenshots/bracket-drilldown-loading-mobile.png) ·
+[controlled error](screenshots/bracket-drilldown-error-mobile.png).
+
+The audit also observed mobile round selection resetting on region redraw. It
+remains a separate follow-up; this bounded change prioritizes misleading
+matchup/model/year results. No bracket layout rewrite, unsupported preliminary
+rounds, fitting, accuracy promise, provider/dependency/access change, merge or
+production dispatch. Source `data` tree
+`54b8d1b74c96a76390d7edf4469b363abd00b0d1` and model `artifacts` tree
+`641b4a61c6872c384fe810f9befe9b5815316ad3` remain unchanged.
+
 ## Not run or unavailable
 
 - Prospective 2027 accuracy: no games or announced field exist yet.

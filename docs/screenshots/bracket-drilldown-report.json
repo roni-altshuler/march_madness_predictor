@@ -1,0 +1,84 @@
+[
+  {
+    "viewport": "desktop",
+    "case": "late success",
+    "year": 2025,
+    "title": "Auburn vs Alabama State",
+    "result": "Seed curve challenger \u00b7 Auburn 91.5% \u00b7 Alabama State 8.5% \u00b7 trained through 2024",
+    "page_errors": []
+  },
+  {
+    "viewport": "desktop",
+    "case": "late failure",
+    "year": 2025,
+    "title": "Auburn vs Alabama State",
+    "result": "Seed curve challenger \u00b7 Auburn 91.5% \u00b7 Alabama State 8.5% \u00b7 trained through 2024",
+    "page_errors": []
+  },
+  {
+    "viewport": "desktop",
+    "case": "rapid model choices",
+    "year": 2026,
+    "result": "Seed baseline \u00b7 Duke 91.4% \u00b7 Siena 8.6% \u00b7 trained through 2025",
+    "page_errors": []
+  },
+  {
+    "viewport": "desktop",
+    "case": "current error and retry",
+    "year": 2026,
+    "result": "Seed curve challenger \u00b7 Duke 92.2% \u00b7 Siena 7.8% \u00b7 trained through 2025",
+    "page_errors": []
+  },
+  {
+    "viewport": "desktop",
+    "case": "leave to profile",
+    "year": 2026,
+    "page_errors": []
+  },
+  {
+    "viewport": "desktop",
+    "case": "later-round back, warm-up, no-contest, cancelled and unknown field",
+    "page_errors": []
+  },
+  {
+    "viewport": "mobile",
+    "case": "late success",
+    "year": 2025,
+    "title": "Auburn vs Alabama State",
+    "result": "Seed curve challenger \u00b7 Auburn 91.5% \u00b7 Alabama State 8.5% \u00b7 trained through 2024",
+    "page_errors": []
+  },
+  {
+    "viewport": "mobile",
+    "case": "late failure",
+    "year": 2025,
+    "title": "Auburn vs Alabama State",
+    "result": "Seed curve challenger \u00b7 Auburn 91.5% \u00b7 Alabama State 8.5% \u00b7 trained through 2024",
+    "page_errors": []
+  },
+  {
+    "viewport": "mobile",
+    "case": "rapid model choices",
+    "year": 2026,
+    "result": "Seed baseline \u00b7 Duke 91.4% \u00b7 Siena 8.6% \u00b7 trained through 2025",
+    "page_errors": []
+  },
+  {
+    "viewport": "mobile",
+    "case": "current error and retry",
+    "year": 2026,
+    "result": "Seed curve challenger \u00b7 Duke 92.2% \u00b7 Siena 7.8% \u00b7 trained through 2025",
+    "page_errors": []
+  },
+  {
+    "viewport": "mobile",
+    "case": "leave to profile",
+    "year": 2026,
+    "page_errors": []
+  },
+  {
+    "viewport": "mobile",
+    "case": "later-round back, warm-up, no-contest, cancelled and unknown field",
+    "page_errors": []
+  }
+]

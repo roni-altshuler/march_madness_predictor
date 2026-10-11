@@ -36,6 +36,13 @@ supports keyboard operation. Its bracket-first navigation follows familiar
 tournament conventions, with its own branding and no copied NCAA assets.
 On mobile, a round selector gives a readable matchup list. On desktop/tablet,
 the connected bracket scrolls inside its own frame.
+The archive preserves the selected regional round when switching regions, years
+or actual/simulated views. Final Four and Championship have a separate remembered
+choice. Region, view and year controls retain keyboard focus. The current round
+is saved in the URL for reload and returning from another page with Back/Forward;
+opening a game restores its round and card focus when returning from a profile.
+[Mobile region continuity](docs/screenshots/bracket-navigation-region-mobile.png) ·
+[Championship selection](docs/screenshots/bracket-navigation-finals-mobile.png).
 
 The bracket matchup dialog labels the selected comparison model and shows a
 loading state while its saved probability is retrieved. Results and failures
@@ -65,7 +72,7 @@ recorded appearances, seeds, final stages, opponents and available scores/dates,
 then return to the originating bracket, region and game. The same journey works
 with keyboard navigation, the mobile round list and the exported static app.
 Recorded-appearance links always open actual results. Archive controls keep the
-URL aligned with the displayed year, region and view for browser Back/Forward.
+URL aligned with the displayed year, region, round and view for browser Back/Forward.
 The latest sampled draw per year survives browsing other seasons during the
 session; reloading switches to explicitly labeled actual results.
 The cream/navy profile uses text initials; no team logos or player portraits are

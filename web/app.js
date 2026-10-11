@@ -74,7 +74,15 @@ function bracketMarkup(groups,count,teams=season.teams,selectedColumn=0){
     return `<section class="round-column ${col===selectedColumn?'mobile-selected':''}" data-column="${col}"><h3 class="round-label">${esc(round.round_name)}</h3><div class="round-games" style="height:${height}px">${cards}${connectors?`<svg class="connectors" width="28" height="${height}" viewBox="0 0 28 ${height}" aria-hidden="true">${connectors}</svg>`:''}</div></section>`;
   }).join('')}</div></div>`;
 }
-function drawArchive(focusControl=null){const played=season.games.filter(g=>g.status==='played').length,groups=[];
+function drawArchive(focusControl=null){
+// An async simulation redraw must keep the user's latest archive-control focus.
+const active=document.activeElement;
+if(!focusControl&&$('#season-content')?.contains(active)){
+  if(active.id==='mobile-round')focusControl='#mobile-round';
+  else if(active.hasAttribute('data-region'))focusControl=`[data-region="${active.dataset.region}"]`;
+  else if(active.hasAttribute('data-view'))focusControl=`[data-view="${active.dataset.view}"]`;
+}
+const played=season.games.filter(g=>g.status==='played').length,groups=[];
 for(let r=1;r<=6;r++){let games=view==='sample'?simulation.sampled_rounds[r-1].games:season.games.filter(g=>g.round===r);if(region===4&&r>=5)groups.push({round_name:['Final Four','Championship'][r-5],games});if(region<4&&r<=4){const perRegion=games.length/4;groups.push({round_name:['Round of 64','Round of 32','Sweet 16','Elite Eight'][r-1],games:games.slice(region*perRegion,(region+1)*perRegion)});}}
 $('#season-content').className='';$('#season-content').removeAttribute('role');
 $('#season-content').innerHTML=`<div class="stats">${stat(esc(season.champion),'Actual champion')}${stat(played,'Played main-bracket games')}${stat(season.model?maxTrain(season.model):'—','Model trained through')}${stat(Object.keys(season.features).length,'Teams with pre-March form features')}</div>

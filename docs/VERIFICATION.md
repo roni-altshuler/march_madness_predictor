@@ -575,3 +575,46 @@ subpath. Hosted-main Chromium reachability still fails before page load with
 `net::ERR_TUNNEL_CONNECTION_FAILED`; this is not evidence of a live UI failure or
 a hosted verification pass. The proposed branch remains unmerged and has not
 been published or manually dispatched.
+
+### Independent-review follow-up: focus during a held simulation
+
+At reviewed head `43a0fbdc878314f663ffbcd989e70598f1d1a835`, the independent
+reviewer identified a redraw path absent from the original navigation journeys.
+A read-only probe held the real 2026 simulation response, selected Sweet 16,
+started simulation, then keyboard-activated Region 2 while Calculating was
+visible. Releasing the response retained Region 2, Sweet 16 and the correct
+`view=sample&round=3` URL, but `activeElement` changed from the Region 2 button to
+`BODY`. This reproduced in API/static transports at mobile and desktop sizes.
+
+[Reviewed-head report](screenshots/bracket-navigation-simulation-focus-before-report.json) ·
+[before mobile viewport](screenshots/bracket-navigation-simulation-focus-before-mobile.png).
+The viewport baseline was captured from a local static copy whose `app.js` was
+byte-verified against the reviewed commit; the original probe also asserted a
+clean tree and that exact head. Real sampled draws can differ with their random
+seed; the evidence concerns control focus and selected navigation context.
+
+The follow-up adds eight lines at the start of `drawArchive`: capture a currently
+focused archive region/view/round control before replacing its subtree, then
+reuse the existing focus restoration. It reads focus at completion rather than
+restoring the control that originally started the request. Explicit control
+focus targets keep their existing behavior. Focus owned by the modal or year
+selector is outside that subtree and remains on the same connected element.
+The simulation ownership guard and matchup/model response guards are unchanged.
+
+`assert_simulation_focus` adds fourteen held-response cases (seven per transport)
+with actual API/exported data, mobile 390 × 844 and desktop 1440 × 844. These
+verify the requested Region 2/Sweet 16 flow, a newer mobile Elite Eight choice,
+modal model-selector ownership and year-selector focus. Reports record before
+and after `activeElement`, region, round, URL, result legend and modal state.
+All cases pass with zero page errors. The modal retains its explicit historical
+result label while the bracket is explicitly labeled as a sampled draw.
+
+[API follow-up report](screenshots/bracket-navigation-simulation-focus-api-report.json) ·
+[static follow-up report](screenshots/bracket-navigation-simulation-focus-static-report.json) ·
+[after mobile viewport](screenshots/bracket-navigation-simulation-focus-mobile.png) ·
+[after desktop viewport](screenshots/bracket-navigation-simulation-focus-desktop.png).
+
+57 Python tests, seven JavaScript syntax checks, static export, whitespace checks
+and full API/static Chromium browser suites passed again. Saved data/model
+artifacts, probability calculations and training/calibration horizons remain
+unchanged. This follow-up remains on the same draft PR for independent review.

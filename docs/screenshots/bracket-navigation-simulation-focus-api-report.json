@@ -1,0 +1,208 @@
+{
+  "mode": "api",
+  "cases": [
+    {
+      "viewport": "mobile",
+      "owner": "region",
+      "before_release": {
+        "active": {
+          "tag": "BUTTON",
+          "id": "",
+          "region": "1"
+        },
+        "region": "1",
+        "round": "Sweet 16",
+        "url": "#archive?year=2026&region=1&view=actual&round=3",
+        "legend": "\u2713 Actual winner \u00b7 blue % is the historical model\u2019s chance for the top team \u00b7 trained on prior tournaments",
+        "modal_open": false
+      },
+      "after_release": {
+        "active": {
+          "tag": "BUTTON",
+          "id": "",
+          "region": "1"
+        },
+        "region": "1",
+        "round": "Sweet 16",
+        "url": "#archive?year=2026&region=1&view=sample&round=3",
+        "legend": "\u2713 Winner in one simulated draw \u00b7 probabilities use the historical model \u00b7 trained on prior tournaments",
+        "modal_open": false
+      },
+      "page_errors": []
+    },
+    {
+      "viewport": "mobile",
+      "owner": "round",
+      "before_release": {
+        "active": {
+          "tag": "SELECT",
+          "id": "mobile-round",
+          "region": null
+        },
+        "region": "1",
+        "round": "Elite Eight",
+        "url": "#archive?year=2026&region=1&view=actual&round=4",
+        "legend": "\u2713 Actual winner \u00b7 blue % is the historical model\u2019s chance for the top team \u00b7 trained on prior tournaments",
+        "modal_open": false
+      },
+      "after_release": {
+        "active": {
+          "tag": "SELECT",
+          "id": "mobile-round",
+          "region": null
+        },
+        "region": "1",
+        "round": "Elite Eight",
+        "url": "#archive?year=2026&region=1&view=sample&round=4",
+        "legend": "\u2713 Winner in one simulated draw \u00b7 probabilities use the historical model \u00b7 trained on prior tournaments",
+        "modal_open": false
+      },
+      "page_errors": []
+    },
+    {
+      "viewport": "mobile",
+      "owner": "modal",
+      "before_release": {
+        "active": {
+          "tag": "SELECT",
+          "id": "detail-model",
+          "region": null
+        },
+        "region": "1",
+        "round": "Sweet 16",
+        "url": "#archive?year=2026&region=1&view=actual&game=2026-r3-2&round=3",
+        "legend": "\u2713 Actual winner \u00b7 blue % is the historical model\u2019s chance for the top team \u00b7 trained on prior tournaments",
+        "modal_open": true
+      },
+      "after_release": {
+        "active": {
+          "tag": "SELECT",
+          "id": "detail-model",
+          "region": null
+        },
+        "region": "1",
+        "round": "Sweet 16",
+        "url": "#archive?year=2026&region=1&view=sample&round=3",
+        "legend": "\u2713 Winner in one simulated draw \u00b7 probabilities use the historical model \u00b7 trained on prior tournaments",
+        "modal_open": true
+      },
+      "page_errors": []
+    },
+    {
+      "viewport": "mobile",
+      "owner": "year",
+      "before_release": {
+        "active": {
+          "tag": "SELECT",
+          "id": "archive-year",
+          "region": null
+        },
+        "region": "1",
+        "round": "Sweet 16",
+        "url": "#archive?year=2026&region=1&view=actual&round=3",
+        "legend": "\u2713 Actual winner \u00b7 blue % is the historical model\u2019s chance for the top team \u00b7 trained on prior tournaments",
+        "modal_open": false
+      },
+      "after_release": {
+        "active": {
+          "tag": "SELECT",
+          "id": "archive-year",
+          "region": null
+        },
+        "region": "1",
+        "round": "Sweet 16",
+        "url": "#archive?year=2026&region=1&view=sample&round=3",
+        "legend": "\u2713 Winner in one simulated draw \u00b7 probabilities use the historical model \u00b7 trained on prior tournaments",
+        "modal_open": false
+      },
+      "page_errors": []
+    },
+    {
+      "viewport": "desktop",
+      "owner": "region",
+      "before_release": {
+        "active": {
+          "tag": "BUTTON",
+          "id": "",
+          "region": "1"
+        },
+        "region": "1",
+        "round": "Sweet 16",
+        "url": "#archive?year=2026&region=1&view=actual&round=3",
+        "legend": "\u2713 Actual winner \u00b7 blue % is the historical model\u2019s chance for the top team \u00b7 trained on prior tournaments",
+        "modal_open": false
+      },
+      "after_release": {
+        "active": {
+          "tag": "BUTTON",
+          "id": "",
+          "region": "1"
+        },
+        "region": "1",
+        "round": "Sweet 16",
+        "url": "#archive?year=2026&region=1&view=sample&round=3",
+        "legend": "\u2713 Winner in one simulated draw \u00b7 probabilities use the historical model \u00b7 trained on prior tournaments",
+        "modal_open": false
+      },
+      "page_errors": []
+    },
+    {
+      "viewport": "desktop",
+      "owner": "modal",
+      "before_release": {
+        "active": {
+          "tag": "SELECT",
+          "id": "detail-model",
+          "region": null
+        },
+        "region": "1",
+        "round": "Sweet 16",
+        "url": "#archive?year=2026&region=1&view=actual&game=2026-r3-2&round=3",
+        "legend": "\u2713 Actual winner \u00b7 blue % is the historical model\u2019s chance for the top team \u00b7 trained on prior tournaments",
+        "modal_open": true
+      },
+      "after_release": {
+        "active": {
+          "tag": "SELECT",
+          "id": "detail-model",
+          "region": null
+        },
+        "region": "1",
+        "round": "Sweet 16",
+        "url": "#archive?year=2026&region=1&view=sample&round=3",
+        "legend": "\u2713 Winner in one simulated draw \u00b7 probabilities use the historical model \u00b7 trained on prior tournaments",
+        "modal_open": true
+      },
+      "page_errors": []
+    },
+    {
+      "viewport": "desktop",
+      "owner": "year",
+      "before_release": {
+        "active": {
+          "tag": "SELECT",
+          "id": "archive-year",
+          "region": null
+        },
+        "region": "1",
+        "round": "Sweet 16",
+        "url": "#archive?year=2026&region=1&view=actual&round=3",
+        "legend": "\u2713 Actual winner \u00b7 blue % is the historical model\u2019s chance for the top team \u00b7 trained on prior tournaments",
+        "modal_open": false
+      },
+      "after_release": {
+        "active": {
+          "tag": "SELECT",
+          "id": "archive-year",
+          "region": null
+        },
+        "region": "1",
+        "round": "Sweet 16",
+        "url": "#archive?year=2026&region=1&view=sample&round=3",
+        "legend": "\u2713 Winner in one simulated draw \u00b7 probabilities use the historical model \u00b7 trained on prior tournaments",
+        "modal_open": false
+      },
+      "page_errors": []
+    }
+  ]
+}

@@ -38,7 +38,8 @@ On mobile, a round selector gives a readable matchup list. On desktop/tablet,
 the connected bracket scrolls inside its own frame.
 The archive preserves the selected regional round when switching regions, years
 or actual/simulated views. Final Four and Championship have a separate remembered
-choice. Region, view and year controls retain keyboard focus. The current round
+choice. Region, view and year controls retain keyboard focus, including when a delayed
+simulation redraw replaces the currently focused region or round control. The current round
 is saved in the URL for reload and returning from another page with Back/Forward;
 opening a game restores its round and card focus when returning from a profile.
 [Mobile region continuity](docs/screenshots/bracket-navigation-region-mobile.png) ·

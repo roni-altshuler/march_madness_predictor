@@ -138,3 +138,56 @@ def assert_bracket_navigation(browser, shots, base, static):
         report.append(dict(viewport=viewport,case='interrupted year request and latest region/round/focus ownership',year=1985,round=3,state=state(),page_errors=errors))
         context.close()
     (shots/f'bracket-navigation-{"static" if static else "api"}-report.json').write_text(json.dumps(dict(mode='static' if static else 'api',cases=report),indent=2)+'\n')
+
+
+def assert_simulation_focus(browser, shots, base, static):
+    """A held real simulation response preserves the latest focus owner."""
+    report=[]
+    for viewport,width in [('mobile',390),('desktop',1440)]:
+        for owner in (['region','round','modal','year'] if viewport=='mobile' else ['region','modal','year']):
+            context=browser.new_context(viewport={'width':width,'height':844})
+            page=context.new_page();errors=[]
+            page.on('pageerror',lambda error:errors.append(str(error)))
+            page.goto(base+'/#archive?year=2026&region=0&view=actual&round=3')
+            expect(page.locator('.game')).to_have_count(15)
+            pending=[];path='**/data/tables/2026.json' if static else '**/api/simulate?year=2026&*'
+            page.route(path,lambda route:pending.append(route))
+            page.locator('#draw-bracket').click();wait_pending(page,pending,1)
+            expect(page.locator('#draw-bracket')).to_have_text('Calculating…')
+            region=page.locator('[data-region="1"]');region.focus();page.keyboard.press('Enter')
+            expect(region).to_be_focused()
+            if owner=='round':
+                page.locator('#mobile-round').focus()
+                page.keyboard.press('ArrowDown');page.keyboard.press('Enter')
+                expect(page.locator('#mobile-round')).to_have_value('3')
+            elif owner=='modal':
+                page.locator('.round-column.mobile-selected .game').first.focus();page.keyboard.press('Enter')
+                expect(page.locator('dialog .tag')).to_have_text('HISTORICAL RESULT')
+                page.locator('#detail-model').focus()
+            elif owner=='year':page.locator('#archive-year').focus()
+            expected_round='Elite Eight' if owner=='round' else 'Sweet 16'
+            expected_selector={'region':'[data-region="1"]','round':'#mobile-round','modal':'#detail-model','year':'#archive-year'}[owner]
+            page.evaluate('window.simulationFocusOwner=document.activeElement')
+            def state():
+                return page.evaluate('''() => ({active:{tag:document.activeElement.tagName,id:document.activeElement.id,region:document.activeElement.dataset.region},region:document.querySelector('[data-region][aria-pressed="true"]').dataset.region,round:document.querySelector('#mobile-round').selectedOptions[0].textContent,url:location.hash,legend:document.querySelector('.bracket-key').textContent,modal_open:document.querySelector('dialog').open})''')
+            before=state();pending[0].continue_()
+            expect(page.locator('[data-view="sample"]')).to_have_attribute('aria-pressed','true',timeout=15000)
+            expect(page.locator('#draw-bracket')).to_be_enabled()
+            expect(page.locator(expected_selector)).to_be_focused()
+            expect(page.locator('[data-region="1"]')).to_have_attribute('aria-pressed','true')
+            expect(page.locator('#mobile-round option:checked')).to_have_text(expected_round)
+            assert 'region=1&view=sample&round='+('4' if owner=='round' else '3') in page.url
+            expect(page.locator('.bracket-key')).to_contain_text('one simulated draw')
+            if owner in ['modal','year']:
+                assert page.evaluate('simulationFocusOwner===document.activeElement && simulationFocusOwner.isConnected')
+            if owner=='modal':
+                expect(page.locator('dialog .tag')).to_have_text('HISTORICAL RESULT')
+                expect(page.locator('#detail-model')).to_have_value('seed')
+                expect(page.locator('#detail-prediction')).to_have_text('')
+            after=state();assert not errors,errors
+            if owner=='region':
+                page.locator('[data-region="1"]').evaluate('(element)=>element.scrollIntoView({block:"start"})')
+                page.screenshot(path=str(shots/f'bracket-navigation-simulation-focus-{viewport}.png'))
+            report.append(dict(viewport=viewport,owner=owner,before_release=before,after_release=after,page_errors=errors))
+            context.close()
+    (shots/f'bracket-navigation-simulation-focus-{"static" if static else "api"}-report.json').write_text(json.dumps(dict(mode='static' if static else 'api',cases=report),indent=2)+'\n')

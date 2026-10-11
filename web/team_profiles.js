@@ -5,12 +5,14 @@ const count=value=>Number(value).toLocaleString('en-US');
 export function archiveHref(origin){
   const query=new URLSearchParams({year:origin.year,region:origin.region??0,view:origin.view==='sample'?'sample':'actual'});
   if(origin.game)query.set('game',origin.game);
+  if(origin.round!=null)query.set('round',origin.round);
   return `#archive?${query}`;
 }
 
 export function teamHref(profileId,origin,appearance=origin.year){
   const query=new URLSearchParams({profile:profileId,from:origin.year,from_region:origin.region??0,appearance});
   if(origin.game)query.set('from_game',origin.game);
+  if(origin.round!=null)query.set('from_round',origin.round);
   if(origin.view==='sample')query.set('from_view','sample');
   return `#team?${query}`;
 }

@@ -1,0 +1,35 @@
+{
+  "head": "ddafab1ecb5601cc668476906262f5057a7f58be",
+  "cases": [
+    {
+      "mode": "api",
+      "before": {
+        "round": "2",
+        "round_title": "SWEET 16",
+        "visible_games": 2
+      },
+      "after": {
+        "round": "0",
+        "round_title": "ROUND OF 64",
+        "visible_games": 8,
+        "focus": "BODY",
+        "url": "http://127.0.0.1:8062/#archive?year=2026&region=1&view=actual"
+      }
+    },
+    {
+      "mode": "static",
+      "before": {
+        "round": "2",
+        "round_title": "SWEET 16",
+        "visible_games": 2
+      },
+      "after": {
+        "round": "0",
+        "round_title": "ROUND OF 64",
+        "visible_games": 8,
+        "focus": "BODY",
+        "url": "http://127.0.0.1:8063/march_madness_predictor/#archive?year=2026&region=1&view=actual"
+      }
+    }
+  ]
+}

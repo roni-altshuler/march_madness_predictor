@@ -141,7 +141,9 @@ def assert_bracket_drilldowns(browser, shots, base, static):
         page.locator('.profile-back').focus();page.keyboard.press('Enter')
         expect(card).to_be_focused()
         if viewport=='mobile':expect(page.locator('#mobile-round')).to_have_value('2')
-        page.select_option('#archive-year','1985');open_game(page,1985)
+        page.select_option('#archive-year','1985')
+        if viewport=='mobile':page.select_option('#mobile-round','0')
+        open_game(page,1985)
         expect(page.locator('#detail-model')).to_have_count(0)
         assert page.locator('dialog .probability').all_text_contents()==['—','—']
         expect(page.locator('dialog')).to_contain_text('warm-up era')

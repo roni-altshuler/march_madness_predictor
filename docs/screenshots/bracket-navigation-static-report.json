@@ -1,0 +1,145 @@
+{
+  "mode": "static",
+  "cases": [
+    {
+      "viewport": "mobile",
+      "case": "region repetition, separate regional/finals choices, keyboard controls and responsive breakpoint",
+      "widths": [
+        320,
+        390,
+        720,
+        721,
+        768,
+        1440
+      ],
+      "regional_state": {
+        "year": "2026",
+        "region": "1",
+        "round": "Sweet 16",
+        "focused_control": "1",
+        "url": "#archive?year=2026&region=1&view=actual&round=3"
+      },
+      "finals_state": {
+        "year": "2026",
+        "region": "4",
+        "round": "Championship",
+        "focused_control": "4",
+        "url": "#archive?year=2026&region=4&view=actual&round=6"
+      },
+      "page_errors": []
+    },
+    {
+      "viewport": "mobile",
+      "case": "repeated close/reopen, profile return, browser Back/Forward and originating game focus",
+      "state": {
+        "year": "2026",
+        "region": "0",
+        "round": "Sweet 16",
+        "focused_control": "BUTTON",
+        "url": "#archive?year=2026&region=0&view=actual&game=2026-r3-0&round=3"
+      },
+      "page_errors": []
+    },
+    {
+      "viewport": "mobile",
+      "case": "historical-year focus, warm-up dashes, actual/simulated distinction and reload",
+      "state": {
+        "year": "2026",
+        "region": "0",
+        "round": "Sweet 16",
+        "focused_control": "BODY",
+        "url": "#archive?year=2026&region=0&view=actual&round=3"
+      },
+      "page_errors": []
+    },
+    {
+      "viewport": "mobile",
+      "case": "round deep links, invalid inputs and game precedence",
+      "page_errors": []
+    },
+    {
+      "viewport": "mobile",
+      "case": "interrupted year request and latest region/round/focus ownership",
+      "year": 1985,
+      "round": 3,
+      "state": {
+        "year": "1985",
+        "region": "1",
+        "round": "Sweet 16",
+        "focused_control": "1",
+        "url": "#archive?year=1985&region=1&view=actual&round=3"
+      },
+      "page_errors": []
+    },
+    {
+      "viewport": "desktop",
+      "case": "region repetition, separate regional/finals choices, keyboard controls and responsive breakpoint",
+      "widths": [
+        320,
+        390,
+        720,
+        721,
+        768,
+        1440
+      ],
+      "regional_state": {
+        "year": "2026",
+        "region": "1",
+        "round": "Sweet 16",
+        "focused_control": "1",
+        "url": "#archive?year=2026&region=1&view=actual&round=3"
+      },
+      "finals_state": {
+        "year": "2026",
+        "region": "4",
+        "round": "Championship",
+        "focused_control": "4",
+        "url": "#archive?year=2026&region=4&view=actual&round=6"
+      },
+      "page_errors": []
+    },
+    {
+      "viewport": "desktop",
+      "case": "repeated close/reopen, profile return, browser Back/Forward and originating game focus",
+      "state": {
+        "year": "2026",
+        "region": "0",
+        "round": "Sweet 16",
+        "focused_control": "BUTTON",
+        "url": "#archive?year=2026&region=0&view=actual&game=2026-r3-0&round=3"
+      },
+      "page_errors": []
+    },
+    {
+      "viewport": "desktop",
+      "case": "historical-year focus, warm-up dashes, actual/simulated distinction and reload",
+      "state": {
+        "year": "2026",
+        "region": "0",
+        "round": "Sweet 16",
+        "focused_control": "BODY",
+        "url": "#archive?year=2026&region=0&view=actual&round=3"
+      },
+      "page_errors": []
+    },
+    {
+      "viewport": "desktop",
+      "case": "round deep links, invalid inputs and game precedence",
+      "page_errors": []
+    },
+    {
+      "viewport": "desktop",
+      "case": "interrupted year request and latest region/round/focus ownership",
+      "year": 1985,
+      "round": 3,
+      "state": {
+        "year": "1985",
+        "region": "1",
+        "round": "Sweet 16",
+        "focused_control": "1",
+        "url": "#archive?year=1985&region=1&view=actual&round=3"
+      },
+      "page_errors": []
+    }
+  ]
+}

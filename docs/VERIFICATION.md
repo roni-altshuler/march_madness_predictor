@@ -492,3 +492,129 @@ production dispatch. Source `data` tree
 
 Passing tests establish the
 tested behavior and temporal safeguards, not guaranteed future prediction skill.
+
+## Historical bracket round continuity · 2026-10-11
+
+The current main baseline was `ddafab1ecb5601cc668476906262f5057a7f58be`.
+The saved checkout had no open PRs or additional worktrees; earlier local feature
+and recovery branches were retained. The unavailable laptop CBS bracket work was
+not recovered or edited.
+
+### Reproduced problem
+
+In actual Chromium at 390 × 844, using both the local API and the exported static
+app under `/march_madness_predictor/`, selecting Sweet 16 and activating Region 2
+reset the round to Round of 64: the visible game count changed from two to eight.
+The activated region button was replaced and keyboard focus moved to `BODY`.
+The URL omitted the selected round.
+
+[Before mobile](screenshots/bracket-navigation-before-mobile.png) ·
+[baseline report](screenshots/bracket-navigation-before-report.json).
+
+### Resulting behavior
+
+The archive remembers the regional round across regional, year and
+actual/simulated-view changes. Final Four and Championship share a separate
+remembered selection. Changing year keeps the existing return to Region 1 and
+actual results while retaining the regional round. Rebuilt region/view controls
+retain focus; rebuilding the year selector immediately returns focus to it.
+Region and view buttons are exposed as named groups with pressed states.
+
+The current tournament round (1–6) is included in the archive URL and carried in
+profile-origin links. Controls update the current history entry; leaving the
+bracket and returning with Back/Forward restores its latest context. Reload
+restores the selected round. Invalid or out-of-region round values fall back to
+the first round in that group; an explicit valid game selects its own round and
+restores the game card's focus. Opening a desktop game also selects the
+corresponding mobile round when narrowing the viewport.
+
+The connected desktop bracket, cream/navy/gold palette, numerical probabilities
+and historical/simulated labels remain in place. Saved probability tables,
+training/calibration horizons, evaluation results, dependencies, source data and
+model artifacts are unchanged. Warm-up probabilities remain dashes; there is no
+new forecast, retraining or accuracy claim.
+
+### Browser evidence
+
+`tests/bracket_navigation_browser.py` runs ten scenario groups in each transport,
+using desktop 1440 × 844 and mobile 390 × 844 contexts with real saved data:
+
+| Journey | Verified behavior |
+| --- | --- |
+| Repeated Region 1–4 changes | Sweet 16 remains selected; activated control retains focus |
+| Regional → finals → regional → finals | Sweet 16 and Championship restore independently |
+| Native keyboard round selection | Arrow/Enter input updates the round while retaining chooser focus |
+| 320, 390, 720, 721, 768 and 1440px | Correct round at both sides of the mobile breakpoint; no page overflow |
+| Repeated Escape/button close and reopen | Same matchup, round and originating-card focus |
+| Profile return and browser Back/Forward | Correct year/region/round/game focus and URL |
+| Year changes including 1985 | Regional round and year-control focus retained; warm-up dashes and disabled simulation |
+| Actual/simulated switching | Selected round and view-control focus retained; results and sampled draws explicitly labeled |
+| Reload, invalid round links, explicit game links | Round restored or normalized; selected game takes precedence |
+| Held older 2025 request, then 1985/Region 2 | Late response preserves latest year, Sweet 16, control focus and missing probabilities |
+
+[API report](screenshots/bracket-navigation-api-report.json) ·
+[static report](screenshots/bracket-navigation-static-report.json) ·
+[mobile regional round](screenshots/bracket-navigation-region-mobile.png) ·
+[mobile championship](screenshots/bracket-navigation-finals-mobile.png) ·
+[desktop bracket](screenshots/bracket-navigation-region-desktop.png) ·
+[interrupted warm-up request](screenshots/bracket-navigation-interrupted-mobile.png).
+
+### Checks and limits
+
+57 Python tests, all seven JavaScript syntax checks, prediction/simulation smoke
+checks, static export and whitespace checks passed. There is no separate lint,
+TypeScript or package build configuration in this native JavaScript app.
+Full actual Chromium API and static browser suites passed, including the prior
+detail-response regressions and the new navigation journeys. The older warm-up
+test now explicitly selects Round of 64 before opening its first-round fixture;
+it previously relied on the reset removed by this change. Reports contain zero
+page errors.
+
+The exported production app was also exercised at the GitHub Pages project
+subpath. Hosted-main Chromium reachability still fails before page load with
+`net::ERR_TUNNEL_CONNECTION_FAILED`; this is not evidence of a live UI failure or
+a hosted verification pass. The proposed branch remains unmerged and has not
+been published or manually dispatched.
+
+### Independent-review follow-up: focus during a held simulation
+
+At reviewed head `43a0fbdc878314f663ffbcd989e70598f1d1a835`, the independent
+reviewer identified a redraw path absent from the original navigation journeys.
+A read-only probe held the real 2026 simulation response, selected Sweet 16,
+started simulation, then keyboard-activated Region 2 while Calculating was
+visible. Releasing the response retained Region 2, Sweet 16 and the correct
+`view=sample&round=3` URL, but `activeElement` changed from the Region 2 button to
+`BODY`. This reproduced in API/static transports at mobile and desktop sizes.
+
+[Reviewed-head report](screenshots/bracket-navigation-simulation-focus-before-report.json) ·
+[before mobile viewport](screenshots/bracket-navigation-simulation-focus-before-mobile.png).
+The viewport baseline was captured from a local static copy whose `app.js` was
+byte-verified against the reviewed commit; the original probe also asserted a
+clean tree and that exact head. Real sampled draws can differ with their random
+seed; the evidence concerns control focus and selected navigation context.
+
+The follow-up adds eight lines at the start of `drawArchive`: capture a currently
+focused archive region/view/round control before replacing its subtree, then
+reuse the existing focus restoration. It reads focus at completion rather than
+restoring the control that originally started the request. Explicit control
+focus targets keep their existing behavior. Focus owned by the modal or year
+selector is outside that subtree and remains on the same connected element.
+The simulation ownership guard and matchup/model response guards are unchanged.
+
+`assert_simulation_focus` adds fourteen held-response cases (seven per transport)
+with actual API/exported data, mobile 390 × 844 and desktop 1440 × 844. These
+verify the requested Region 2/Sweet 16 flow, a newer mobile Elite Eight choice,
+modal model-selector ownership and year-selector focus. Reports record before
+and after `activeElement`, region, round, URL, result legend and modal state.
+All cases pass with zero page errors. The modal retains its explicit historical
+result label while the bracket is explicitly labeled as a sampled draw.
+
+[API follow-up report](screenshots/bracket-navigation-simulation-focus-api-report.json) ·
+[static follow-up report](screenshots/bracket-navigation-simulation-focus-static-report.json) ·
+[after mobile viewport](screenshots/bracket-navigation-simulation-focus-mobile.png) ·
+[after desktop viewport](screenshots/bracket-navigation-simulation-focus-desktop.png).
+
+57 Python tests, seven JavaScript syntax checks, static export, whitespace checks
+and full API/static Chromium browser suites passed again. Saved data/model
+artifacts, probability calculations and training/calibration horizons remain
+unchanged. This follow-up remains on the same draft PR for independent review.

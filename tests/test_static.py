@@ -87,3 +87,26 @@ def test_static_profile_lookup_rejects_missing_and_inherited_keys(public):
     actual=json.loads(result.stdout)
     assert actual['id']=='espn:150'
     assert actual['fetched']==['teams/index.json','teams/'+hashlib.sha256(b'espn:150').hexdigest()+'.json']
+
+
+@pytest.mark.parametrize('kind',['seed','seed_curve','form'])
+def test_recommended_paths_and_provenance_match_python(public,kind):
+    field=historical_field(read(ROOT/'data/derived/archive.json')['2026'])
+    table=read(public/'data/tables/2026.json')
+    expected=simulate(field,table['models'][kind],feature_table()['2026'],42)['recommended']
+    actual=browser_simulation(field,table,kind)['recommended']
+    assert actual['champion_probability']==pytest.approx(expected['champion_probability'],abs=1e-12)
+    actual.pop('champion_probability');expected.pop('champion_probability')
+    assert actual==expected
+
+
+def test_static_first_four_recommended_dependencies(public):
+    field=historical_field(read(ROOT/'data/derived/archive.json')['2026'])
+    field.update(expected_teams=68,expected_opening_games=4)
+    for i in [1,5,17,21]:
+        t=dict(field['slots'][i][0]);t.update(id=f'test-only-opening-{i}',name=f'Test only opening {i}');field['slots'][i].append(t)
+    table=read(public/'data/tables/2026.json')
+    expected=simulate(field,table['models']['seed'],random_seed=42)['recommended']
+    actual=browser_simulation(field,table)['recommended']
+    assert actual['opening']==expected['opening'] and actual['rounds']==expected['rounds']
+    assert actual['champion']==expected['champion']

@@ -1,0 +1,113 @@
+{
+  "mode": "static",
+  "cases": [
+    {
+      "viewport": "desktop",
+      "case": "63 coherent main-bracket picks, prior snapshot, collapsed details, actual/random distinction, profile/history/reload, themes and missing model",
+      "champion": "Duke",
+      "probability": "9.3%",
+      "trained_through": 2025,
+      "page_errors": []
+    },
+    {
+      "viewport": "desktop",
+      "case": "held generation after region/round change",
+      "page_errors": []
+    },
+    {
+      "viewport": "desktop",
+      "case": "held generation after year change",
+      "page_errors": []
+    },
+    {
+      "viewport": "desktop",
+      "case": "explicit generation error and retry without fabricated picks",
+      "page_errors": []
+    },
+    {
+      "viewport": "desktop",
+      "case": "explicit unavailable model link",
+      "year": 2020,
+      "page_errors": []
+    },
+    {
+      "viewport": "desktop",
+      "case": "explicit unavailable model link",
+      "year": 2027,
+      "page_errors": []
+    },
+    {
+      "viewport": "desktop",
+      "case": "explicit unavailable model link",
+      "year": 1940,
+      "page_errors": []
+    },
+    {
+      "viewport": "desktop",
+      "case": "unknown-field rejection and four opening-pair dependencies in local current-model scenario",
+      "fixture_only": true,
+      "participants": 68,
+      "picks": 67,
+      "page_errors": []
+    },
+    {
+      "viewport": "desktop",
+      "case": "delayed import after leave and reopen cannot render in new owner",
+      "page_errors": []
+    },
+    {
+      "viewport": "mobile",
+      "case": "63 coherent main-bracket picks, prior snapshot, collapsed details, actual/random distinction, profile/history/reload, themes and missing model",
+      "champion": "Duke",
+      "probability": "9.3%",
+      "trained_through": 2025,
+      "page_errors": []
+    },
+    {
+      "viewport": "mobile",
+      "case": "held generation after region/round change",
+      "page_errors": []
+    },
+    {
+      "viewport": "mobile",
+      "case": "held generation after year change",
+      "page_errors": []
+    },
+    {
+      "viewport": "mobile",
+      "case": "explicit generation error and retry without fabricated picks",
+      "page_errors": []
+    },
+    {
+      "viewport": "mobile",
+      "case": "explicit unavailable model link",
+      "year": 2020,
+      "page_errors": []
+    },
+    {
+      "viewport": "mobile",
+      "case": "explicit unavailable model link",
+      "year": 2027,
+      "page_errors": []
+    },
+    {
+      "viewport": "mobile",
+      "case": "explicit unavailable model link",
+      "year": 1940,
+      "page_errors": []
+    },
+    {
+      "viewport": "mobile",
+      "case": "unknown-field rejection and four opening-pair dependencies in local current-model scenario",
+      "fixture_only": true,
+      "participants": 68,
+      "picks": 67,
+      "page_errors": []
+    },
+    {
+      "viewport": "mobile",
+      "case": "delayed import after leave and reopen cannot render in new owner",
+      "page_errors": []
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-"""Exact advancement probabilities and reproducible draws on a declared bracket."""
+"""Exact advancement odds, deterministic model picks and reproducible bracket draws."""
 from .model import predict
 from .data import ROUNDS
 
@@ -70,24 +70,27 @@ def simulate(field, model, team_features=None, random_seed=2027):
         return predict(model,by_id[a]['seed'],by_id[b]['seed'],feats.get(a),feats.get(b))
     rng = SeededRandom(random_seed)
     advancement = {t['id']:[0.]*7 for t in teams}
-    nodes, draw, sampled = [], [], []
-    opening_draw = []
+    nodes, draw, picks, sampled, recommended_rounds = [], [], [], [], []
+    opening_draw, recommended_opening = [], []
     for slot in field['slots']:
         if len(slot)==1:
             distribution = {slot[0]['id']:1.}
-            winner = slot[0]['id']
+            winner = pick = slot[0]['id']
         else:
             a,b = [t['id'] for t in slot]
             p = probability(a,b)
             distribution = {a:p,b:1-p}
             winner = a if rng.random()<p else b
             opening_draw.append(dict(a=a,b=b,p_a=p,winner=winner))
+            pick = a if p>=.5 else b
+            recommended_opening.append(dict(a=a,b=b,p_a=p,winner=pick))
         for team,p in distribution.items():
             advancement[team][0]=p
         nodes.append(distribution)
         draw.append(winner)
+        picks.append(pick)
     for round_number, label in enumerate(ROUNDS,1):
-        next_nodes, next_draw, drawn_games = [], [], []
+        next_nodes, next_draw, next_picks, drawn_games, picked_games = [], [], [], [], []
         for i in range(0,len(nodes),2):
             left,right = nodes[i:i+2]
             out = {t:0. for t in (*left,*right)}
@@ -104,8 +107,14 @@ def simulate(field, model, team_features=None, random_seed=2027):
             drawn_games.append(dict(a=a,b=b,p_a=p,winner=winner))
             next_draw.append(winner)
             next_nodes.append(out)
+            a,b = picks[i:i+2]
+            p = probability(a,b)
+            pick = a if p>=.5 else b
+            picked_games.append(dict(a=a,b=b,p_a=p,winner=pick))
+            next_picks.append(pick)
         sampled.append(dict(round_name=label,games=drawn_games))
-        nodes,draw = next_nodes,next_draw
+        recommended_rounds.append(dict(round_name=label,games=picked_games))
+        nodes,draw,picks = next_nodes,next_draw,next_picks
     odds = [dict(team=t, name=by_id[t]['name'], seed=by_id[t]['seed'],
                  reach_round64=p[0], reach_round32=p[1], reach_sweet16=p[2], reach_elite8=p[3],
                  reach_final4=p[4], reach_final=p[5], champion=p[6]) for t,p in advancement.items()]
@@ -115,4 +124,10 @@ def simulate(field, model, team_features=None, random_seed=2027):
                 participants=len(teams), opening_games=sum(len(s)==2 for s in field['slots']),
                 total_games=len(teams)-1, random_seed=random_seed, odds=odds,
                 sampled_opening=opening_draw, sampled_rounds=sampled,
+                recommended=dict(method='Pick the higher published matchup probability; exact 50–50 ties use bracket order.',
+                                 opening=recommended_opening,rounds=recommended_rounds,champion=picks[0],
+                                 champion_probability=next(t['champion'] for t in odds if t['team']==picks[0]),
+                                 model_kind=model['kind'],trained_through=max(model.get('train_seasons',[]),default=None),
+                                 calibration_through=model.get('calibration_through'),
+                                 form_cutoff_utc=f"{field['season']}-03-01T00:00:00Z" if model['kind']=='form' else None),
                 caveat='Assumes independent game outcomes conditional on seeds/features; uncertainty in fitted parameters is not included.')

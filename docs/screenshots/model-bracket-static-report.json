@@ -7,6 +7,23 @@
       "champion": "Duke",
       "probability": "9.3%",
       "trained_through": 2025,
+      "advancement_panel_modes": [
+        {
+          "mode": "recommend",
+          "text": "Exact probabilities across all possible main-bracket paths. Conditional on the 64 main-bracket participants; this is a historical experiment. The bracket above shows deterministic seed-baseline picks. First Four games/losers are not bundled; these picks use seeds only, without roster updates, injuries or current form information.",
+          "archive_note": "Region numbers preserve the source\u2019s bracket order; geographic names are unavailable. Pick/draw details show matchup probabilities; recorded scores and dates are omitted. Preliminary-round games and losers are excluded."
+        },
+        {
+          "mode": "sample",
+          "text": "Exact probabilities across all possible main-bracket paths. Conditional on the 64 main-bracket participants; this is a historical experiment. The bracket above is one sampled random draw.",
+          "archive_note": "Region numbers preserve the source\u2019s bracket order; geographic names are unavailable. Pick/draw details show matchup probabilities; recorded scores and dates are omitted. Preliminary-round games and losers are excluded."
+        },
+        {
+          "mode": "actual",
+          "text": "Exact probabilities across all possible main-bracket paths. Conditional on the 64 main-bracket participants; this is a historical experiment. The bracket above shows recorded actual results.",
+          "archive_note": "Region numbers preserve the source\u2019s bracket order; geographic names are unavailable. Verified scores and UTC dates appear in game details. Preliminary-round games and losers are excluded."
+        }
+      ],
       "page_errors": []
     },
     {
@@ -61,6 +78,23 @@
       "champion": "Duke",
       "probability": "9.3%",
       "trained_through": 2025,
+      "advancement_panel_modes": [
+        {
+          "mode": "recommend",
+          "text": "Exact probabilities across all possible main-bracket paths. Conditional on the 64 main-bracket participants; this is a historical experiment. The bracket above shows deterministic seed-baseline picks. First Four games/losers are not bundled; these picks use seeds only, without roster updates, injuries or current form information.",
+          "archive_note": "Region numbers preserve the source\u2019s bracket order; geographic names are unavailable. Pick/draw details show matchup probabilities; recorded scores and dates are omitted. Preliminary-round games and losers are excluded."
+        },
+        {
+          "mode": "sample",
+          "text": "Exact probabilities across all possible main-bracket paths. Conditional on the 64 main-bracket participants; this is a historical experiment. The bracket above is one sampled random draw.",
+          "archive_note": "Region numbers preserve the source\u2019s bracket order; geographic names are unavailable. Pick/draw details show matchup probabilities; recorded scores and dates are omitted. Preliminary-round games and losers are excluded."
+        },
+        {
+          "mode": "actual",
+          "text": "Exact probabilities across all possible main-bracket paths. Conditional on the 64 main-bracket participants; this is a historical experiment. The bracket above shows recorded actual results.",
+          "archive_note": "Region numbers preserve the source\u2019s bracket order; geographic names are unavailable. Verified scores and UTC dates appear in game details. Preliminary-round games and losers are excluded."
+        }
+      ],
       "page_errors": []
     },
     {

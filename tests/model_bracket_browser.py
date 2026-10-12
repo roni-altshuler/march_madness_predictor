@@ -23,6 +23,34 @@ def assert_model_brackets(browser,shots,base,static):
         expect(summary).to_contain_text('First Four games/losers are missing')
         assert not summary.locator('details').evaluate('(e)=>e.open')
         diagnostic=page.locator('#season-content > details.panel');assert not diagnostic.evaluate('(e)=>e.open')
+        panel_labels=[]
+        expected_labels={
+            'recommend':'The bracket above shows deterministic seed-baseline picks.',
+            'sample':'The bracket above is one sampled random draw.',
+            'actual':'The bracket above shows recorded actual results.',
+        }
+        for panel_mode,expected in expected_labels.items():
+            control=page.locator(f'[data-view="{panel_mode}"]');control.focus();page.keyboard.press('Enter')
+            panel=page.locator('#advancement-panel')
+            if panel_mode=='recommend':
+                panel.locator('summary').focus();page.keyboard.press('Enter')
+                assert panel.evaluate('(element)=>element.open')
+            note=panel.locator('p.note').first;expect(note).to_be_visible()
+            expect(note).to_contain_text(expected)
+            expect(note).to_contain_text('Conditional on the 64 main-bracket participants')
+            if panel_mode=='recommend':
+                expect(note).not_to_contain_text('recorded actual results')
+                expect(note).to_contain_text('First Four games/losers are not bundled')
+                expect(note).to_contain_text('seeds only, without roster updates, injuries or current form information')
+                panel.evaluate('(element)=>element.scrollIntoView({block:"start"})')
+                page.screenshot(path=str(shots/f'model-bracket-panel-{viewport}.png'))
+            archive_note=page.locator('#season-content > p.note').first
+            if panel_mode=='actual':expect(archive_note).to_contain_text('Verified scores and UTC dates appear in game details.')
+            else:
+                expect(archive_note).to_contain_text('recorded scores and dates are omitted')
+                expect(archive_note).not_to_contain_text('Verified scores and UTC dates appear')
+            panel_labels.append(dict(mode=panel_mode,text=note.inner_text(),archive_note=archive_note.inner_text()))
+        page.locator('[data-view="recommend"]').click()
         count=0
         for region in range(5):
             button=page.locator(f'[data-region="{region}"]');button.focus();page.keyboard.press('Enter')
@@ -64,8 +92,15 @@ def assert_model_brackets(browser,shots,base,static):
         expect(page.locator('#fill-bracket')).to_be_disabled();expect(summary).to_have_count(0)
         assert page.locator('.game-prob').all_text_contents()==['—']*15
         expect(page.locator('#bracket-status')).to_contain_text('no prior-trained snapshot')
+        page.select_option('#archive-year','2021');expect(page.locator('.game')).to_have_count(15)
+        page.locator('#fill-bracket').click();expect(page.locator('[data-view="recommend"]')).to_have_attribute('aria-pressed','true',timeout=15000)
+        for historical_mode in ['recommend','sample','actual']:
+            page.locator(f'[data-view="{historical_mode}"]').click()
+            footer=page.locator('#season-content > p.note').first
+            if historical_mode=='actual':expect(footer).to_contain_text('Oregon–VCU was a no-contest')
+            else:expect(footer).not_to_contain_text('the advancement is shown')
         assert not errors,errors
-        report.append(dict(viewport=viewport,case='63 coherent main-bracket picks, prior snapshot, collapsed details, actual/random distinction, profile/history/reload, themes and missing model',champion='Duke',probability='9.3%',trained_through=2025,page_errors=errors));context.close()
+        report.append(dict(viewport=viewport,case='63 coherent main-bracket picks, prior snapshot, collapsed details, actual/random distinction, profile/history/reload, themes and missing model',champion='Duke',probability='9.3%',trained_through=2025,advancement_panel_modes=panel_labels,page_errors=errors));context.close()
 
         # Keep latest region/round focus during model completion and reject old-year work.
         for leave in [False,True]:
@@ -131,6 +166,9 @@ def assert_model_brackets(browser,shots,base,static):
         upload(field);expect(page.locator('#import-status')).to_have_text('Validated 68 teams and 67 games.')
         imported=page.locator('#import-result');expect(imported).to_contain_text('Local field scenario')
         expect(imported).to_contain_text('trained through 2026');expect(imported).to_contain_text('timestamp are not verified')
+        rationale=imported.locator('.model-bracket-summary details');rationale.locator('summary').click()
+        expect(rationale).to_contain_text('Input: supplied seeds; their as-of timestamps are unverified.')
+        expect(rationale).not_to_contain_text('Input: selection-time seeds only.')
         opening=imported.get_by_text('Opening / First Four picks · 4 games',exact=True);opening.click()
         expect(imported.locator('[data-opening-game]')).to_have_count(4)
         assert imported.locator('.bracket').get_by_text('Test only opening',exact=False).count()==0

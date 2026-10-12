@@ -713,3 +713,43 @@ provider/access/visibility settings and workflow definitions are unchanged.
 The draft is for independent review before merge; no production job is manually
 dispatched. Hosted Chromium has previously been blocked by this environment's
 proxy; production static QA uses the actual exported app at the Pages subpath.
+
+
+### Independent-review follow-up: mode and input provenance
+
+Reviewed head `e462990dfb1ac867fb489441db3a7a753a8af9de` had a visible
+advancement-panel copy error: its deterministic model-picks view said the bracket
+above showed recorded actual results. A read-only static-browser reproduction
+opened the collapsed panel and captured that false claim.
+
+[Before panel](screenshots/model-bracket-panel-before-desktop.png) ·
+[before report](screenshots/model-bracket-panel-before-report.json).
+
+The panel now describes deterministic seed-baseline picks, one sampled random
+draw or recorded actual results according to the active mode. Recommendation
+copy retains the conditional 64-participant experiment, missing First Four
+records and seed-only inputs without roster/injury/current-form information.
+It makes no validated full-field selection-day forecast claim.
+
+The archive footer describes verified scores/dates only in observed mode; pick
+and draw details explicitly omit those recorded values. The 2021 observed
+no-contest advancement sentence is likewise limited to actual results. Local
+import rationale describes supplied seeds with unverified as-of timestamps,
+instead of claiming a selection-time input. The current-model scenario and
+training/artifact horizons remain explicit.
+
+Browser regressions open the recommendation panel with keyboard input and check
+visible text in all three modes, at desktop/mobile sizes in API/static modes:
+twelve panel-label checks plus matching score/date footers. The 2021 footer is
+checked in all three views; imported rationale is checked for supplied,
+unverified seeds. [API report](screenshots/model-bracket-api-report.json) ·
+[static report](screenshots/model-bracket-static-report.json) ·
+[after desktop panel](screenshots/model-bracket-panel-desktop.png) ·
+[after mobile panel](screenshots/model-bracket-panel-mobile.png).
+
+66 Python tests, all seven syntax checks, export, whitespace checks and full
+actual Chromium API/static suites pass again, with zero page errors. This
+follow-up changes copy, a panel test ID and regression/evidence files. The
+algorithms, prior-year provenance, data/model files and exact request-ownership
+guards are unchanged. The same draft PR awaits independent review; no merge,
+training or production workflow dispatch was performed.

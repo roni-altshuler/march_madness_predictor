@@ -1,0 +1,147 @@
+{
+  "mode": "static",
+  "cases": [
+    {
+      "viewport": "desktop",
+      "case": "63 coherent main-bracket picks, prior snapshot, collapsed details, actual/random distinction, profile/history/reload, themes and missing model",
+      "champion": "Duke",
+      "probability": "9.3%",
+      "trained_through": 2025,
+      "advancement_panel_modes": [
+        {
+          "mode": "recommend",
+          "text": "Exact probabilities across all possible main-bracket paths. Conditional on the 64 main-bracket participants; this is a historical experiment. The bracket above shows deterministic seed-baseline picks. First Four games/losers are not bundled; these picks use seeds only, without roster updates, injuries or current form information.",
+          "archive_note": "Region numbers preserve the source\u2019s bracket order; geographic names are unavailable. Pick/draw details show matchup probabilities; recorded scores and dates are omitted. Preliminary-round games and losers are excluded."
+        },
+        {
+          "mode": "sample",
+          "text": "Exact probabilities across all possible main-bracket paths. Conditional on the 64 main-bracket participants; this is a historical experiment. The bracket above is one sampled random draw.",
+          "archive_note": "Region numbers preserve the source\u2019s bracket order; geographic names are unavailable. Pick/draw details show matchup probabilities; recorded scores and dates are omitted. Preliminary-round games and losers are excluded."
+        },
+        {
+          "mode": "actual",
+          "text": "Exact probabilities across all possible main-bracket paths. Conditional on the 64 main-bracket participants; this is a historical experiment. The bracket above shows recorded actual results.",
+          "archive_note": "Region numbers preserve the source\u2019s bracket order; geographic names are unavailable. Verified scores and UTC dates appear in game details. Preliminary-round games and losers are excluded."
+        }
+      ],
+      "page_errors": []
+    },
+    {
+      "viewport": "desktop",
+      "case": "held generation after region/round change",
+      "page_errors": []
+    },
+    {
+      "viewport": "desktop",
+      "case": "held generation after year change",
+      "page_errors": []
+    },
+    {
+      "viewport": "desktop",
+      "case": "explicit generation error and retry without fabricated picks",
+      "page_errors": []
+    },
+    {
+      "viewport": "desktop",
+      "case": "explicit unavailable model link",
+      "year": 2020,
+      "page_errors": []
+    },
+    {
+      "viewport": "desktop",
+      "case": "explicit unavailable model link",
+      "year": 2027,
+      "page_errors": []
+    },
+    {
+      "viewport": "desktop",
+      "case": "explicit unavailable model link",
+      "year": 1940,
+      "page_errors": []
+    },
+    {
+      "viewport": "desktop",
+      "case": "unknown-field rejection and four opening-pair dependencies in local current-model scenario",
+      "fixture_only": true,
+      "participants": 68,
+      "picks": 67,
+      "page_errors": []
+    },
+    {
+      "viewport": "desktop",
+      "case": "delayed import after leave and reopen cannot render in new owner",
+      "page_errors": []
+    },
+    {
+      "viewport": "mobile",
+      "case": "63 coherent main-bracket picks, prior snapshot, collapsed details, actual/random distinction, profile/history/reload, themes and missing model",
+      "champion": "Duke",
+      "probability": "9.3%",
+      "trained_through": 2025,
+      "advancement_panel_modes": [
+        {
+          "mode": "recommend",
+          "text": "Exact probabilities across all possible main-bracket paths. Conditional on the 64 main-bracket participants; this is a historical experiment. The bracket above shows deterministic seed-baseline picks. First Four games/losers are not bundled; these picks use seeds only, without roster updates, injuries or current form information.",
+          "archive_note": "Region numbers preserve the source\u2019s bracket order; geographic names are unavailable. Pick/draw details show matchup probabilities; recorded scores and dates are omitted. Preliminary-round games and losers are excluded."
+        },
+        {
+          "mode": "sample",
+          "text": "Exact probabilities across all possible main-bracket paths. Conditional on the 64 main-bracket participants; this is a historical experiment. The bracket above is one sampled random draw.",
+          "archive_note": "Region numbers preserve the source\u2019s bracket order; geographic names are unavailable. Pick/draw details show matchup probabilities; recorded scores and dates are omitted. Preliminary-round games and losers are excluded."
+        },
+        {
+          "mode": "actual",
+          "text": "Exact probabilities across all possible main-bracket paths. Conditional on the 64 main-bracket participants; this is a historical experiment. The bracket above shows recorded actual results.",
+          "archive_note": "Region numbers preserve the source\u2019s bracket order; geographic names are unavailable. Verified scores and UTC dates appear in game details. Preliminary-round games and losers are excluded."
+        }
+      ],
+      "page_errors": []
+    },
+    {
+      "viewport": "mobile",
+      "case": "held generation after region/round change",
+      "page_errors": []
+    },
+    {
+      "viewport": "mobile",
+      "case": "held generation after year change",
+      "page_errors": []
+    },
+    {
+      "viewport": "mobile",
+      "case": "explicit generation error and retry without fabricated picks",
+      "page_errors": []
+    },
+    {
+      "viewport": "mobile",
+      "case": "explicit unavailable model link",
+      "year": 2020,
+      "page_errors": []
+    },
+    {
+      "viewport": "mobile",
+      "case": "explicit unavailable model link",
+      "year": 2027,
+      "page_errors": []
+    },
+    {
+      "viewport": "mobile",
+      "case": "explicit unavailable model link",
+      "year": 1940,
+      "page_errors": []
+    },
+    {
+      "viewport": "mobile",
+      "case": "unknown-field rejection and four opening-pair dependencies in local current-model scenario",
+      "fixture_only": true,
+      "participants": 68,
+      "picks": 67,
+      "page_errors": []
+    },
+    {
+      "viewport": "mobile",
+      "case": "delayed import after leave and reopen cannot render in new owner",
+      "page_errors": []
+    }
+  ]
+}

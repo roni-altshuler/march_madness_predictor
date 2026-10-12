@@ -618,3 +618,138 @@ result label while the bracket is explicitly labeled as a sampled draw.
 and full API/static Chromium browser suites passed again. Saved data/model
 artifacts, probability calculations and training/calibration horizons remain
 unchanged. This follow-up remains on the same draft PR for independent review.
+
+## Deterministic model bracket · 2026-10-12
+
+Baseline main was `d0daae3fa526bcf61511f807359a6796b9bbcc39`. No open PR or
+alternative generator branch was present. Existing local feature/recovery work
+was preserved. The generator provided exact advancement odds and one seeded
+random draw; no coherent recommended path or model-picks view existed.
+
+[Before desktop](screenshots/model-bracket-before-desktop.png) ·
+[before mobile](screenshots/model-bracket-before-mobile.png).
+
+### Pick policy and information horizon
+
+The existing generator now also returns `recommended`: opening picks, six ordered
+rounds, champion, all-path title probability, model kind, training/calibration
+horizons and the form cutoff when applicable. It picks the team with the higher
+existing matchup probability at each scheduled game; exact 50–50 ties choose the
+first listed team. Opening-pair winners feed their declared main-bracket slot,
+and every later matchup follows earlier picks. It does not optimize a scoring
+pool or fit/select a new model. A comparison against the baseline 2026/rng=42
+JSON, after removing the new field, was identical for all random draws and odds.
+
+Python and static JavaScript use the same policy. Static probabilities remain
+Python-published lookup tables. Primary UI picks use the seed baseline, not the
+form challenger. Historical snapshots use strictly earlier tournaments; the
+2026 example is trained/calibrated through 2025 and picks Duke with a 9.3%
+conditional all-path title chance. Same-seed late matchups are 50–50; bracket
+order is a deterministic tie rule, not extra team-strength information.
+
+Historical source coverage contains the 64 main-bracket participants after
+preliminary survivors are known. Opening/First Four games and losers are absent.
+The visible model card labels this as a conditional historical experiment, not
+a selection-day full-field forecast. No new actual full-field pre-tournament
+evaluation or pick-policy score is claimed. Unknown upcoming fields, cancelled
+or unsupported years and unavailable warm-up models never get fabricated picks.
+
+Local imports include declared opening pairs and produce a complete declared
+path. Import identities/announcement/as-of dates are unverified. These use the
+current model artifact (as of 2026-10-03, trained through 2026), including imports
+labeled with an older year; the UI labels them current-model local scenarios and
+does not request a mismatched older comparison model. Input timestamps are not
+invented. Four-opening-pair tests use clearly marked structural fixtures only;
+no fixture entrants are published as tournament data or used in screenshots.
+
+### Product and response ownership
+
+A primary Model bracket action enters a compact bracket view with champion,
+probability provenance and collapsed Why these picks/advancement diagnostics.
+Actual results, model picks and simulated draws remain separate. Model details
+show picked winners and their hypothetical prior-pick opponents, without actual
+scores/dates or observed-winner claims. Existing profile/round/region focus and
+Back/Forward behavior extend to model picks; reload rebuilds the deterministic
+path from the same saved snapshot.
+
+Generation preserves current region/round focus and rejects work after year or
+route changes. A later explicit view selection wins over pending random-draw
+completion. Errors keep the displayed view honest and provide an explicit retry.
+Imported fields capture their DOM owner/request version, so late responses cannot
+populate a newly reopened home page. The existing matchup response guards remain.
+No ambient/background motion or paid/external service is introduced.
+
+### Validation and browser evidence
+
+66 Python tests pass, including deterministic picks across random seeds, full
+round dependencies, four opening-pair propagation, exact ties, strict earlier
+training/calibration horizons, independence from observed results and Python/static
+parity for seed/seed-curve/form snapshots. All seven JavaScript syntax checks,
+static export, prediction/simulation smoke and whitespace checks pass. This native
+JavaScript app has no separate lint or TypeScript configuration.
+
+Full actual Chromium API/static suites pass, including earlier model/modal,
+region/round/focus and scouting/theme regressions. The additional model-bracket
+reports cover desktop 1440×1000/mobile 390×844, light/dark views and responsive
+320/390/720/721/768/1440px checks, 63 complete historical main-bracket picks,
+profile/history/reload, saved-snapshot provenance and collapsed diagnostics,
+actual/random separation, warm-up dashes, held generation after region/year
+changes, explicit failure/retry, unsupported/cancelled/unknown-field links,
+local opening-pair scenarios and imports interrupted by leave/reopen. A held
+second random draw followed by an explicit model-view selection is API-only:
+static mode has already cached the table and completes that second draw locally.
+Reports record zero page errors. Structural opening fixtures are identified as
+test-only; they are not a reconstructed historical First Four.
+
+[API report](screenshots/model-bracket-api-report.json) ·
+[static report](screenshots/model-bracket-static-report.json) ·
+[light desktop](screenshots/model-bracket-light-desktop.png) ·
+[light mobile](screenshots/model-bracket-light-mobile.png) ·
+[dark desktop](screenshots/model-bracket-dark-desktop.png) ·
+[dark mobile](screenshots/model-bracket-dark-mobile.png).
+
+Data, model artifacts, prediction/calibration/training code, dependencies,
+provider/access/visibility settings and workflow definitions are unchanged.
+The draft is for independent review before merge; no production job is manually
+dispatched. Hosted Chromium has previously been blocked by this environment's
+proxy; production static QA uses the actual exported app at the Pages subpath.
+
+
+### Independent-review follow-up: mode and input provenance
+
+Reviewed head `e462990dfb1ac867fb489441db3a7a753a8af9de` had a visible
+advancement-panel copy error: its deterministic model-picks view said the bracket
+above showed recorded actual results. A read-only static-browser reproduction
+opened the collapsed panel and captured that false claim.
+
+[Before panel](screenshots/model-bracket-panel-before-desktop.png) ·
+[before report](screenshots/model-bracket-panel-before-report.json).
+
+The panel now describes deterministic seed-baseline picks, one sampled random
+draw or recorded actual results according to the active mode. Recommendation
+copy retains the conditional 64-participant experiment, missing First Four
+records and seed-only inputs without roster/injury/current-form information.
+It makes no validated full-field selection-day forecast claim.
+
+The archive footer describes verified scores/dates only in observed mode; pick
+and draw details explicitly omit those recorded values. The 2021 observed
+no-contest advancement sentence is likewise limited to actual results. Local
+import rationale describes supplied seeds with unverified as-of timestamps,
+instead of claiming a selection-time input. The current-model scenario and
+training/artifact horizons remain explicit.
+
+Browser regressions open the recommendation panel with keyboard input and check
+visible text in all three modes, at desktop/mobile sizes in API/static modes:
+twelve panel-label checks plus matching score/date footers. The 2021 footer is
+checked in all three views; imported rationale is checked for supplied,
+unverified seeds. [API report](screenshots/model-bracket-api-report.json) ·
+[static report](screenshots/model-bracket-static-report.json) ·
+[after desktop panel](screenshots/model-bracket-panel-desktop.png) ·
+[after mobile panel](screenshots/model-bracket-panel-mobile.png).
+
+66 Python tests, all seven syntax checks, export, whitespace checks and full
+actual Chromium API/static suites pass again, with zero page errors. This
+follow-up changes copy, a panel test ID and regression/evidence files. The
+algorithms, prior-year provenance, data/model files and exact request-ownership
+guards are unchanged. The same draft PR awaits independent review; no merge,
+training or production workflow dispatch was performed.

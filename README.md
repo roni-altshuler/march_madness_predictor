@@ -45,6 +45,29 @@ opening a game restores its round and card focus when returning from a profile.
 [Mobile region continuity](docs/screenshots/bracket-navigation-region-mobile.png) ·
 [Championship selection](docs/screenshots/bracket-navigation-finals-mobile.png).
 
+**Model bracket** fills a deterministic favorites path using the existing primary
+seed model. Each picked winner feeds the next scheduled matchup; exactly 50–50
+matchups use bracket order. The champion card shows the model's title chance
+across all possible paths, the earlier training horizon and evidence on demand.
+Model picks, one random draw and recorded results have separate views and labels.
+The model view keeps diagnostics collapsed and restores its path on reload.
+
+Historical picks are **conditional main-bracket experiments**: the bundled field
+contains 64 main-bracket participants, including known preliminary survivors.
+First Four games and losers are not ingested, so this is not a selection-day
+full-field forecast. Unsupported/cancelled years and warm-up models remain
+explicitly unavailable. The upcoming unknown field is never filled with guessed
+entrants. A local imported field can declare opening pairs: their model-picked
+winners feed its main bracket. Imports use the current seed snapshot and are
+unverified scenarios, including imports labeled with an earlier year; they are
+not historical as-of forecasts. Input timestamps are not invented.
+
+This adds a transparent pick policy, not a new predictor, retraining or quality
+claim. The seed baseline and all existing random draws/advancement probabilities
+are preserved. The favorites policy has no new temporal score or pool-scoring
+optimization claim. [Model view](docs/screenshots/model-bracket-light-desktop.png) ·
+[Mobile model picks](docs/screenshots/model-bracket-light-mobile.png).
+
 The bracket matchup dialog labels the selected comparison model and shows a
 loading state while its saved probability is retrieved. Results and failures
 belong to the open matchup and latest model choice: switching games or seasons,

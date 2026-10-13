@@ -21,7 +21,22 @@ def assert_model_brackets(browser,shots,base,static):
         summary=page.locator('.model-bracket-summary');expect(summary).to_contain_text('Champion pick: Duke')
         expect(summary).to_contain_text('9.3%');expect(summary).to_contain_text('trained through 2025')
         expect(summary).to_contain_text('First Four games/losers are missing')
-        assert not summary.locator('details').evaluate('(e)=>e.open')
+        rationale=page.locator('.model-bracket-rationale')
+        assert not rationale.evaluate('(e)=>e.open')
+        # The first game must fit without scrolling past context or controls.
+        page.evaluate('scrollTo(0,0)')
+        first_game=page.locator('.round-column.mobile-selected .game').first
+        first_position=first_game.bounding_box()
+        assert first_position['y']+first_position['height']<=page.viewport_size['height'],first_position
+        assert rationale.evaluate('(e)=>Boolean(document.querySelector(".bracket-scroll").compareDocumentPosition(e)&Node.DOCUMENT_POSITION_FOLLOWING)')
+        route=page.url;markup=page.locator('.bracket').inner_html()
+        rationale.locator('summary').focus();page.keyboard.press('Enter')
+        expect(rationale).to_contain_text('Input: selection-time seeds only.')
+        expect(rationale).to_contain_text('Calibration through 2025.')
+        expect(rationale).to_contain_text('does not optimize a scoring pool')
+        assert rationale.evaluate('(e)=>e.open')
+        page.keyboard.press('Enter');assert not rationale.evaluate('(e)=>e.open')
+        assert page.url==route and page.locator('.bracket').inner_html()==markup
         diagnostic=page.locator('#season-content > details.panel');assert not diagnostic.evaluate('(e)=>e.open')
         panel_labels=[]
         expected_labels={
@@ -80,8 +95,17 @@ def assert_model_brackets(browser,shots,base,static):
         page.locator('#fill-bracket').click();page.reload()
         expect(page.locator('[data-view="recommend"]')).to_have_attribute('aria-pressed','true',timeout=15000)
         expect(summary).to_contain_text('Champion pick: Duke')
+        page.locator('[data-region="0"]').click()
+        page.set_viewport_size({'width':390,'height':844});page.select_option('#mobile-round','0')
+        layout=[]
         for check_width in [320,390,720,721,768,1440]:
-            page.set_viewport_size({'width':check_width,'height':844});assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
+            page.set_viewport_size({'width':check_width,'height':844});page.evaluate('scrollTo(0,0)')
+            assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
+            first=page.locator('.round-column.mobile-selected .game').first.bounding_box()
+            assert first['y']+first['height']<=844,dict(width=check_width,first=first)
+            for control in page.locator('.bracket-controls button').all():
+                box=control.bounding_box();assert box['height']>=44,box
+            layout.append(dict(width=check_width,first_game=first))
         page.set_viewport_size({'width':width,'height':1000 if width>720 else 844})
         page.select_option('#theme-choice','dark');expect(page.locator('html')).to_have_attribute('data-theme','dark')
         page.evaluate('scrollTo(0,0)');page.screenshot(path=str(shots/f'model-bracket-dark-{viewport}.png'))
@@ -100,7 +124,7 @@ def assert_model_brackets(browser,shots,base,static):
             if historical_mode=='actual':expect(footer).to_contain_text('Oregon–VCU was a no-contest')
             else:expect(footer).not_to_contain_text('the advancement is shown')
         assert not errors,errors
-        report.append(dict(viewport=viewport,case='63 coherent main-bracket picks, prior snapshot, collapsed details, actual/random distinction, profile/history/reload, themes and missing model',champion='Duke',probability='9.3%',trained_through=2025,advancement_panel_modes=panel_labels,page_errors=errors));context.close()
+        report.append(dict(viewport=viewport,case='63 coherent main-bracket picks, prior snapshot, collapsed details, actual/random distinction, profile/history/reload, themes and missing model',champion='Duke',probability='9.3%',trained_through=2025,advancement_panel_modes=panel_labels,first_game_positions=layout,page_errors=errors));context.close()
 
         # Keep latest region/round focus during model completion and reject old-year work.
         for leave in [False,True]:
@@ -166,7 +190,8 @@ def assert_model_brackets(browser,shots,base,static):
         upload(field);expect(page.locator('#import-status')).to_have_text('Validated 68 teams and 67 games.')
         imported=page.locator('#import-result');expect(imported).to_contain_text('Local field scenario')
         expect(imported).to_contain_text('trained through 2026');expect(imported).to_contain_text('timestamp are not verified')
-        rationale=imported.locator('.model-bracket-summary details');rationale.locator('summary').click()
+        rationale=imported.locator('.model-bracket-rationale');assert not rationale.evaluate('(e)=>e.open')
+        rationale.locator('summary').focus();page.keyboard.press('Enter')
         expect(rationale).to_contain_text('Input: supplied seeds; their as-of timestamps are unverified.')
         expect(rationale).not_to_contain_text('Input: selection-time seeds only.')
         opening=imported.get_by_text('Opening / First Four picks · 4 games',exact=True);opening.click()

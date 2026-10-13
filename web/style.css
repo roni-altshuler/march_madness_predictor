@@ -112,13 +112,25 @@ body{font-size:16px;line-height:1.5}table{font-size:14px;line-height:1.45}.team-
 .hero .button{margin:4px 4px 0 0}
 #detail-prediction{margin-top:10px}
 
-.model-bracket-summary{padding:20px;margin-bottom:18px;border:1px solid var(--highlight-line);border-left:4px solid var(--blue);border-radius:9px;background:var(--surface)}
-.model-bracket-summary h2{font-size:24px;margin:8px 0}.model-bracket-summary p{margin:8px 0}.model-bracket-summary details{margin-top:12px;padding-bottom:0}.model-bracket-summary .eyebrow{margin:0}
+.model-bracket-summary{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:4px 16px;padding:12px 14px;margin-bottom:12px;border:1px solid var(--highlight-line);border-left:4px solid var(--blue);border-radius:9px;background:var(--surface)}
+.model-bracket-summary h2{font-size:20px;margin:0;overflow-wrap:anywhere}.model-bracket-summary p{margin:0}.model-bracket-summary .eyebrow,.model-bracket-summary .note{grid-column:1/-1}.model-bracket-summary .eyebrow{font-size:10px}.model-bracket-context{font-size:12px}.model-bracket-summary .note{max-width:none}.model-bracket-rationale summary{min-height:44px;display:list-item;align-content:center}
 #bracket-status .error{display:block;margin:12px 0}
 
 #archive-heading.model-heading~.toolbar #fill-bracket,#archive-heading.model-heading~.toolbar #draw-bracket{display:none}
-#archive-heading.model-heading h1{font-size:32px}.model-heading~#season-content .segmented button{padding-inline:10px}
-@media(max-width:720px){#archive-heading.model-heading h1{font-size:28px}.model-heading~#season-content .model-bracket-summary{padding:14px}.model-heading~#season-content .model-bracket-summary p{font-size:13px}.model-heading~#season-content .model-bracket-summary .note{font-size:12px}}
+#archive-heading.model-heading h1{font-size:32px}.model-heading~#season-content .segmented button{padding-inline:10px}.model-heading~#season-content .bracket-controls{display:flex;flex-wrap:wrap;gap:8px 16px;margin:12px 0}.model-heading~#season-content .bracket-controls .segmented{margin:0}.model-heading~#season-content .bracket-key{margin-bottom:8px}
 #bracket-status:empty{min-height:0}
 #archive-heading.model-heading h1{margin-bottom:8px}#archive-heading.model-heading~.toolbar{margin-block:12px}
-@media(max-width:720px){.model-heading~#season-content>.segmented button{font-size:14px;padding-inline:4px}}
+@media(max-width:720px){
+  #archive-heading.model-heading h1{font-size:28px}
+  #archive-heading.model-heading~.toolbar label{display:flex;align-items:center;gap:10px;white-space:nowrap;flex:none}
+  #archive-heading.model-heading~.toolbar select{width:150px;margin-top:0}
+  .model-bracket-summary{grid-template-columns:minmax(0,1fr);gap:4px;padding:10px 12px}
+  .model-bracket-summary h2{font-size:18px}
+  .model-heading~#season-content .bracket-controls{display:grid;gap:8px;margin:10px 0}
+  .model-heading~#season-content .segmented{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}
+  .model-heading~#season-content .segmented[aria-label="Actual or simulated results"]{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .model-heading~#season-content .segmented button{font-size:12px;padding:6px 2px}
+  .model-heading~#season-content .mobile-round{display:flex;align-items:center;gap:10px;margin-top:10px}
+  .model-heading~#season-content .mobile-round select{flex:1;min-width:0;margin-top:0}
+  .model-heading~#season-content .bracket-scroll{margin-top:12px}
+}

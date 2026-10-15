@@ -13,6 +13,7 @@ from theme_browser import assert_theme_journeys
 from bracket_drilldown_browser import assert_bracket_drilldowns
 from bracket_navigation_browser import assert_bracket_navigation, assert_simulation_focus
 from model_bracket_browser import assert_model_brackets
+from seed_matchup_browser import assert_seed_matchup_requests
 
 ROOT=Path(__file__).resolve().parents[1]
 BASE='http://127.0.0.1:8037'
@@ -645,6 +646,7 @@ def run():
             assert_bracket_navigation(browser,shots,BASE,STATIC)
             assert_simulation_focus(browser,shots,BASE,STATIC)
             assert_model_brackets(browser,shots,BASE,STATIC)
+            assert_seed_matchup_requests(browser,shots,BASE,STATIC)
             assert not errors,errors
             browser.close()
         print('Browser checks passed: desktop/mobile archive and profiles, exact identity separation, honest aggregates, missing history/cancelled/no-contest, origin-year/region/round/focus, keyboard dialog/back/forward/retry, same-year actual links, per-year sampled draw preservation, changed-control history, delayed simulation success/failure, table scrolling, reduced motion, stale requests, recorded model comparisons/swap/loading/empty/error/profile/evidence links, historical scouting windows/field percentiles/prior-only expectations, season evidence, simulation, matchup and import validation; shared light/dark palettes across complete journeys, saved/system themes, first loading frame, contrast samples and storage fallback; bracket drilldown request ownership, latest model, loading/current errors/retry and delayed success/failure; archive round/focus continuity across region/year/view redraws, deep links, interrupted loads and browser history.')

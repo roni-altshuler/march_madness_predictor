@@ -53,9 +53,14 @@ def assert_theme_journeys(browser, shots, base, static):
             preference='dark' if theme=='light' else 'light'
             context=browser.new_context(viewport={'width':width,'height':height},color_scheme=preference)
             context.add_init_script(f'''if(!localStorage.getItem('marchlab.theme'))localStorage.setItem('marchlab.theme',{json.dumps(theme)});
-              requestAnimationFrame(()=>window.firstThemeFrame={{theme:document.documentElement.dataset.theme,
-                background:getComputedStyle(document.body).backgroundColor,
-                content_opacity:getComputedStyle(document.querySelector('main')).opacity}});''')
+              const captureFirstThemeFrame=()=>{{
+                const body=document.body,content=document.querySelector('main');
+                if(!body||!content){{requestAnimationFrame(captureFirstThemeFrame);return;}}
+                window.firstThemeFrame={{theme:document.documentElement.dataset.theme,
+                  background:getComputedStyle(body).backgroundColor,
+                  content_opacity:getComputedStyle(content).opacity}};
+              }};
+              requestAnimationFrame(captureFirstThemeFrame);''')
             page=context.new_page();errors=[]
             page.on('pageerror',lambda error:errors.append(str(error)))
             pending=[];page.route(summary_path,lambda route:pending.append(route))

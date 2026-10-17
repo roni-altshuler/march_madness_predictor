@@ -76,7 +76,7 @@ def assert_theme_journeys(browser, shots, base, static):
             if name=='mobile': page.screenshot(path=str(shots/f'theme-loading-{theme}-mobile.png'))
             assert len(pending)==1
             pending[0].continue_();page.unroute(summary_path)
-            expect(page.get_by_role('heading',name='March 2027',exact=True)).to_be_visible()
+            expect(page.get_by_role('heading',name='2026 bracket',exact=True)).to_be_visible()
             assert_palette(page,'.hero')
             minimum=assert_contrast(page,'h1,.hero .muted,.hero .button,nav a')
             for check_width in [768,390,320,width]:
@@ -85,7 +85,7 @@ def assert_theme_journeys(browser, shots, base, static):
             page.screenshot(path=str(shots/f'theme-home-{theme}-{name}.png'))
 
             page.get_by_role('link',name='Explore the historical bracket',exact=True).click()
-            expect(page.locator('.game')).to_have_count(15)
+            expect(page.locator('#season-content .game')).to_have_count(15)
             assert_palette(page,'.bracket-scroll')
             minimum=min(minimum,assert_contrast(page,'.won,.lost,.game-prob,.bracket-key'))
             minimum=min(minimum,assert_contrast(page,'.won .team-name','::after'))
@@ -158,7 +158,7 @@ def assert_theme_journeys(browser, shots, base, static):
                 page.evaluate('scrollTo(0,0)')
                 page.screenshot(path=str(shots/f'theme-error-{theme}-mobile.png'))
             page.go_back();expect(page.get_by_role('heading',name='Know the data')).to_be_visible()
-            page.locator('.brand').click();expect(page.get_by_role('heading',name='March 2027',exact=True)).to_be_visible()
+            page.locator('.brand').click();expect(page.get_by_role('heading',name='2026 bracket',exact=True)).to_be_visible()
             expect(page.locator('#theme-choice')).to_have_value(theme);assert_palette(page,'.hero')
             page.emulate_media(color_scheme=theme)
             assert page.locator('html').get_attribute('data-theme')==theme
@@ -181,10 +181,10 @@ def assert_theme_journeys(browser, shots, base, static):
         context=browser.new_context(color_scheme='light')
         context.add_init_script("Object.defineProperty(window,'localStorage',{get(){throw Error('storage blocked')}})" if blocked else "localStorage.setItem('marchlab.theme','invalid')")
         page=context.new_page();page.goto(base+'/')
-        expect(page.get_by_role('heading',name='March 2027',exact=True)).to_be_visible()
+        expect(page.get_by_role('heading',name='2026 bracket',exact=True)).to_be_visible()
         expect(page.locator('#theme-choice')).to_have_value('system')
         page.select_option('#theme-choice','dark');assert_palette(page,'.hero')
         page.locator('nav').get_by_role('link',name='Historical bracket').click()
-        expect(page.locator('.game')).to_have_count(15);expect(page.locator('html')).to_have_attribute('data-theme','dark')
+        expect(page.locator('#season-content .game')).to_have_count(15);expect(page.locator('html')).to_have_attribute('data-theme','dark')
         context.close()
     (shots/'theme-journey-report.json').write_text(json.dumps(report,indent=2)+'\n')

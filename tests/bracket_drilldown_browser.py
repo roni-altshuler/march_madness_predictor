@@ -159,7 +159,8 @@ def assert_bracket_drilldowns(browser, shots, base, static):
         page.select_option('#insight-year','2020')
         expect(page.locator('#season-insights')).to_contain_text('2020 · no tournament played')
         expect(page.locator('#insight-archive')).to_have_count(0)
-        page.locator('.brand').click()
+        page.locator('nav a[href="#2027"]').click()
+        expect(page.locator('#field-file')).to_be_visible();expect(page.locator('.game')).to_have_count(0)
         expect(page.get_by_text('FIELD NOT ANNOUNCED',exact=True)).to_be_visible()
         for check_width in [320,390,768,width]:
             page.set_viewport_size({'width':check_width,'height':height})

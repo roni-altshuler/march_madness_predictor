@@ -14,6 +14,7 @@ from bracket_drilldown_browser import assert_bracket_drilldowns
 from bracket_navigation_browser import assert_bracket_navigation, assert_simulation_focus
 from model_bracket_browser import assert_model_brackets
 from seed_matchup_browser import assert_seed_matchup_requests
+from home_browser import assert_bracket_home
 
 ROOT=Path(__file__).resolve().parents[1]
 BASE='http://127.0.0.1:8037'
@@ -98,7 +99,7 @@ def assert_season_evidence(page, shots):
     expect(page.locator('#insight-status')).to_have_text('2006 evidence loaded.')
     page.locator('#insight-archive').focus();page.keyboard.press('Enter')
     expect(page.locator('#archive-year')).to_have_value('2006')
-    expect(page.locator('.game')).to_have_count(15)
+    expect(page.locator('#season-content .game')).to_have_count(15)
     # Back/forward must return to the evidence route and the inspected bracket.
     page.go_back()
     expect(page.locator('nav a[href="#evidence"]')).to_have_attribute('aria-current','page')
@@ -160,7 +161,7 @@ def assert_profile_navigation_regressions(page):
     # Fixed browser clock controls the seeded draw; all teams/results stay bundled data.
     page.set_viewport_size({'width':1440,'height':1000})
     page.goto(BASE+'/#archive?year=2026&region=0');page.reload()
-    expect(page.locator('.game')).to_have_count(15)
+    expect(page.locator('#season-content .game')).to_have_count(15)
     page.evaluate('Date.now=()=>42')
     page.locator('#draw-bracket').click()
     expect(page.locator('[data-view="sample"]')).to_have_attribute('aria-pressed','true')
@@ -194,7 +195,7 @@ def assert_profile_navigation_regressions(page):
     for width in (1440,390):
         page.set_viewport_size({'width':width,'height':1000 if width==1440 else 844})
         page.goto(BASE+'/#archive?year=2026&region=0');page.reload()
-        expect(page.locator('.game')).to_have_count(15)
+        expect(page.locator('#season-content .game')).to_have_count(15)
         page.select_option('#archive-year','2021')
         expect(page.locator('.stat').nth(1)).to_contain_text('62')
         page.locator('[data-region="2"]').click()
@@ -216,7 +217,7 @@ def assert_profile_navigation_regressions(page):
     path='**/data/tables/2026.json' if STATIC else '**/api/simulate?*'
     for outcome in ('success','failure'):
         page.goto(BASE+'/#archive?year=2026&region=0');page.reload()
-        expect(page.locator('.game')).to_have_count(15)
+        expect(page.locator('#season-content .game')).to_have_count(15)
         page.evaluate('Date.now=()=>42')
         pending=[]
         page.route(path,lambda route:pending.append(route))
@@ -568,11 +569,11 @@ def run():
             browser=p.chromium.launch(headless=True,**({} if channel=='chromium' else {'channel':channel}))
             page=browser.new_page(viewport={'width':1440,'height':1000})
             errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
-            page.goto(BASE);expect(page.get_by_role('heading',name='March 2027',exact=True)).to_be_visible()
+            page.goto(BASE);expect(page.get_by_role('heading',name='2026 bracket',exact=True)).to_be_visible()
             expect(page.get_by_text('FIELD NOT ANNOUNCED',exact=True)).to_be_visible()
-            page.screenshot(path=str(shots/'2027-desktop.png'),full_page=True)
+            page.screenshot(path=str(shots/'home-desktop.png'),full_page=True)
             page.locator('nav').get_by_role('link',name='Historical bracket').click()
-            expect(page.locator('.game')).to_have_count(15)
+            expect(page.locator('#season-content .game')).to_have_count(15)
             assert_skip_preserves_archive(page)
             page.locator('.game').first.focus();page.keyboard.press('Enter')
             expect(page.locator('dialog')).to_be_visible();expect(page.locator('#detail-title')).to_contain_text('Duke')
@@ -623,10 +624,10 @@ def run():
             expect(page.locator('#import-result .game')).to_have_count(15)
             page.locator('#import-result .game').first.click();expect(page.locator('dialog')).to_contain_text('locally imported field');page.keyboard.press('Escape')
             page.set_viewport_size({'width':768,'height':1024})
-            page.goto(BASE+'/#archive');expect(page.locator('.game')).to_have_count(15)
+            page.goto(BASE+'/#archive');expect(page.locator('#season-content .game')).to_have_count(15)
             assert page.evaluate('document.documentElement.scrollWidth <= window.innerWidth')
             page.set_viewport_size({'width':390,'height':844})
-            page.goto(BASE+'/#archive');expect(page.locator('.game')).to_have_count(15)
+            page.goto(BASE+'/#archive');expect(page.locator('#season-content .game')).to_have_count(15)
             page.select_option('#archive-year','2026');expect(page.locator('.stat').first).to_contain_text('Michigan')
             assert page.evaluate('document.documentElement.scrollWidth <= window.innerWidth')
             assert page.locator('.game:visible').count()==8
@@ -647,6 +648,7 @@ def run():
             assert_simulation_focus(browser,shots,BASE,STATIC)
             assert_model_brackets(browser,shots,BASE,STATIC)
             assert_seed_matchup_requests(browser,shots,BASE,STATIC)
+            assert_bracket_home(browser,shots,BASE,STATIC)
             assert not errors,errors
             browser.close()
         print('Browser checks passed: desktop/mobile archive and profiles, exact identity separation, honest aggregates, missing history/cancelled/no-contest, origin-year/region/round/focus, keyboard dialog/back/forward/retry, same-year actual links, per-year sampled draw preservation, changed-control history, delayed simulation success/failure, table scrolling, reduced motion, stale requests, recorded model comparisons/swap/loading/empty/error/profile/evidence links, historical scouting windows/field percentiles/prior-only expectations, season evidence, simulation, matchup and import validation; shared light/dark palettes across complete journeys, saved/system themes, first loading frame, contrast samples and storage fallback; bracket drilldown request ownership, latest model, loading/current errors/retry and delayed success/failure; archive round/focus continuity across region/year/view redraws, deep links, interrupted loads and browser history.')

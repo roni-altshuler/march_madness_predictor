@@ -1,9 +1,10 @@
+import {recordStrip} from './track_record.js';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const pct=value=>value==null?'—':`${(value*100).toFixed(1)}%`;
 
 export async function mountBracketHome(container,{summary,request,bracketMarkup,archiveHref,teamHref,params,isCurrent}){
   const latest=Math.max(...summary.years),hasYear=Number.isFinite(latest);
-  container.innerHTML=`<section class="bracket-home"><header class="hero home-hero"><div><p class="eyebrow">MEN’S TOURNAMENT</p><h1>${hasYear?`${latest} bracket`:'Tournament brackets'}</h1><p class="muted">Follow the model’s picks. Open a game. Get to know the teams.</p></div><a class="button" href="#archive" aria-label="Explore the historical bracket">All years →</a></header><div id="home-bracket" class="loading" role="status" tabindex="-1">Loading the latest historical model bracket…</div><aside class="home-upcoming"><span class="tag">FIELD NOT ANNOUNCED</span><p>2027 team predictions wait for the real field. <a href="#2027">Schedule & field import →</a></p></aside></section>`;
+  container.innerHTML=`<section class="bracket-home"><header class="hero home-hero"><div><p class="eyebrow">MEN’S TOURNAMENT</p><h1>${hasYear?`${latest} bracket`:'Tournament brackets'}</h1><p class="muted">Follow the model’s picks. Open a game. Get to know the teams.</p></div><a class="button" href="#archive" aria-label="Explore the historical bracket">All years →</a></header>${recordStrip(summary.track_record)}<div id="home-bracket" class="loading" role="status" tabindex="-1">Loading the latest historical model bracket…</div><aside class="home-upcoming"><span class="tag">FIELD NOT ANNOUNCED</span><p>2027 team predictions wait for the real field. <a href="#2027">Schedule & field import →</a></p></aside></section>`;
   const target=container.querySelector('#home-bracket');let requestVersion=0;
   const unavailable=message=>`<div class="home-empty"><h2>Model bracket unavailable</h2><p>${esc(message)}</p><a class="button" href="#archive">Browse recorded results</a></div>`;
   if(!hasYear){target.className='';target.innerHTML=unavailable('No completed tournament is bundled. No teams or probabilities have been assumed.');return;}

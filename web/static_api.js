@@ -36,6 +36,7 @@ export function simulate(field,table,kind='seed',randomSeed=2027){
 export async function request(path,options={}){
   const url=new URL(path,'https://parse-only.invalid'),q=url.searchParams;
   if(url.pathname==='/api/summary')return load('summary.json');
+  if(url.pathname==='/api/track-record')return load('track_record.json');
   if(url.pathname==='/api/team'){
     const index=await load('teams/index.json'),id=q.get('profile');
     if(!Object.hasOwn(index.profiles,id))throw Error('No published tournament history for this exact profile ID.');

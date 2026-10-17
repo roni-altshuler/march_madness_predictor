@@ -2,11 +2,13 @@
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlparse, parse_qs
 import json
+import hashlib
 from .data import ROOT, read, feature_table
 from .model import predict, vector
 from .bracket import historical_field, simulate
 from .team_profiles import build_team_profiles, profile_teams
 from .scouting import add_scouting_context
+from .track_record import build_track_record, track_summary
 
 
 def load_state():
@@ -17,6 +19,11 @@ def load_state():
                 coverage=read(ROOT/'data/derived/schedule_coverage.json') if (ROOT/'data/derived/schedule_coverage.json').exists() else None)
     state['team_profiles'] = build_team_profiles(state['archive'], state['features'], state['provenance'])
     add_scouting_context(state)
+    sources = ['artifacts/predictions.json', 'data/derived/archive.json', 'artifacts/historical_models.json',
+               'artifacts/evaluation.json', 'artifacts/models.json']
+    state['track_record'] = build_track_record(state['archive'], read(ROOT/'artifacts/predictions.json'),
+                                             state['evaluation'], state['historical'], state['models']['as_of'])
+    state['track_record']['sources_sha256'] = {name: hashlib.sha256((ROOT/name).read_bytes()).hexdigest() for name in sources}
     return state
 
 
@@ -48,9 +55,12 @@ def serve(port=8027):
             try:
                 if parsed.path=='/api/summary':
                     return self.send_json(dict(provenance=state['provenance'],field=state['field'],
+                                               track_record=track_summary(state['track_record']),
                                                evaluation=state['evaluation'],models=state['models'],
                                                coverage=state['coverage'],
                                                years=sorted(map(int,state['archive']),reverse=True)))
+                if parsed.path=='/api/track-record':
+                    return self.send_json(state['track_record'])
                 if parsed.path=='/api/season':
                     year=int(q.get('year',['2026'])[0])
                     if str(year) not in state['archive']:

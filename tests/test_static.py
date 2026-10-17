@@ -15,6 +15,20 @@ def public():
     return export_static()
 
 
+def test_static_track_record_matches_api_and_home_summary(public):
+    expected=load_state()['track_record']
+    assert read(public/'data/track_record.json')==expected
+    summary=read(public/'data/summary.json')['track_record']
+    assert summary['historical']==expected['historical']['totals']
+    assert summary['prospective']['accuracy_pct'] is None
+    code="""import {pathToFileURL} from 'node:url';import fs from 'node:fs';
+    globalThis.fetch=async url=>({ok:true,json:async()=>JSON.parse(fs.readFileSync(process.argv[2]+'/data/'+new URL(url).pathname.split('/data/')[1],'utf8'))});
+    const {request}=await import(pathToFileURL(process.argv[1]).href);
+    process.stdout.write(JSON.stringify(await request('/api/track-record')));"""
+    actual=subprocess.run(['node','--input-type=module','-e',code,str(ROOT/'web/static_api.js'),str(public)],text=True,capture_output=True,check=True)
+    assert json.loads(actual.stdout)==expected
+
+
 def browser_simulation(field,table,kind='seed'):
     source=ROOT/'web/static_api.js'
     code="import {pathToFileURL} from 'node:url'; import fs from 'node:fs'; const {simulate}=await import(pathToFileURL(process.argv[1]).href); const x=JSON.parse(fs.readFileSync(0,'utf8')); process.stdout.write(JSON.stringify(simulate(x.field,x.table,x.kind,42)));"

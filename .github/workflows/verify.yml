@@ -19,6 +19,7 @@ jobs:
       - run: python -m pytest -q
       - run: node --check web/app.js
       - run: node --check web/bracket_home.js
+      - run: node --check web/track_record.js
       - run: node --check web/theme.js
       - run: node --check web/static_api.js
       - run: node --check web/season_insights.js

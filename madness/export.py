@@ -5,6 +5,7 @@ from .data import ROOT,dump
 from .server import load_state
 from .model import predict,vector
 from .team_profiles import profile_teams
+from .track_record import track_summary
 
 
 def export_static():
@@ -19,7 +20,9 @@ def export_static():
     (output/'.nojekyll').write_text('',encoding='utf-8')
     summary={k:state[k] for k in ('provenance','field','evaluation','models','coverage')}
     summary['years']=sorted(map(int,state['archive']),reverse=True)
+    summary['track_record']=track_summary(state['track_record'])
     dump(output/'data/summary.json',summary)
+    dump(output/'data/track_record.json',state['track_record'])
     team_index = {}
     for key, profile in state['team_profiles']['profiles'].items():
         filename = hashlib.sha256(key.encode('utf-8')).hexdigest()+'.json'

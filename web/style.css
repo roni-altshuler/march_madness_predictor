@@ -112,6 +112,24 @@ body{font-size:16px;line-height:1.5}table{font-size:14px;line-height:1.45}.team-
 .hero .button{margin:4px 4px 0 0}
 #detail-prediction{margin-top:10px}
 
+/* The home journey starts with the available bracket, using the shared palette. */
+.home-hero{position:relative;margin:0 0 18px;padding:0;background:none;border:0;display:block}
+.home-hero>.button{position:absolute;right:0;top:-8px;padding:8px 0;background:none;border:0;color:var(--blue);font-size:12px}
+.home-hero h1{font-size:36px;margin-bottom:8px}.home-hero .muted{margin:0;max-width:55ch;font-size:14px}.home-hero .eyebrow{margin-bottom:8px}
+.home-context{display:flex;align-items:center;flex-wrap:wrap;gap:8px 14px;margin-bottom:10px;font-size:12px;color:var(--muted)}.home-context strong{color:var(--blue);font-size:11px;letter-spacing:.05em}
+.home-layout{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:22px;align-items:start}.home-path{min-width:0}
+.home-regions{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;margin:0 0 10px}.home-regions button{padding:8px 4px}
+.home-key{font-size:12px;color:var(--muted);margin-bottom:10px}.home-path .bracket-scroll{margin:0 0 12px;padding:16px}.home-path .bracket{min-width:820px;gap:24px}.home-path .round-column{min-width:180px}
+.home-path .game{color:var(--text);display:block}.home-path .game:hover{box-shadow:0 0 0 1px var(--blue)}.home-path .game:hover .team-name{text-decoration:underline}.home-all{display:inline-block;min-height:44px;padding-block:10px;font-size:14px;font-weight:600}
+.home-chances{padding:18px;background:var(--surface);border:1px solid var(--line);border-radius:10px}.home-chances h2{font-size:21px;margin-bottom:8px}.home-chances .eyebrow{font-size:9px;margin-bottom:8px}.home-chances ol{list-style:none;padding:0;margin:0 0 12px}.home-chances li{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 0;border-bottom:1px solid var(--line);font-size:14px}.home-chances li strong{font:18px var(--mono);color:var(--blue)}.home-chances>a{font-size:12px}.home-chances .note{font-size:12px}
+.home-method{margin-top:10px}.home-method summary,.game-stats summary{min-height:44px;align-content:center}.home-method p{font-size:14px;max-width:80ch}.home-upcoming{display:flex;align-items:center;gap:14px;padding:16px 0;border-top:1px solid var(--line);margin-top:20px}.home-upcoming p{font-size:13px;color:var(--muted);margin:0}.home-upcoming .tag{flex-shrink:0}.home-empty{padding:24px;border:1px solid var(--line);background:var(--surface);border-radius:10px}.home-empty p{color:var(--muted)}.game-stats{margin:16px 0}
+@media(max-width:1100px){.home-layout{grid-template-columns:minmax(0,1fr)}.home-chances ol{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}.home-chances li{align-items:start;flex-direction:column}}
+@media(max-width:720px){
+  .home-hero{margin-bottom:16px}.home-hero h1{font-size:30px}.home-hero .muted{font-size:13px}
+  .home-context{gap:4px;font-size:11px;display:grid}.home-regions button{font-size:11px;min-height:44px}.home-path .mobile-round{display:flex;align-items:center;gap:12px;margin:0 0 12px}.home-path .mobile-round select{margin:0;min-width:0;flex:1}.home-path .bracket{min-width:0}.home-path .round-column{min-width:0}.home-path .bracket-scroll{padding:12px}.home-layout{gap:16px}.home-chances ol{grid-template-columns:repeat(2,minmax(0,1fr));gap:0 18px}.home-chances li{flex-direction:row;align-items:center;min-width:0;font-size:12px}.home-chances li strong{font-size:16px}.home-upcoming{align-items:start;flex-direction:column;gap:8px}.home-method summary{font-size:14px}
+}
+@media(prefers-reduced-motion:no-preference){.home-path .game,.home-regions button{transition:border-color .15s ease,box-shadow .15s ease}}
+
 .model-bracket-summary{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:4px 16px;padding:12px 14px;margin-bottom:12px;border:1px solid var(--highlight-line);border-left:4px solid var(--blue);border-radius:9px;background:var(--surface)}
 .model-bracket-summary h2{font-size:20px;margin:0;overflow-wrap:anywhere}.model-bracket-summary p{margin:0}.model-bracket-summary .eyebrow,.model-bracket-summary .note{grid-column:1/-1}.model-bracket-summary .eyebrow{font-size:10px}.model-bracket-context{font-size:12px}.model-bracket-summary .note{max-width:none}.model-bracket-rationale summary{min-height:44px;display:list-item;align-content:center}
 #bracket-status .error{display:block;margin:12px 0}

@@ -211,7 +211,8 @@ def assert_model_brackets(browser,shots,base,static):
         pending=[];page.route(import_path,lambda route:pending.append(route))
         page.set_input_files('#field-file',{'name':'structural-test-only.json','mimeType':'application/json','buffer':json.dumps(field).encode()});wait_pending(page,pending,1)
         page.locator('nav a[href="#about"]').click();expect(page.get_by_role('heading',name='Know the data')).to_be_visible()
-        page.locator('.brand').click();expect(page.locator('#field-file')).to_be_visible()
+        page.locator('.brand').click();expect(page.get_by_role('heading',name='2026 bracket',exact=True)).to_be_visible()
+        page.locator('nav a[href="#2027"]').click();expect(page.locator('#field-file')).to_be_visible()
         pending[0].continue_();page.wait_for_load_state('networkidle')
         expect(page.locator('#import-result .game')).to_have_count(0);expect(page.locator('#import-status')).to_have_text('')
         assert not errors,errors

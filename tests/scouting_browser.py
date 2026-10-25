@@ -5,6 +5,29 @@ from urllib.parse import parse_qs, urlsplit
 from playwright.sync_api import expect
 
 
+def assert_comparison_departure_gap(page,base,static):
+    # Browser Back changes location before hashchange disconnects the old DOM.
+    # Release real season data in that gap; the departed renderer must not rewrite it.
+    path='/data/seasons/2014.json' if static else '/api/season?year=2014'
+    season=page.request.get(base+path).json()
+    result=page.evaluate('''async season=>{
+      const {mountMatchupComparison}=await import('./matchup_compare.js');
+      const destination=location.href,state=history.state,calls=[];
+      const container=document.createElement('section');document.body.append(container);
+      let release;
+      const request=path=>{calls.push(path);return path.startsWith('/api/season?')?new Promise(resolve=>release=()=>resolve(season)):Promise.reject(Error('Departed comparison requested a forecast'));};
+      history.replaceState(null,'','#matchup?compare_year=2014');
+      mountMatchupComparison(container,{summary:{years:[2014],provenance:{cancelled_years:[]}},request,initialYear:2014});
+      const loading=container.innerHTML;
+      history.replaceState(state,'',destination);release();
+      await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+      const result={destination,url:location.href,calls,unchanged:container.innerHTML===loading,connected:container.isConnected};
+      container.remove();return result;
+    }''',season)
+    assert result['connected'] and result['unchanged'],result
+    assert result['url']==result['destination'] and result['calls']==['/api/season?year=2014'],result
+
+
 def capture_scouting(page, shots, state, selector='#team-scouting'):
     previous=page.viewport_size
     for name,width,height in [('desktop',1440,1000),('mobile',390,844)]:
@@ -50,6 +73,13 @@ def assert_team_scouting(page, shots, base, static):
         expect(page.locator('#compare-game')).to_have_value('2025-r1-16')
         page.go_back();expect(page.locator('#scout-window')).to_have_value('3')
         assert prior_years()==[2025,2024,2023] and params()['appearance']==['2026']
+        resume=dossier.get_by_role('link',name='2025 matchups →')
+        expect(resume).to_be_focused()
+        box=resume.bounding_box();assert 0<=box['y'] and box['y']+box['height']<=height,box
+        # Forward/Back must keep the same reading point, not only the filter values.
+        page.go_forward();expect(page.locator('#compare-game')).to_have_value('2025-r1-16')
+        page.select_option('#compare-year','2020');expect(page.locator('#compare-status')).to_have_text('2020 tournament cancelled.')
+        page.go_back();expect(resume).to_be_focused();expect(page.locator('#scout-window')).to_have_value('3')
         for window in ['all','5','3','all','5']:
             page.select_option('#scout-window',window)
             assert params()['scout_window']==[window]
@@ -137,3 +167,4 @@ def assert_team_scouting(page, shots, base, static):
             page.set_viewport_size({'width':check_width,'height':844})
             assert page.evaluate('document.documentElement.scrollWidth <= innerWidth')
         page.set_viewport_size({'width':width,'height':height})
+        assert_comparison_departure_gap(page,base,static)

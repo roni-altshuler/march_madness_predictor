@@ -61,6 +61,23 @@ export async function renderTeamProfile(container,{profileId,request,origin,appe
     select.value=String(initial);show(initial);
     select.addEventListener('change',()=>show(Number(select.value),true));
     container.querySelectorAll('[data-appearance]').forEach(button=>button.addEventListener('click',()=>{select.value=button.dataset.appearance;show(Number(select.value),true);detail.scrollIntoView({block:'start'});}));
+    const root=container.querySelector('.team-profile');
+    // Keep the reading location with this history entry, not with another team or filter.
+    root.addEventListener('click',event=>{
+      const link=event.target.closest?.('a[href^="#"]');
+      if(!link||event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey||link.target==='_blank')return;
+      const state=history.state&&typeof history.state==='object'?history.state:{};
+      history.replaceState({...state,marchTeamReturn:{route:location.hash,href:link.getAttribute('href')}},'',location.href);
+    });
+    const resume=history.state?.marchTeamReturn;
+    if(resume?.route===location.hash){
+      const link=[...root.querySelectorAll('a[href^="#"]')].find(anchor=>anchor.getAttribute('href')===resume.href);
+      if(link){
+        for(let disclosure=link.closest('details');disclosure;disclosure=disclosure.parentElement?.closest('details'))disclosure.open=true;
+        link.focus();
+        return true;
+      }
+    }
   }catch(error){
     if(!isCurrent())return;
     container.innerHTML=shell(`<p class="eyebrow">MARCH LAB · TEAM HISTORY</p><h1>Team history unavailable</h1><div class="profile-empty" role="alert"><p>${esc(error.message)}</p><p>Tournament totals are unavailable for this profile. Return to the bracket or try loading its recorded history again.</p><button id="profile-retry">Retry team history</button></div>`);

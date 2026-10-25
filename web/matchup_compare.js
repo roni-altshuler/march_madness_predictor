@@ -37,14 +37,16 @@ export function mountMatchupComparison(container,{summary,request,initialYear,in
     <div id="compare-status" class="statusline" role="status" aria-live="polite"></div><div class="compare-actions"><button id="compare-swap" disabled aria-pressed="false">Swap team sides</button><a id="compare-evidence" href="#evidence?year=${selected}">Inspect season evidence →</a></div><div id="compare-content"></div>
     <p class="note compare-boundary">These are retrospective probabilities for archived main-bracket participants, conditional on preliminary-round survivors. Seeds were known at selection; later-round matchup identities became known as the tournament progressed. Model gaps describe different assumptions, not uncertainty intervals or evidence of better accuracy. The seed baseline stays primary; the form challenger did not improve the full saved holdout. Injuries, rosters and market prices are not modeled.</p>`;
   const yearSelect=container.querySelector('#compare-year'),gameSelect=container.querySelector('#compare-game'),swap=container.querySelector('#compare-swap'),status=container.querySelector('#compare-status'),content=container.querySelector('#compare-content');
-  let season=null,game=null,forecasts={},swapped=false,revision=0;
-  const current=version=>version===revision&&container.isConnected;
+  let season=null,game=null,forecasts={},swapped=false,revision=0,ownedHash=location.hash;
+  const ownsLocation=()=>container.isConnected&&location.hash===ownedHash;
+  const current=version=>version===revision&&ownsLocation();
   function updateUrl(year,id,side){
+    if(!ownsLocation())return;
     const url=new URL(location.href),query=new URLSearchParams(url.hash.split('?')[1]);
     query.set('compare_year',year);
     if(id)query.set('compare_game',id);else query.delete('compare_game');
     if(side)query.set('compare_side','b');else query.delete('compare_side');
-    url.hash=`matchup?${query}`;history.replaceState(null,'',url);
+    url.hash=`matchup?${query}`;history.replaceState(null,'',url);ownedHash=url.hash;
   }
   function loading(note){
     forecasts={};swap.disabled=true;swap.setAttribute('aria-pressed',String(swapped));content.setAttribute('aria-busy','true');
@@ -67,6 +69,7 @@ export function mountMatchupComparison(container,{summary,request,initialYear,in
     status.textContent=`${season.season} ${game.status==='no_contest'?'no-contest record':'saved matchup comparison'} loaded.`;
   }
   async function loadGame(id,side=false){
+    if(!ownsLocation())return;
     const version=++revision;game=season.games.find(record=>record.id===id)||season.games[0];swapped=side;
     gameSelect.value=game.id;updateUrl(season.season,game.id,swapped);
     loading('Retrieving saved probabilities for this recorded matchup.');status.textContent=`Loading ${season.season} comparison…`;
@@ -80,6 +83,7 @@ export function mountMatchupComparison(container,{summary,request,initialYear,in
     }catch(error){if(current(version))showError(error,()=>loadGame(game.id,swapped));}
   }
   async function loadYear(preferredGame=null,side=false){
+    if(!ownsLocation())return;
     const year=Number(yearSelect.value),version=++revision;
     season=null;game=null;swapped=side;gameSelect.disabled=true;gameSelect.innerHTML='<option>Loading games…</option>';
     updateUrl(year,preferredGame,side);container.querySelector('#compare-evidence').href=`#evidence?year=${year}`;
@@ -99,7 +103,7 @@ export function mountMatchupComparison(container,{summary,request,initialYear,in
     }catch(error){if(current(version)){gameSelect.innerHTML='<option>Games unavailable</option>';showError(error,()=>loadYear(preferredGame,side));}}
   }
   yearSelect.addEventListener('change',()=>loadYear());gameSelect.addEventListener('change',()=>loadGame(gameSelect.value));
-  swap.addEventListener('click',()=>{swapped=!swapped;updateUrl(season.season,game.id,swapped);render();});
+  swap.addEventListener('click',()=>{if(!ownsLocation())return;swapped=!swapped;updateUrl(season.season,game.id,swapped);render();});
   if(initialGame){yearSelect.focus({preventScroll:true});container.scrollIntoView({block:'start'});}
   loadYear(initialGame,initialSide==='b');
 }

@@ -123,10 +123,58 @@ def test_bundled_holdout_reconciles_every_record_and_point():
     assert counts(rows)==h['totals']==h['points'][-1]['cumulative']
     assert sum(p['weekly']['correct'] for p in h['points'])==269
     assert sum(p['weekly']['settled'] for p in h['points'])==377
-    assert h['coverage']==dict(archived_games=378,no_contests=1,eligible_games=377)
+    assert h['coverage']==dict(archived_games=378,no_contests=1,eligible_games=377,
+                               settled_results=377,missing_or_ineligible_picks=0,unavailable_results=0)
     assert all(r['train_through']<r['season'] and r['calibration_through']<r['season'] for r in rows)
     assert h['excluded']=={} and report['prospective']['records']==[]
     assert report['prospective']['totals']['accuracy_pct'] is None
     assert all(r['issued_at'] is None and r['published_at'] is None for r in rows)
     assert set(report['sources_sha256'])=={'artifacts/predictions.json','data/derived/archive.json',
           'artifacts/historical_models.json','artifacts/evaluation.json','artifacts/models.json'}
+
+
+def test_each_tournament_reconciles_without_inheriting_other_seasons():
+    report=load_state()['track_record'];h=report['historical']
+    expected={2021:(43,62),2022:(42,63),2023:(44,63),2024:(44,63),2025:(50,63),2026:(46,63)}
+    for year,(correct,settled) in expected.items():
+        season=h['seasons'][str(year)]
+        assert season['totals']==dict(correct=correct,settled=settled,accuracy_pct=100*correct/settled)
+        assert season['points'][-1]['cumulative']==season['totals']
+        assert all(p['season']==year for p in season['points'])
+        assert season['coverage']['no_contests']==int(year==2021)
+        assert season['coverage']['archived_games']==63
+        assert season['coverage']['missing_or_ineligible_picks']==0
+    assert sum(s['totals']['correct'] for s in h['seasons'].values())==269
+    assert sum(s['totals']['settled'] for s in h['seasons'].values())==377
+    published=report['prospective']['seasons']['2021']
+    assert published['totals']==dict(correct=0,settled=0,accuracy_pct=None)
+    assert published['coverage']['settled_results']==62
+    assert published['coverage']['missing_or_ineligible_picks']==62
+
+
+def test_coverage_separates_missing_invalid_unavailable_and_no_contest_games():
+    data=fixture([(2021,f'2021-03-{19+i:02}T12:00Z',.9,'a') for i in range(6)])
+    games=data[0]['2021']['games'];predictions=data[1]['seed']
+    predictions.pop(1)  # A real settled result with no saved prediction.
+    predictions[1]['train_through']=2021
+    games[3]['date_utc']=None
+    games[4]['status']='no_contest'
+    games[5].update(status='scheduled',winner=None)
+    record=build(data)['historical']
+    assert record['totals']==dict(correct=1,settled=1,accuracy_pct=100)
+    expected=dict(archived_games=6,no_contests=1,eligible_games=1,settled_results=3,
+                  missing_or_ineligible_picks=2,unavailable_results=2)
+    assert record['coverage']==record['seasons']['2021']['coverage']==expected
+    predictions.append(copy.deepcopy(predictions[0]))
+    record=build(data)['historical']
+    assert record['totals']['settled']==0
+    assert record['coverage']['missing_or_ineligible_picks']==3  # Unique games, not four rejected rows.
+    assert record['coverage']['no_contests']==1 and record['coverage']['unavailable_results']==2
+
+
+def test_empty_tournaments_remain_unscored_without_invented_results():
+    report=build(fixture([]))
+    for view in ['historical','prospective']:
+        for season in report[view]['seasons'].values():
+            assert season['totals']==dict(correct=0,settled=0,accuracy_pct=None)
+            assert season['points']==[] and not any(season['coverage'].values())

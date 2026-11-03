@@ -123,10 +123,28 @@ def build_track_record(archive, predictions, evaluation, historical, as_of, fore
 
     historical_record = collect(predictions['seed'])
     prospective = collect(list(forecasts), True)
-    holdout_games = [g for season in archive.values() for g in season['games'] if first <= g['season'] <= last]
-    historical_record['coverage'] = dict(archived_games=len(holdout_games),
-                                         no_contests=sum(g['status'] == 'no_contest' for g in holdout_games),
-                                         eligible_games=historical_record['totals']['settled'])
+    def coverage(selected_games, rows):
+        # Event coverage counts each archived game once, not each rejected row.
+        results = {g['id'] for g in selected_games
+                   if g['status'] == 'played' and g.get('winner') in (g['a'], g['b'])
+                   and timestamp(g.get('date_utc')) is not None
+                   and timestamp(g['date_utc']) <= cutoff}
+        scored = {row['game_id'] for row in rows}
+        no_contests = sum(g['status'] == 'no_contest' for g in selected_games)
+        return dict(archived_games=len(selected_games), no_contests=no_contests,
+                    eligible_games=len(rows), settled_results=len(results),
+                    missing_or_ineligible_picks=len(results - scored),
+                    unavailable_results=len(selected_games) - no_contests - len(results))
+
+    for record, years in [(historical_record, set(range(first, last + 1))),
+                          (prospective, set(range(first, last + 1)) | {r['season'] for r in prospective['records']})]:
+        selected_games = [g for season in archive.values() for g in season['games'] if g['season'] in years]
+        record['coverage'] = coverage(selected_games, record['records'])
+        record['seasons'] = {}
+        for year in sorted(years):
+            rows = [row for row in record['records'] if row['season'] == year]
+            record['seasons'][str(year)] = dict(totals=counts(rows), points=calendar_points(rows),
+                                              coverage=coverage([g for g in selected_games if g['season'] == year], rows))
     return dict(model='seed', as_of=as_of, holdout=[first, last], recent_games=RECENT_GAMES,
                 rule='Higher saved matchup probability; exact 50–50 ties choose bracket-order side A.',
                 order='UTC event time, then game ID for equal times. Weekly points include every eligible game in that week.',

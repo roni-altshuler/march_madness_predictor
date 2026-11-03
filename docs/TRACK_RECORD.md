@@ -43,3 +43,25 @@ The bracket-first home adds a compact labelled record link. `#record` provides
 the full date timeline, native keyboard/touch point controls, an exact-count table,
 all eligible pick/result rows, and source audit. API and static builds share the
 same Python report. No accuracy guarantee or AI success claim is implied.
+
+The tournament-season selector scopes the headline, every pick/result row and
+calendar counts together. A season's cumulative line starts from its own first
+eligible game; it does not inherit earlier tournaments' numerators. The full
+holdout still reconciles to 269 / 377. For example, 2021 is 43 / 62 after its one
+no-contest is excluded, and 2026 is 46 / 63. These remain retrospective results.
+
+Outcome picks appear beside actual winners in responsive rows before the optional
+calendar disclosure. Both outcomes fit on narrow screens without horizontal
+scrolling. The saved pick's probability and publication/training audit remain
+available. Exact-score forecasts are not produced; no score-error metric is
+invented. Game-result accuracy is separate from filled-bracket advancement,
+which has no archived pre-event pick ledger and remains unrecorded.
+
+Coverage counts unique archived games: no-contests, known settled played results,
+and unavailable/unsettled results. Known results without an eligible saved pick
+are shown separately and never counted as incorrect. Source rejection diagnostics
+still count rejected input rows, so duplicates can produce multiple rejected rows
+for one unscored game. The existing duplicate-exclusion policy, probability tie
+rule, fixed holdout and training/calibration checks are unchanged; no earliest or
+latest forecast is selected. The published view remains unscored with no eligible
+publication ledger, even when historical results exist for the selected season.

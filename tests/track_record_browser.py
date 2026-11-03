@@ -31,6 +31,9 @@ def assert_track_record(browser, shots, base, static):
         assert historical['totals']['correct']==269 and historical['totals']['settled']==377
         assert data['prospective']['totals']['accuracy_pct'] is None
         assert historical['points'][-1]['cumulative']==historical['totals']
+        expect(page.locator('#record-season')).to_have_value('all')
+        expect(page.locator('.record-timeline')).not_to_have_attribute('open','')
+        page.locator('.record-timeline > summary').focus();page.keyboard.press('Enter')
         assert page.locator('.record-chart').get_attribute('viewBox')=='0 0 720 280'
         assert '100%' in page.locator('.record-chart').text_content() and '0%' in page.locator('.record-chart').text_content()
         for button in page.locator('.record-tabs button,.record-point-buttons button,.record-pagination button').all():
@@ -61,19 +64,42 @@ def assert_track_record(browser, shots, base, static):
         expect(page.locator('.record-calendar tbody tr').last).to_contain_text('13 / 20')
         page.locator('#record-next').click();expect(page.locator('#record-ledger')).to_contain_text('Showing 21–40.')
         page.locator('#record-prev').click();page.locator('#record-all').focus();page.keyboard.press('Enter')
-        rows=page.locator('#record-ledger tbody tr');expect(rows).to_have_count(377)
-        assert rows.evaluate_all('(rows)=>rows.filter(row=>row.children[4].textContent==="Yes · 1").length')==269
+        rows=page.locator('#record-ledger [data-record-id]');expect(rows).to_have_count(377)
+        assert page.locator('#record-ledger [data-correct="1"]').count()==269
         assert rows.evaluate_all('(rows)=>rows.map(row=>row.dataset.recordId)')==[r['game_id'] for r in reversed(historical['records'])]
         rows.first.locator('summary').focus();page.keyboard.press('Enter')
         expect(rows.first).to_contain_text('Retrospective record; publication time unknown.')
-        if width<720:
-            scroll=page.get_by_role('region',name='Scored pick history, scroll horizontally for result and provenance')
-            scroll.focus();page.keyboard.press('ArrowRight');page.wait_for_function('document.querySelector("#record-ledger .table-scroll").scrollLeft>0')
+        # Both outcome columns fit on a phone; result comparison needs no horizontal scrolling.
+        for pair in rows.first.locator('.record-outcomes > div').all():
+            box=pair.bounding_box();assert 0<=box['x'] and box['x']+box['width']<=width,box
         page.locator('#record-all').click()
+        page.select_option('#record-season','2021');expect(page.locator('#record-accuracy')).to_have_text('69.4%')
+        expect(page.locator('#record-count')).to_contain_text('43 / 62')
+        expect(page.locator('[data-coverage="no-contests"]')).to_have_text('1 no-contest excluded')
+        expect(page.locator('[data-coverage="missing-picks"]')).to_have_text('0 settled results without an eligible pick')
+        expect(page.locator('#record-season')).to_be_focused()
+        page.locator('#record-all').click();expect(rows).to_have_count(62)
+        assert page.locator('#record-ledger [data-correct="1"]').count()==43
+        assert rows.evaluate_all('(rows)=>rows.every(row=>row.dataset.recordId.startsWith("2021-"))')
+        page.locator('.record-timeline > summary').click();page.locator('#record-point').focus();page.keyboard.press('End')
+        expect(page.locator('#record-point-detail')).to_contain_text('43 / 62 correct · 69.4%')
+        if width<720:
+            page.locator('.record-calendar > summary').click()
+            scroll=page.get_by_role('region',name='Calendar accuracy table, scroll horizontally for recent form')
+            scroll.focus();page.keyboard.press('ArrowRight');page.wait_for_function('document.querySelector(".record-calendar .table-scroll").scrollLeft>0')
+        page.select_option('#record-season','2026');expect(page.locator('#record-count')).to_contain_text('46 / 63')
+        expect(page.locator('#record-accuracy')).to_have_text('73.0%')
+        page.reload();expect(page.locator('#record-season')).to_have_value('2026');expect(page.locator('#record-count')).to_contain_text('46 / 63')
+        page.locator('#record-season').focus();page.keyboard.press('Home');page.keyboard.press('Enter')
+        expect(page.locator('#record-season')).to_have_value('all');expect(page.locator('#record-count')).to_contain_text('269 / 377')
+        page.select_option('#record-season','2021')
         page.locator('[data-record-view="prospective"]').focus();page.keyboard.press('Enter')
         expect(page.locator('#record-accuracy')).to_have_text('Not yet scored')
         expect(page.locator('.record-score')).to_contain_text('0 / 0');expect(page.locator('.record-chart')).to_have_count(0)
         expect(page.locator('.record-score')).not_to_contain_text('0.0%')
+        expect(page.locator('#record-season')).to_have_value('2021')
+        expect(page.locator('[data-coverage="missing-picks"]')).to_have_text('62 settled results without an eligible pick')
+        expect(page.locator('.record-score')).to_contain_text('Filled-bracket advancement accuracy is not recorded.')
         page.reload();expect(page.locator('[data-record-view="prospective"]')).to_have_attribute('aria-pressed','true')
         page.go_back();expect(page.locator('.home-path .game')).to_have_count(15)
         page.go_forward();expect(page.locator('#record-accuracy')).to_have_text('Not yet scored')
@@ -81,7 +107,7 @@ def assert_track_record(browser, shots, base, static):
         page.evaluate('scrollTo(0,0)');page.screenshot(path=str(shots/f'track-record-{mode}-dark-{name}.png'))
         page.select_option('#theme-choice','light');page.evaluate('scrollTo(0,0)')
         page.screenshot(path=str(shots/f'track-record-{mode}-light-{name}.png'))
-        finish(context,page,errors,'headline/calendar/all 377 ledger rows reconcile; keyboard, responsive scrolling, both themes, prospective empty, history',first_home_game=game)
+        finish(context,page,errors,'all 377 picks reconcile; season counts/no-contest, mobile outcome pairs, scoped calendar, keyboard/reload/history, themes, genuine forecast gap',first_home_game=game)
 
         context,page,errors=fresh();page.route(path,lambda route:route.fulfill(status=503,content_type='application/json',body='{"error":"Controlled track record outage"}'))
         page.goto(base+'/#record');expect(page.get_by_role('heading',name='Track record unavailable')).to_be_visible()
@@ -103,6 +129,10 @@ def assert_track_record(browser, shots, base, static):
         context,page,errors=fresh();empty=copy.deepcopy(data)
         for key in ['historical','prospective']:
             empty[key].update(records=[],points=[],totals=dict(correct=0,settled=0,accuracy_pct=None))
+            empty[key]['coverage'].update(eligible_games=0,missing_or_ineligible_picks=empty[key]['coverage']['settled_results'])
+            for season in empty[key]['seasons'].values():
+                season.update(points=[],totals=dict(correct=0,settled=0,accuracy_pct=None))
+                season['coverage'].update(eligible_games=0,missing_or_ineligible_picks=season['coverage']['settled_results'])
         page.route(path,lambda route:route.fulfill(content_type='application/json',body=json.dumps(empty)))
         page.goto(base+'/#record');expect(page.locator('#record-accuracy')).to_have_text('Not yet scored')
         expect(page.locator('.record-chart')).to_have_count(0);expect(page.locator('#record-ledger')).to_have_count(0)

@@ -1,10 +1,12 @@
 """Bracket-first home: saved picks, one-action insights and interrupted loads."""
 import json
 from time import monotonic
+from urllib.parse import parse_qs, urlsplit
 from playwright.sync_api import expect
 
 
 def assert_bracket_home(browser,shots,base,static):
+    assert_home_team_finder(browser,shots,base,static)
     report=[];mode='static' if static else 'api'
     simulation_path='**/data/tables/2026.json' if static else '**/api/simulate?*'
     season_path='**/data/seasons/2026.json' if static else '**/api/season?*'
@@ -129,3 +131,81 @@ def assert_bracket_home(browser,shots,base,static):
                 page.unroute(path);page.go_back();loaded(page)
                 finish(context,page,errors,f'departed {stage} '+('failure' if failure else 'success')+' stays ignored; back recovers')
     (shots/f'bracket-home-{mode}-report.json').write_text(json.dumps(report,indent=2)+'\n')
+
+
+def assert_home_team_finder(browser,shots,base,static):
+    """Real field identities, model odds, every opening slot, and navigation state."""
+    mode='static' if static else 'api';report=[]
+    for width,height in [(390,844),(1440,1000)]:
+        context=browser.new_context(viewport=dict(width=width,height=height),reduced_motion='reduce')
+        page=context.new_page();errors=[];page.on('pageerror',lambda error:errors.append(str(error)))
+        page.goto(base);expect(page.locator('.home-path .game')).to_have_count(15)
+        season=page.request.get(base+('/data/seasons/2026.json' if static else '/api/season?year=2026')).json()
+        simulation=page.evaluate("async()=>{const {request}=await import('./static_api.js');return request('/api/simulate?year=2026&rng=2027')}") if static else page.request.get(base+'/api/simulate?year=2026&rng=2027').json()
+        finder=page.locator('.home-team-finder');expect(finder).not_to_have_attribute('open','')
+        first_y=page.locator('.home-path .game:visible').first.bounding_box()['y'];assert first_y<height-80
+        finder.locator('summary').focus();page.keyboard.press('Enter');expect(finder).to_have_attribute('open','')
+        expect(page.locator('#home-team-note')).to_contain_text('conditional on the main-bracket field after the First Four')
+        expect(page.locator('[data-home-team]')).to_have_count(64)
+        rows=page.locator('[data-home-team]').evaluate_all("rows=>rows.map(row=>({id:row.dataset.homeTeam,name:row.querySelector('strong').textContent,links:[...row.querySelectorAll('a')].map(a=>a.getAttribute('href')),detail:row.querySelector('.home-team-matchup span').textContent}))")
+        by_id={row['id']:row for row in rows};odds={str(row['team']):row['champion'] for row in simulation['odds']}
+        assert len(by_id)==len(season['teams'])==64
+        for index,team in enumerate(season['teams']):
+            row=by_id[str(team['id'])];assert row['name']==team['name']
+            assert f"Seed {team['seed']} · Region {index//16+1}" in row['detail']
+            assert f"Title {100*odds[str(team['id'])]:.1f}%" in row['detail']
+            route,query=row['links'][0].split('?');q=parse_qs(query)
+            assert route=='#archive' and q==dict(year=['2026'],region=[str(index//16)],view=['recommend'],game=[f'0-{index%16//2}'],round=['1'],open=['1'])
+            if team.get('profile_id'):
+                route,query=row['links'][1].split('?');q=parse_qs(query)
+                assert route=='#team' and q['profile']==[team['profile_id']] and q['from_game']==[f'0-{index%16//2}'] and q['from_region']==[str(index//16)] and q['from_view']==['recommend']
+        # Search the whole field, including a team outside the displayed region.
+        team=season['teams'][48];query=team['name'].swapcase();search=page.locator('#home-team-search')
+        search.fill(query);assert 0<page.locator('[data-home-team]').count()<64
+        expect(page.locator('#home-team-count')).to_have_text(f"{page.locator('[data-home-team]').count()} of 64 teams match.")
+        expect(search).to_be_focused();saved=page.url
+        matchup=page.get_by_role('link',name=team['name']+' opening model matchup',exact=True)
+        matchup.focus();page.keyboard.press('Enter');expect(page.locator('dialog')).to_be_visible()
+        expect(page.locator('#detail-title')).to_contain_text(team['name']);expect(page.locator('dialog .tag')).to_have_text('MODEL PICK')
+        assert parse_qs(urlsplit(page.url).fragment.split('?')[1])['region']==['3']
+        page.keyboard.press('Escape');page.go_back();expect(page).to_have_url(saved)
+        expect(page.locator('#home-team-search')).to_have_value(query)
+        expect(page.get_by_role('link',name=team['name']+' opening model matchup',exact=True)).to_be_focused()
+        history_link=page.get_by_role('link',name=team['name']+' tournament history',exact=True)
+        history_link.focus();page.keyboard.press('Enter');expect(page.locator('.team-profile')).to_be_visible()
+        expect(page.locator('#profile-year')).to_have_value('2026')
+        page.go_back();expect(page).to_have_url(saved)
+        expect(page.get_by_role('link',name=team['name']+' tournament history',exact=True)).to_be_focused()
+        page.reload();expect(page.locator('#home-team-search')).to_have_value(query)
+        expect(page.locator('.home-team-finder')).to_have_attribute('open','')
+        page.locator('[data-home-region="2"]').click();expect(page.locator('#home-team-search')).to_have_value(query)
+        if width<720:page.select_option('#home-round','3')
+        expect(page.locator('#home-team-search')).to_have_value(query)
+        for check_width in [320,390,720,721,768,1440]:
+            page.set_viewport_size(dict(width=check_width,height=height))
+            assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
+            assert page.locator('.home-path .game:visible').count()>0
+        page.set_viewport_size(dict(width=width,height=height))
+        for theme in ['light','dark']:
+            page.select_option('#theme-choice',theme)
+            page.locator('.home-team-finder').scroll_into_view_if_needed()
+            page.screenshot(path=str(shots/f'team-finder-{mode}-{width}-{theme}.png'))
+        search=page.locator('#home-team-search');search.fill('')
+        expect(page.locator('[data-home-team]')).to_have_count(64)
+        hostile='<img src=x onerror="window.finderXss=1">';search.fill(hostile)
+        expect(page.locator('[data-home-team]')).to_have_count(0)
+        expect(page.locator('.home-team-empty')).to_have_text('No teams match. Try another name.')
+        page.reload();expect(page.locator('#home-team-search')).to_have_value(hostile)
+        assert page.evaluate('window.finderXss===undefined')
+        expect(page.locator('.home-team-finder img')).to_have_count(0)
+        # Detached input/disclosure events must not rewrite another route's history.
+        old_input=page.locator('#home-team-search').element_handle();old_details=page.locator('.home-team-finder').element_handle()
+        page.locator('nav a[href="#about"]').click();expect(page.get_by_role('heading',name='Know the data')).to_be_visible()
+        before=page.url;content=page.locator('main').inner_html()
+        old_input.evaluate("e=>{e.value='late';e.dispatchEvent(new Event('input'))}")
+        old_details.evaluate('e=>e.open=false')
+        page.evaluate('()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))')
+        assert page.url==before and page.locator('main').inner_html()==content and not errors,errors
+        report.append(dict(width=width,all64IdentitiesSlotsAndOdds=True,firstGameY=first_y,wholeFieldSearch=True,keyboardMatchupProfileBackReload=True,responsiveWidths=[320,390,720,721,768,1440],bothThemes=True,noMatchesAndEscaping=True,detachedEventsIgnored=True,pageErrors=errors))
+        context.close()
+    (shots/f'team-finder-{mode}-report.json').write_text(json.dumps(report,indent=2)+'\n')

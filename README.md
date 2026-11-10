@@ -1,290 +1,215 @@
 # March Lab
 
-Men's NCAA Division I tournament probabilities, a real historical bracket archive,
-and an interactive browser app. Built for Roni Altshuler and the upcoming
-2027 tournament. Independent project; no NCAA affiliation.
+March Lab explores men's NCAA Division I tournament brackets, probabilities
+and historical model evidence. It combines a real main-bracket archive with
+interpretable seed models, optional pre-March form features and an interactive
+browser app. It is an independent project with no NCAA affiliation.
 
-[Open March Lab](https://roni-altshuler.github.io/march_madness_predictor/).
-The public app works without a backend. See the verified [release record](docs/RELEASE.md).
+This is an experimental forecasting and historical-analysis tool. The bundled
+predictions were generated retrospectively; **no eligible prospective published
+record is bundled**. Historical accuracy does not establish future tournament
+performance or the accuracy of a fully filled bracket.
 
-The 2027 field is **unknown**. The published format has **76 teams and 12 Opening
-Round games** feeding a 64-team bracket. This project does not invent entrants.
-The official schedule lists Selection Sunday March 14, Opening Round March 16–17,
-and the Detroit Final Four April 3 and 5.
-[NCAA schedule](https://www.ncaa.com/news/basketball-men/article/2026-05-07/2027-march-madness-mens-ncaa-tournament-schedule-dates).
+[User guide](docs/USER_GUIDE.md) · [Data provenance](docs/DATA.md) ·
+[Model methodology](docs/MODEL.md) · [Track-record rules](docs/TRACK_RECORD.md)
 
-## Run locally
+## What you can do
 
-Python 3.11+ is recommended. No Node packages, API key, Kaggle account or paid
-service is required. The checked-in archive, features and trained artifacts work
-offline after installing dependencies.
+- Browse recorded main brackets, matchup outcomes and available scores/dates.
+- Compare actual results, a deterministic model-picked path and a reproducible
+  random bracket, with distinct labels for each.
+- Inspect numeric matchup and advancement probabilities, historical model
+  horizons, calibration and year-by-year evidence.
+- Open team tournament profiles, recorded-matchup comparisons and historical
+  scouting dossiers with explicit identity and feature-coverage limits.
+- Import a locally supplied announced field as an unverified scenario.
+- Use keyboard navigation and phone round lists, or a scrollable connected
+  bracket on larger screens, in Light, Dark or System theme.
 
-```powershell
+The bundled [2027 configuration](data/field_2027.json) records an unknown field
+and a 76-team/12-opening-game structure. It contains no guessed entrants, seeds
+or opening placements. Consult its linked official source and validate the real
+announced field before importing it. Imported scenarios use the current seed
+snapshot; labeling one with an older year does not make it a historical as-of
+forecast. See [FIELD_FORMAT.md](docs/FIELD_FORMAT.md).
+
+## Getting started
+
+Use Python **3.11+** (CI uses **3.12**). No Node packages, provider key, Kaggle
+account or paid service is required to run the app. Bundled archives, derived
+features and trained artifacts work offline after dependency installation.
+
+```bash
+git clone https://github.com/roni-altshuler/march_madness_predictor.git
+cd march_madness_predictor
 python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe -m madness serve
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python -m madness serve
 ```
 
-Open **http://127.0.0.1:8027**. On macOS/Linux, replace the Python executable with
-`.venv/bin/python`. The server binds to localhost.
+Open `http://127.0.0.1:8027`. The server binds to localhost. On Windows, activate
+with `.venv\Scripts\Activate.ps1`, or use `.venv\Scripts\python.exe` directly.
+No `.env` configuration is required for the bundled app.
 
-The UI includes year and region navigation, interactive bracket graphs, matchup
-details with available scores and dates, team comparisons, historical model
-snapshots, exact advancement probabilities, reproducible bracket draws, a seed
-matchup explorer, calibration and evaluation tables. It adapts to mobile and
-supports keyboard operation. Its bracket-first navigation follows familiar
-tournament conventions, with its own branding and no copied NCAA assets.
-On mobile, a round selector gives a readable matchup list. On desktop/tablet,
-the connected bracket scrolls inside its own frame.
-The archive preserves the selected regional round when switching regions, years
-or actual/simulated views. Final Four and Championship have a separate remembered
-choice. Region, view and year controls retain keyboard focus, including when a delayed
-simulation redraw replaces the currently focused region or round control. The current round
-is saved in the URL for reload and returning from another page with Back/Forward;
-opening a game restores its round and card focus when returning from a profile.
-[Mobile region continuity](docs/screenshots/bracket-navigation-region-mobile.png) ·
-[Championship selection](docs/screenshots/bracket-navigation-finals-mobile.png).
+## Architecture and repository map
 
-**Model bracket** fills a deterministic favorites path using the existing primary
-seed model. Each picked winner feeds the next scheduled matchup; exactly 50–50
-matchups use bracket order. The champion card shows the model's title chance
-across all possible paths, the earlier training horizon and evidence on demand.
-Model picks, one random draw and recorded results have separate views and labels.
-The model view keeps diagnostics collapsed and restores its path on reload.
+```text
+madness/           Archive parsing, features, models, evaluation, brackets,
+                   local HTTP server and static exporter
+web/               HTML, CSS and browser modules; no frontend build toolchain
+data/archive/      Pinned historical source files
+data/derived/      Labels, features, identities, coverage and provenance hashes
+data/field_2027.json  Unknown-field metadata and structural requirements
+artifacts/         Trained models, historical snapshots, predictions and evaluation
+licenses/          Third-party source license texts
+tests/             Python, parity, source-integrity and browser regressions
+docs/              Data/model/field guides, release and verification evidence
+.github/workflows/ Verification and GitHub Pages publication
+```
 
-Historical picks are **conditional main-bracket experiments**: the bundled field
-contains 64 main-bracket participants, including known preliminary survivors.
-First Four games and losers are not ingested, so this is not a selection-day
-full-field forecast. Unsupported/cancelled years and warm-up models remain
-explicitly unavailable. The upcoming unknown field is never filled with guessed
-entrants. A local imported field can declare opening pairs: their model-picked
-winners feed its main bracket. Imports use the current seed snapshot and are
-unverified scenarios, including imports labeled with an earlier year; they are
-not historical as-of forecasts. Input timestamps are not invented.
+Python produces probabilities and evaluates the models. The local API and
+static export share those artifacts. The browser reads probability tables,
+aggregates valid bracket paths and draws brackets; it does not fit a second
+model. Raw schedule caches, private/user imports and generated `public/` output
+are ignored.
 
-This adds a transparent pick policy, not a new predictor, retraining or quality
-claim. The seed baseline and all existing random draws/advancement probabilities
-are preserved. The favorites policy has no new temporal score or pool-scoring
-optimization claim. [Model view](docs/screenshots/model-bracket-light-desktop.png) ·
-[Mobile model picks](docs/screenshots/model-bracket-light-mobile.png).
+## Coverage and data provenance
 
-The bracket matchup dialog labels the selected comparison model and shows a
-loading state while its saved probability is retrieved. Results and failures
-belong to the open matchup and latest model choice: switching games or seasons,
-closing the dialog, or choosing another model cannot replace the current view
-with an older response. A failed comparison stays explicit; changing the model
-retries it. This changes display behavior, not the saved probabilities or models.
+| Layer | Bundled coverage | Limits |
+| --- | --- | --- |
+| Main-bracket archive | 41 tournaments, 1985–2026 excluding cancelled 2020; 2,583 advancements | 1939–1984, preliminary games and preliminary losers absent. |
+| Played labels | 2,582 games | Oregon–VCU 2021 is a no-contest advancement, excluded from fitting and scoring. |
+| Scores and UTC dates | 1,259 played main-bracket games, 2006–2026 excluding 2020 | Earlier score/date enrichment and venues absent. |
+| Pre-March features | 64 main-bracket teams in each of 20 modern seasons | No pre-2006 form features; not complete NCAA regular-season coverage. |
+| Team profiles | Verified modern per-season ESPN IDs and separate older archive-key records | No inferred complete-career joins, player stats, rosters or qualification model. |
+| 2027 | Structural metadata; unknown field | No actual entrants or prospective outcomes. |
 
-The model evidence page includes a **Season evidence** inspector. Choose a year
-to see played labels, score/date coverage, pre-March feature coverage, the saved
-seed model's training and calibration horizons, and per-model evaluation scores.
-Open that year's bracket directly from the inspector. Warm-up years, unavailable
-form snapshots and cancelled 2020 are explicit; missing evaluations stay as
-dashes. Feature availability does not imply that a form model could be trained
-on enough earlier games. The inspector reads bundled artifacts without refitting
-or promoting a challenger, and works in both local and static builds.
-Its clear bracket action and visible primary model callout share the selected
-palette with March Lab's navigation. Focus outlines,
-responsive score tables and reduced-motion-aware control transitions support
-keyboard and mobile exploration. Loading, cancelled and retry states remain
-explicit rather than displaying old or invented scores.
-[Desktop inspector](docs/screenshots/season-evidence-desktop.png) ·
-[Mobile inspector](docs/screenshots/season-evidence-mobile.png).
+The archive is from [possibly-wrong/ncaa-tournament](https://github.com/possibly-wrong/ncaa-tournament),
+pinned at `036bc619ab30705476da9a420279c4d177365e7d`, under the Unlicense.
+Modern schedules are from **SportsDataverse hoopR-mbb-data authors**, upstream
+ESPN, under **CC BY 4.0**. Adaptations produce pre-March features and
+cross-validated scores/results. [DATA.md](docs/DATA.md) records attribution,
+source URLs, SHA-256 hashes, exact coverage and reviewed name corrections.
 
-Team names in historical game details open a **team tournament profile**. Browse
-recorded appearances, seeds, final stages, opponents and available scores/dates,
-then return to the originating bracket, region and game. The same journey works
-with keyboard navigation, the mobile round list and the exported static app.
-Recorded-appearance links always open actual results. Archive controls keep the
-URL aligned with the displayed year, region, round and view for browser Back/Forward.
-The latest sampled draw per year survives browsing other seasons during the
-session; reloading switches to explicitly labeled actual results.
-The cream/navy profile uses text initials; no team logos or player portraits are
-downloaded, and rosters/player statistics are unavailable.
+Schedules were retrieved retrospectively and can include later provider
+corrections. A hash pins the evaluated version; it does not establish an
+immutable contemporaneous feed. Similar team names do not establish identity.
+Missing and uncrosswalked records remain separate.
 
-Modern appearances join only through the existing per-season verified ESPN IDs.
-Older records use a separate exact archive-key namespace and do not contribute
-to modern school totals. Similar names never establish identity: the archive
-label `SanDiego` represents San Diego in 2008 and UC San Diego in 2025;
-`Lafayette` represents Lafayette in 2015 and Louisiana in 2023. Profiles keep
-these verified identities separate and offer clearly scoped related-record
-links. Appearance counts, titles and played wins–losses describe only that
-profile's bundled main-bracket records, not a complete school career.
-No-contests are listed separately; cancelled 2020, missing years and failed
-loads remain explicit. No sources, model fitting or prediction claims change.
-[Desktop profile](docs/screenshots/team-profile-desktop.png) ·
-[Mobile profile](docs/screenshots/team-profile-mobile.png).
+## Model and evaluation
 
-Matchup Lab also includes a **recorded matchup comparison**. Open it from actual
-game details, or choose an archived year and matchup in the lab. Three cards show
-the saved seed baseline and eligible challengers for the same game, with both
-teams' numeric probabilities, training horizons and percentage-point gaps from
-the baseline. Swap the displayed team sides, follow their existing histories,
-inspect that year's evidence or open the actual bracket. Browser Back/Forward
-preserves the comparison selection; simulated game details remain distinct.
+The primary model is symmetric ridge-logistic seed prediction. The seed-curve
+challenger adds a log-seed ratio; the form challenger adds within-season Elo,
+win rate and mean margin frozen at **March 1, 00:00 UTC**, plus selection-time
+seeds. It is not a selection-day team-statistics model.
 
-Warm-up snapshots, the 2006 form-coverage/model-availability boundary, cancelled
-2020 and no-contests stay explicit. Missing probabilities are dashes, and model
-gaps are not confidence intervals or evidence that a challenger is better. The
-feature reuses native controls, the season-evidence theme, profile links and the
-existing prediction API/static tables. It adds no UI dependencies, assets,
-sources, training or model promotion.
-[Desktop comparison](docs/screenshots/matchup-comparison-populated-desktop.png) ·
-[Mobile comparison](docs/screenshots/matchup-comparison-populated-mobile.png).
-
-Team profiles also include a **historical scouting dossier** for the selected
-recorded appearance. Elo, win rate and scoring margin show March 1 values and
-percentiles among covered entrants in that tournament. The lookback control
-compares the last 3, last 5 or all earlier appearances in the same stored identity:
-recorded wins versus the sum of saved seed probabilities on those same matchups.
-Current and later tournament results are excluded from that earlier-results signal.
-
-This is descriptive evidence on observed paths, not expected full-bracket wins,
-national team rankings, player value or a future strength forecast. Missing form,
-warm-up models, no-contests, missing identities and cancelled appearances remain
-explicit; no confidence interval is estimated. The dossier reuses existing
-features and strictly earlier-trained annual snapshots without fitting or
-promoting a model. Source schedules may be incomplete, and old archive keys are
-kept separate from verified modern school identities.
-The field cohort is conditional on preliminary-round survivors; the dossier
-is retrospective context, not a selection-day full-field forecast.
-[Desktop dossier](docs/screenshots/team-scouting-populated-desktop.png) ·
-[Mobile dossier](docs/screenshots/team-scouting-populated-mobile.png).
-
-The whole navigation journey shares March Lab's blue/gold identity and palette:
-cream/off-white light surfaces or a dark workspace. The header's **Theme** control
-offers System, Light and Dark. The choice is initialized before styles render,
-saved locally when storage is available, and carried through the bracket, matchup
-details, profiles/scouting, comparisons, evidence, method and request states.
-System follows changes to the device preference; an explicit choice overrides it.
-Blocked storage keeps the current visit usable but cannot persist a choice.
-
-[Light desktop](docs/screenshots/theme-home-light-desktop.png) ·
-[Light mobile](docs/screenshots/theme-home-light-mobile.png) ·
-[Dark profile](docs/screenshots/theme-profile-dark-mobile.png) ·
-[Dark comparison](docs/screenshots/theme-comparison-dark-desktop.png).
-
-![Historical bracket](docs/screenshots/theme-bracket-light-desktop.png)
-
-## Actual coverage
-
-| Layer | Included | Explicit gaps |
-|---|---|---|
-| Main-bracket archive | 41 tournaments, 1985–2026; 2,583 advancements | 1939–1984 absent; 2020 cancelled; preliminary games/losers absent |
-| Played model labels | 2,582 games | Oregon–VCU 2021 no-contest excluded |
-| Modern scores/dates | All 1,259 played main-bracket games in 2006–2026 excluding 2020 | Scores/dates before 2006 absent; venues/geographic region names absent |
-| Pre-March team features | All 64 main-bracket teams in each of 20 seasons, 2006–2026 excluding 2020 | No pre-2006 form features; no claim of complete NCAA regular-season coverage |
-| Team tournament profiles | Published modern ESPN-ID records; separate uncrosswalked exact archive-key records | No complete-career aggregation, rosters, player statistics or qualification history |
-| 2027 field | Format and dates; no entrants | Actual teams, seeds and opening placements await announcement |
-
-The archive comes from
-[possibly-wrong/ncaa-tournament](https://github.com/possibly-wrong/ncaa-tournament),
-Unlicense, pinned commit `036bc619ab30705476da9a420279c4d177365e7d`.
-Modern schedules come from **SportsDataverse hoopR-mbb-data authors**, upstream
-ESPN, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
-We adapt schedules into pre-March features and verify archive scores/results.
-Attribution, URLs, hashes, measured counts and reviewed name corrections appear
-in [DATA.md](docs/DATA.md) and `data/derived/`. Raw schedule caches are ignored.
-
-## Measured prediction record
-
-Annual expanding-window evaluation. Each test tournament uses only earlier
-tournaments for fitting and earlier out-of-fold predictions for calibration.
-Development: 1995–2019. Chronological rolling holdout: 2021–2026, **377 games**.
-Later holdout years may train on earlier holdout years, never their own outcomes.
-This is a retrospective evaluation, inspected during development; there is no
-prospective accuracy claim.
+Annual expanding-window evaluation fits only earlier tournaments and calibrates
+with earlier out-of-fold predictions. Development covers 1995–2019; the rolling
+2021–2026 holdout contains **377 games**. Later holdout years can train on earlier
+holdout years. This holdout was inspected during development and is not an
+unseen lockbox.
 
 | Forecaster | Brier ↓ | Log loss ↓ | ECE ↓ |
-|---|---:|---:|---:|
+| --- | ---: | ---: | ---: |
 | 50/50 | 0.25000 | 0.69315 | 0.00000 |
 | Fixed seed heuristic: 75% to better seed | 0.20474 | 0.60011 | 0.03249 |
-| **Seed logistic · primary** | **0.19358** | **0.56876** | **0.03484** |
+| **Seed logistic — primary** | **0.19358** | **0.56876** | **0.03484** |
 | Seed curve challenger | 0.19072 | 0.56242 | 0.03735 |
 | Pre-March form challenger | 0.19392 | 0.56965 | 0.03813 |
 
-All rows cover the same 377 holdout games. The primary is an interpretable,
-symmetric ridge-logistic seed model. The curve adds a log-seed ratio. The form
-model adds within-season Elo, win rate and mean margin, frozen **March 1 at
-00:00 UTC**, plus selection-time seeds. It is not a selection-day statistics
-model and does **not** improve the seed baseline in this holdout.
+All rows score the same 377 games in [evaluation.json](artifacts/evaluation.json).
+The curve's small Brier gain has a tournament-cluster bootstrap interval that
+includes zero; form does not improve the primary's Brier score here. Neither
+challenger is promoted. Only six holdout tournaments limit the evidence.
+A calibrated 50/50 baseline can still have no useful discrimination.
 
-The curve's Brier gain is small and its tournament-cluster bootstrap interval
-includes zero. The primary stays the seed model. Six test tournaments provide
-limited evidence; older data is not a guarantee of 2027 skill. No injuries,
-rosters, transfer data or market benchmark are included.
-See [MODEL.md](docs/MODEL.md), the app's evidence page and
-`artifacts/evaluation.json` for per-year/round metrics, reliability bins and paired
-uncertainty. A perfectly calibrated 50/50 forecaster can have no useful discrimination.
+The [integer-pick record](docs/TRACK_RECORD.md) is **269/377 (71.4%)**, based on
+saved primary probabilities for actual historical matchups. This is separate
+from probabilistic scores, prospective accuracy and filled-bracket advancement.
+Preliminary survivors are already known in the historical 64-team fields, so
+simulations are conditional main-bracket experiments. No injuries, roster or
+transfer features, market benchmark or pool-scoring optimization are included.
 
-## Reproduce training and inference
+## Reproduce or update locally
 
-```powershell
-# Uses bundled real labels and derived pre-tournament features; no network
-python -m madness train
+From the activated virtual environment:
+
+```bash
+# Inference from bundled artifacts; no network or retraining
 python -m madness predict --a 5 --b 12
 python -m madness predict --a 5 --b 12 --model seed_curve
+python -m madness simulate --year 2026 --rng 42 --output /tmp/march-simulation.json
 
-# Uses the 2026 model snapshot fitted only on tournaments through 2025
-python -m madness simulate --year 2026 --rng 42 --output artifacts/simulation.json
+# Refit and reevaluate from bundled labels/features; rewrites model artifacts
+python -m madness train
 
-# Optional: fully regenerate labels, source-derived features and score enrichment
+# Optional source reconstruction/downloads; review resulting provenance changes
 python -m madness ingest
 python -m madness schedules --start 2006 --end 2026
-python -m madness train
 ```
 
-Use the virtual environment's Python executable for these commands. Optional
-downloads total roughly 15 MB across 20 Parquet files. Each asset is capped at
-10 MB and downloads use at most four threads. Recorded SHA-256 hashes are checked;
-changed upstream files require an explicit `--refresh-source` and reevaluation.
-Source releases can change; the bundled derived features preserve this measured
-version even if an old raw asset is no longer available.
+Choose a writable output path instead of `/tmp` on Windows. Downloads are
+bounded and checked against recorded hashes. Changed upstream bytes require an
+explicit `--refresh-source` and a new evaluation. Do not treat that flag as a
+routine way to suppress a source mismatch. No automatic live ingestion schedule
+is configured; data/model updates are explicit operations.
 
-## Import a real bracket
+A local field import can also be simulated with
+`python -m madness simulate --field data/imports/announced_2027.json --rng 42`
+after creating a valid field file. Keep user imports out of Git and follow the
+[field format](docs/FIELD_FORMAT.md).
 
-Import JSON through the 2027 page, or use:
+## Verification and deployment
 
-```powershell
-python -m madness simulate --field data/imports/announced_2027.json --rng 42
-```
+Install `requirements-dev.txt` for browser testing. CI uses Node **22** for
+JavaScript syntax and Playwright Chromium for the actual app checks:
 
-See [FIELD_FORMAT.md](docs/FIELD_FORMAT.md). The simulator validates ordered
-regions, unique teams, same-seed opening pairs and the announced 2027 counts.
-It computes exact advancement odds and one seeded random bracket. Historical
-simulations are **conditional on the 64 main-bracket participants**, after
-preliminary games, rather than full-field Selection Sunday forecasts.
-
-## Verification
-
-```powershell
+```bash
+python -m pip install -r requirements-dev.txt
 python -m pytest -q
 node --check web/app.js
+node --check web/bracket_home.js
+node --check web/track_record.js
 node --check web/theme.js
 node --check web/static_api.js
 node --check web/season_insights.js
 node --check web/team_profiles.js
 node --check web/team_scouting.js
 node --check web/matchup_compare.js
-python -m pip install -r requirements-dev.txt
-python tests/browser_check.py
+python -m playwright install chromium
+MARCH_BROWSER_CHANNEL=chromium python tests/browser_check.py
 python -m madness export
-python tests/browser_check.py --static
+MARCH_BROWSER_CHANNEL=chromium python tests/browser_check.py --static
 ```
 
-Browser checks use installed Microsoft Edge. On other systems, change the
-Playwright channel or install Chromium. See [VERIFICATION.md](docs/VERIFICATION.md).
+Set the environment variable with your shell's equivalent syntax on Windows.
+No separate lint/type-checker or Node build is configured. The
+[verification workflow](.github/workflows/verify.yml) also checks CLI inference
+and simulation. [VERIFICATION.md](docs/VERIFICATION.md) describes coverage,
+responsive/keyboard journeys and dated results.
 
-Project code: MIT. Third-party data keeps its original licenses, recorded in
-`licenses/`. No Kaggle data, credentials or user imports are committed. Public publication follows the authorized review and verification workflow.
+`python -m madness export` builds ignored `public/`, which works under a project
+subpath without a Python backend. Preview it with
+`python -m http.server 8028 --bind 127.0.0.1 --directory public`.
+[The Pages workflow](.github/workflows/pages.yml) runs tests and exports before
+publication on main. Verify the deployed source revision and actual app at
+phone, tablet and desktop sizes after any deployment. The
+[release record](docs/RELEASE.md) documents the original release; it is not a
+current deployment guarantee.
 
-## Static public build
+## Contributions, security and license
 
-`python -m madness export` writes the deployable app to ignored `public/`.
-It publishes probability tables computed by the trained Python models. The
-browser reads those values, aggregates valid bracket paths and draws a seeded
-bracket. It does not fit coefficients or invent a second probability model.
-Python/static parity tests cover seed, curve, form and a 76-team structural
-fixture. The static app works under a project subpath and requires no backend.
-GitHub Pages publication is authorized for this project; the release record
-contains the verified public URLs and CI status.
+Follow [AGENTS.md](AGENTS.md) when changing the repository. Keep chronological
+boundaries, baselines, source hashes and Python/static parity intact. Submit
+focused pull requests with reproduction and validation evidence. Do not commit
+Kaggle data, raw schedule caches, credentials or private imports.
+
+Use GitHub private vulnerability reporting if enabled for security issues;
+avoid sensitive payloads in public issues. Treat imported files as untrusted
+and retain localhost binding for development.
+
+Project code is licensed under [MIT](LICENSE). Source data retains its original
+terms, preserved in [licenses/](licenses/) and [DATA.md](docs/DATA.md). The code
+license does not replace required data attribution. Estimates support
+exploration and evaluation, not betting advice.

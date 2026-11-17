@@ -30,15 +30,20 @@ function appearanceMarkup(record,profile,origin){
 }
 
 export async function renderTeamProfile(container,{profileId,request,origin,appearanceYear,scoutWindow='5',isCurrent=()=>true}){
+  const retryFocused=document.activeElement===container.querySelector('#profile-retry');
   const back=archiveHref(origin);
   const shell=(body)=>`<section class="team-profile"><a class="profile-back" href="${back}">← Back to ${origin.year} bracket</a>${body}</section>`;
-  container.innerHTML=shell('<p class="eyebrow">MARCH LAB · TEAM HISTORY</p><h1>Team history</h1><div class="profile-empty" role="status">Loading recorded tournament appearances and scouting evidence…</div>');
+  container.innerHTML=shell('<p class="eyebrow">MARCH LAB · TEAM HISTORY</p><h1>Team history</h1><div class="profile-empty" role="status" tabindex="-1">Loading recorded tournament appearances and scouting evidence…</div>');
+  const loading=container.querySelector('[role="status"]');
+  if(retryFocused)loading.focus({preventScroll:true});
+  const focusOwner=()=>document.activeElement===loading&&retryFocused?'retry':document.activeElement===container.querySelector('.profile-back')?'back':null;
   try{
     const profile=await request(`/api/team?profile=${encodeURIComponent(profileId)}`);
-    if(!isCurrent())return;
+    if(!isCurrent()||!loading.isConnected||!container.contains(loading))return;
     const records=profile.appearances,totals=profile.totals,modern=profile.identity_kind==='verified_schedule_id';
     const first=Math.min(...records.map(r=>r.year)),last=Math.max(...records.map(r=>r.year));
     const initial=Number.isInteger(appearanceYear)?appearanceYear:records[0].year;
+    const restoreFocus=focusOwner();
     document.title=`${profile.name} · Team history · March Lab`;
     container.innerHTML=shell(`<header class="profile-hero"><div class="profile-letter" aria-hidden="true">${esc(profile.name.slice(0,1))}</div><div><p class="eyebrow">MARCH LAB · TEAM HISTORY</p><h1>${esc(profile.name)}</h1><p>${modern?'Verified modern source identity':'Exact archive-key history'} · ${first}–${last} recorded appearances</p></div></header>
       <p class="profile-callout"><strong>${modern?'Verified schedule ID':'Archive key'}: ${esc(profile.source_id)}</strong>${esc(profile.coverage.identity_note)} Tournament history only; rosters and player statistics are not bundled.</p>
@@ -59,6 +64,7 @@ export async function renderTeamProfile(container,{profileId,request,origin,appe
       if(updateUrl){const url=new URL(location.href),query=new URLSearchParams(url.hash.split('?')[1]);query.set('appearance',year);url.hash=`team?${query}`;history.replaceState(null,'',url);}
     };
     select.value=String(initial);show(initial);
+    if(restoreFocus)(restoreFocus==='retry'?select:container.querySelector('.profile-back')).focus();
     select.addEventListener('change',()=>show(Number(select.value),true));
     container.querySelectorAll('[data-appearance]').forEach(button=>button.addEventListener('click',()=>{select.value=button.dataset.appearance;show(Number(select.value),true);detail.scrollIntoView({block:'start'});}));
     const root=container.querySelector('.team-profile');
@@ -70,7 +76,7 @@ export async function renderTeamProfile(container,{profileId,request,origin,appe
       history.replaceState({...state,marchTeamReturn:{route:location.hash,href:link.getAttribute('href')}},'',location.href);
     });
     const resume=history.state?.marchTeamReturn;
-    if(resume?.route===location.hash){
+    if(!retryFocused&&resume?.route===location.hash){
       const link=[...root.querySelectorAll('a[href^="#"]')].find(anchor=>anchor.getAttribute('href')===resume.href);
       if(link){
         for(let disclosure=link.closest('details');disclosure;disclosure=disclosure.parentElement?.closest('details'))disclosure.open=true;
@@ -79,8 +85,10 @@ export async function renderTeamProfile(container,{profileId,request,origin,appe
       }
     }
   }catch(error){
-    if(!isCurrent())return;
+    if(!isCurrent()||!loading.isConnected||!container.contains(loading))return;
+    const restoreFocus=focusOwner();
     container.innerHTML=shell(`<p class="eyebrow">MARCH LAB · TEAM HISTORY</p><h1>Team history unavailable</h1><div class="profile-empty" role="alert"><p>${esc(error.message)}</p><p>Tournament totals are unavailable for this profile. Return to the bracket or try loading its recorded history again.</p><button id="profile-retry">Retry team history</button></div>`);
     container.querySelector('#profile-retry').addEventListener('click',()=>renderTeamProfile(container,{profileId,request,origin,appearanceYear,scoutWindow,isCurrent}));
+    if(restoreFocus)container.querySelector(restoreFocus==='retry'?'#profile-retry':'.profile-back').focus();
   }
 }
